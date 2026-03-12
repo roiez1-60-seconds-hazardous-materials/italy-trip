@@ -232,7 +232,7 @@ function flyTo(idx){
   if(dayPopup)dayPopup.remove();
   const ph=getPhoto(s.a);
   dayPopup=new mapboxgl.Popup({offset:25,closeButton:true,className:'map-popup',maxWidth:'220px'}).setLngLat(s.ln)
-    .setHTML(`<div style="font-weight:800;font-size:13px;margin-bottom:2px">${s.i} ${s.a}</div>${s.d?'<div style="font-size:11px;color:#666">'+s.d+'</div>':''}${ph?'<img src="'+ph[0]+'" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-top:6px" onerror=\"this.hidden=true\">':''}`)
+    .setHTML(`<div style="font-weight:800;font-size:13px;margin-bottom:2px">${s.i} ${s.a}</div>${s.d?'<div style="font-size:11px;color:#666">'+s.d+'</div>':''}${ph?'<img src="'+ph[0]+'" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-top:6px" >':''}`)
     .addTo(dayMap);}
 }
 
@@ -431,7 +431,9 @@ function rI(){
   el.innerHTML=h;
 }
 
-rH();rB();rI();
+try{rH()}catch(e){document.getElementById('pH').innerHTML='<div style="padding:40px;color:red;font-size:14px;direction:ltr;text-align:left"><b>Error in rH:</b><br>'+e.message+'<br><pre>'+e.stack+'</pre></div>'}
+try{rB()}catch(e){document.getElementById('pB').innerHTML='<div style="padding:40px;color:red">rB error: '+e.message+'</div>'}
+try{rI()}catch(e){document.getElementById('pI').innerHTML='<div style="padding:40px;color:red">rI error: '+e.message+'</div>'}
 </script>
 </body>
 </html>
