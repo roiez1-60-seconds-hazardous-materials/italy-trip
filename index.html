@@ -95,7 +95,7 @@ button{font-family:inherit;cursor:pointer}a{text-decoration:none;color:inherit}
 <button class="tb" onclick="go('I')"><i>📋</i>מידע</button>
 </div>
 <!-- PHOTO MODAL -->
-<div class="modal" id="photoModal" onclick="closePh()"><button class="mx" onclick="closePh()">✕</button><img id="phImg" src="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22><rect fill=%22%23ddd%22 width=%22400%22 height=%22300%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2240%22>📷</text></svg>'"><div class="mc" id="phCap"></div></div>
+<div class="modal" id="photoModal" onclick="closePh()"><button class="mx" onclick="closePh()">✕</button><img id="phImg" src=""><div class="mc" id="phCap"></div></div>
 
 <script>
 const MBT='pk.eyJ1Ijoicm9pZXoiLCJhIjoiY2t2YjVqeGZpMDNxZDJ4bXB1dWp1MTNocyJ9.3vPeZHCVkHEkxrCz6Eb4OA';
@@ -232,7 +232,7 @@ function flyTo(idx){
   if(dayPopup)dayPopup.remove();
   const ph=getPhoto(s.a);
   dayPopup=new mapboxgl.Popup({offset:25,closeButton:true,className:'map-popup',maxWidth:'220px'}).setLngLat(s.ln)
-    .setHTML(`<div style="font-weight:800;font-size:13px;margin-bottom:2px">${s.i} ${s.a}</div>${s.d?'<div style="font-size:11px;color:#666">'+s.d+'</div>':''}${ph?'<img src="'+ph[0]+'" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-top:6px" onerror="this.style.display='none'">':''}`)
+    .setHTML(`<div style="font-weight:800;font-size:13px;margin-bottom:2px">${s.i} ${s.a}</div>${s.d?'<div style="font-size:11px;color:#666">'+s.d+'</div>':''}${ph?'<img src="'+ph[0]+'" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-top:6px" onerror=\"this.hidden=true\">':''}`)
     .addTo(dayMap);}
 }
 
@@ -352,7 +352,7 @@ function rD(){
   h+=`<div style="padding:0 16px"><h3 style="font-size:15px;font-weight:800;margin-bottom:10px;text-align:right">📋 לו"ז — לחצו לניווט</h3>`;
   d.sc.forEach((s,i)=>{
     const ph=getPhoto(s.a);const phKey=ph?Object.entries(SCH_PHOTOS).find(([k])=>s.a.includes(k))?.[1]:null;
-    h+=`<div class="sch-item" onclick="${s.ln?'flyTo('+i+')':''}"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div style="width:36px;height:36px;border-radius:12px;background:${d.cl}12;display:flex;align-items:center;justify-content:center;font-size:16px">${s.i}</div>${i<d.sc.length-1?'<div style="width:2px;flex:1;background:'+d.cl+'18;margin-top:3px"></div>':''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span style="font-size:13px;font-weight:700">${s.a}${s.ln?' 📍':''}</span><span style="font-size:10px;font-weight:700;color:${d.cl}">${s.t}</span></div>${s.d?`<p style="font-size:11px;color:#777;margin-top:1px">${s.d}</p>`:''}${s.u?`<a href="${s.u}" target="_blank" style="font-size:11px;color:${d.cl};font-weight:600" onclick="event.stopPropagation()">🔗 כרטיסים</a>`:''}</div>${phKey?`<img src="${PHOTOS[phKey][0]}" class="ph-thumb" onerror="this.style.display='none'" onclick="event.stopPropagation();showPh('${phKey}')" alt="">`:''}</div>`;
+    h+=`<div class="sch-item" onclick="${s.ln?'flyTo('+i+')':''}"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div style="width:36px;height:36px;border-radius:12px;background:${d.cl}12;display:flex;align-items:center;justify-content:center;font-size:16px">${s.i}</div>${i<d.sc.length-1?'<div style="width:2px;flex:1;background:'+d.cl+'18;margin-top:3px"></div>':''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span style="font-size:13px;font-weight:700">${s.a}${s.ln?' 📍':''}</span><span style="font-size:10px;font-weight:700;color:${d.cl}">${s.t}</span></div>${s.d?`<p style="font-size:11px;color:#777;margin-top:1px">${s.d}</p>`:''}${s.u?`<a href="${s.u}" target="_blank" style="font-size:11px;color:${d.cl};font-weight:600" onclick="event.stopPropagation()">🔗 כרטיסים</a>`:''}</div>${phKey?`<img src="${PHOTOS[phKey][0]}" class="ph-thumb" onerror="this.hidden=true" onclick="event.stopPropagation();showPh('${phKey}')" alt="">`:''}</div>`;
   });h+=`</div>`;
   // LINKS
   if(d.lk.length){h+=`<div style="padding:8px 16px 0"><h3 style="font-size:15px;font-weight:800;margin-bottom:8px;text-align:right">🔗 קישורים</h3>`;d.lk.forEach(l=>{h+=`<a href="${l.u}" target="_blank" class="lrow"><span style="font-size:13px;font-weight:600">${l.n}</span><span style="font-size:10px;color:${d.cl};font-weight:600">פתח →</span></a>`});h+=`</div>`}
