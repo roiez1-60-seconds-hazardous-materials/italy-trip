@@ -103,31 +103,65 @@ mapboxgl.accessToken=MBT;
 const TRIP_DATE=new Date('2026-09-22T18:00:00+03:00');
 
 // PHOTOS - Wikimedia Commons direct URLs (free, no API key)
-const PHOTOS={
-'duomo':['https://images.unsplash.com/photo-1520175480921-4edfa2983e0f?w=400&h=300&fit=crop','דואומו די מילאנו'],
-'galleria':['https://images.unsplash.com/photo-1581091012184-7e0cdfbb6797?w=400&h=300&fit=crop','גלריה ויטוריו עמנואלה'],
-'castello':['https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?w=400&h=300&fit=crop','Castello Sforzesco'],
-'navigli':['https://images.unsplash.com/photo-1559014223-4d56f0a81e23?w=400&h=300&fit=crop','Navigli — תעלות מילאנו'],
-'como':['https://images.unsplash.com/photo-1537631468332-5ec89f61e4db?w=400&h=300&fit=crop','אגם קומו — בלאג\'ו'],
-'brunate':['https://images.unsplash.com/photo-1566408669374-2976908e4a85?w=400&h=300&fit=crop','נוף מברונאטה'],
-'swiss':['https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=400&h=300&fit=crop','שוויץ'],
-'foxtown':['https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=400&h=300&fit=crop','קניות'],
-'bergamo':['https://images.unsplash.com/photo-1600011250098-75f3e3e07a64?w=400&h=300&fit=crop','ברגמו'],
-'ortisei':['https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=400&h=300&fit=crop','אורטיזיי'],
-'siusi':['https://images.unsplash.com/photo-1501862700950-18382cd41497?w=400&h=300&fit=crop','אלפה די סיוזי'],
-'seceda':['https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=400&h=300&fit=crop','סצ\'דה — דולומיטים'],
-'braies':['https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400&h=300&fit=crop','אגם בראייס'],
-'plose':['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&h=300&fit=crop','Plose — הרים'],
-'otzi':['https://images.unsplash.com/photo-1582225730222-4a7b4c5e2e11?w=400&h=300&fit=crop','מוזיאון בולצאנו'],
-'gardaland':['https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?w=400&h=300&fit=crop','פארק שעשועים'],
-'verona':['https://images.unsplash.com/photo-1580919557852-1b8c7e5e1f5b?w=400&h=300&fit=crop','ורונה'],
-'sirmione':['https://images.unsplash.com/photo-1596627116790-af6f46dddbbb?w=400&h=300&fit=crop','סירמיונה'],
-'venezia':['https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=400&h=300&fit=crop','ונציה'],
-'rialto':['https://images.unsplash.com/photo-1534113414509-0eec2bfb493f?w=400&h=300&fit=crop','גשר ריאלטו'],
-'sanmarco':['https://images.unsplash.com/photo-1549880338-65ddcdfd017b?w=400&h=300&fit=crop','סן מרקו'],
-'baldo':['https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop','Monte Baldo'],
-'safari':['https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=400&h=300&fit=crop','ספארי'],
+const PHOTO_WIKI={
+'duomo':'Milan_Cathedral',
+'galleria':'Galleria_Vittorio_Emanuele_II',
+'castello':'Sforza_Castle',
+'navigli':'Navigli',
+'como':'Bellagio,_Lombardy',
+'brunate':'Brunate',
+'swiss':'Swissminiatur',
+'foxtown':'Mendrisio',
+'bergamo':'Bergamo',
+'ortisei':'Ortisei',
+'siusi':'Seiser_Alm',
+'seceda':'Seceda',
+'braies':'Pragser_Wildsee',
+'plose':'Plose',
+'otzi':'%C3%96tzi',
+'gardaland':'Gardaland',
+'verona':'Verona_Arena',
+'sirmione':'Sirmione',
+'venezia':'Venice',
+'rialto':'Rialto_Bridge',
+'sanmarco':'St_Mark%27s_Square',
+'baldo':'Monte_Baldo',
+'safari':'Parco_Natura_Viva',
 };
+const PHOTO_LABELS={
+'duomo':'דואומו די מילאנו','galleria':'גלריה ויטוריו עמנואלה','castello':'Castello Sforzesco',
+'navigli':'Navigli','como':'בלאג\'ו — אגם קומו','brunate':'ברונאטה',
+'swiss':'Swiss Miniatur','foxtown':'FoxTown','bergamo':'ברגמו',
+'ortisei':'אורטיזיי','siusi':'אלפה די סיוזי','seceda':'סצ\'דה',
+'braies':'אגם בראייס','plose':'Plose','otzi':'מוזיאון אוצי',
+'gardaland':'גארדלנד','verona':'ארנה ורונה','sirmione':'סירמיונה',
+'venezia':'ונציה','rialto':'גשר ריאלטו','sanmarco':'סן מרקו',
+'baldo':'Monte Baldo','safari':'Parco Natura Viva'
+};
+// Cache for loaded photos
+const PHOTOS={};
+// Load photo from Wikipedia
+async function loadWikiPhoto(key){
+  if(PHOTOS[key])return PHOTOS[key];
+  const article=PHOTO_WIKI[key];
+  if(!article)return null;
+  try{
+    const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+article);
+    const d=await r.json();
+    if(d.thumbnail&&d.thumbnail.source){
+      const url=d.thumbnail.source.replace(/\/\d+px-/,'/600px-');
+      PHOTOS[key]=[url,PHOTO_LABELS[key]||key];
+      return PHOTOS[key];
+    }
+  }catch(e){}
+  return null;
+}
+// Preload all photos
+async function preloadPhotos(){
+  const keys=Object.keys(PHOTO_WIKI);
+  await Promise.allSettled(keys.map(k=>loadWikiPhoto(k)));
+}
+preloadPhotos();
 
 // Map photo keys to schedule items
 const SCH_PHOTOS={
@@ -221,7 +255,14 @@ const ts={H:'🇮🇹 צוקרמניה באיטליה',D:`${DAYS[cDay].ic} יו�
 document.getElementById('hdrT').textContent=ts[t];window.scrollTo(0,0);if(t==='D')rD();if(t==='T')rT();}
 function gD(i){cDay=i;go('D')}
 function toggleFS(id){const w=document.getElementById(id);w.classList.toggle('exp');document.body.style.overflow=w.classList.contains('exp')?'hidden':'';if(dayMap)setTimeout(()=>dayMap.resize(),100);}
-function showPh(key){const p=PHOTOS[key];if(!p)return;document.getElementById('phImg').src=p[0];document.getElementById('phCap').textContent=p[1];document.getElementById('photoModal').classList.add('show');}
+async function showPh(key){
+  let p=PHOTOS[key];
+  if(!p)p=await loadWikiPhoto(key);
+  if(!p)return;
+  document.getElementById('phImg').src=p[0];
+  document.getElementById('phCap').textContent=p[1];
+  document.getElementById('photoModal').classList.add('show');
+}
 function closePh(){document.getElementById('photoModal').classList.remove('show');}
 
 function flyTo(idx){
@@ -364,7 +405,16 @@ function rD(){
   // WHATSAPP
   h+=`<div style="padding:0 16px"><button class="wa-btn" onclick="shareWA(${cDay})">📱 שתף יום ${d.day} בוואטסאפ</button></div>`;
   el.innerHTML=h;
-  setTimeout(()=>{mkDayMap('mapD',d);if(d.wxLat)fetchWx(d.wxLat,d.wxLon,document.getElementById('wxDay'));},150);
+  setTimeout(async()=>{
+    mkDayMap('mapD',d);
+    if(d.wxLat)fetchWx(d.wxLat,d.wxLon,document.getElementById('wxDay'));
+    // Load thumbnails
+    document.querySelectorAll('.ph-thumb[data-wiki]').forEach(async img=>{
+      const key=img.dataset.wiki;
+      const p=PHOTOS[key]||await loadWikiPhoto(key);
+      if(p)img.src=p[0];else img.hidden=true;
+    });
+  },150);
 }
 
 // ===== BUDGET + CURRENCY =====
