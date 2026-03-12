@@ -95,7 +95,7 @@ button{font-family:inherit;cursor:pointer}a{text-decoration:none;color:inherit}
 <button class="tb" onclick="go('I')"><i>📋</i>מידע</button>
 </div>
 <!-- PHOTO MODAL -->
-<div class="modal" id="photoModal" onclick="closePh()"><button class="mx" onclick="closePh()">✕</button><img id="phImg" src=""><div class="mc" id="phCap"></div></div>
+<div class="modal" id="photoModal" onclick="closePh()"><button class="mx" onclick="closePh()">✕</button><img id="phImg" src="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22><rect fill=%22%23ddd%22 width=%22400%22 height=%22300%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-size=%2240%22>📷</text></svg>'"><div class="mc" id="phCap"></div></div>
 
 <script>
 const MBT='pk.eyJ1Ijoicm9pZXoiLCJhIjoiY2t2YjVqeGZpMDNxZDJ4bXB1dWp1MTNocyJ9.3vPeZHCVkHEkxrCz6Eb4OA';
@@ -104,29 +104,29 @@ const TRIP_DATE=new Date('2026-09-22T18:00:00+03:00');
 
 // PHOTOS - Wikimedia Commons direct URLs (free, no API key)
 const PHOTOS={
-'duomo':['https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Duomo_di_Milano%2C_Milan%2C_Italy.jpg/800px-Duomo_di_Milano%2C_Milan%2C_Italy.jpg','דואומו די מילאנו'],
-'galleria':['https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Galleria_Vittorio_Emanuele_II_-_Sep_2012.jpg/800px-Galleria_Vittorio_Emanuele_II_-_Sep_2012.jpg','גלריה ויטוריו עמנואלה'],
-'castello':['https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/20110724_Castello_Sforzesco_Milan_5557.jpg/800px-20110724_Castello_Sforzesco_Milan_5557.jpg','Castello Sforzesco'],
-'navigli':['https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Naviglio_Grande_Milan_2015.jpg/800px-Naviglio_Grande_Milan_2015.jpg','Navigli — תעלות מילאנו'],
-'como':['https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Bellagio_-_Panorama.jpg/800px-Bellagio_-_Panorama.jpg','אגם קומו — בלאג\'ו'],
-'brunate':['https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Como_seen_from_Brunate.jpg/800px-Como_seen_from_Brunate.jpg','נוף מברונאטה'],
-'swiss':['https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Swissminiatur_-_panoramio_%282%29.jpg/800px-Swissminiatur_-_panoramio_%282%29.jpg','Swiss Miniatur'],
-'foxtown':['https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/FoxTown_factory_stores%2C_Mendrisio.jpg/800px-FoxTown_factory_stores%2C_Mendrisio.jpg','FoxTown'],
-'bergamo':['https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Piazza_Vecchia_Bergamo.jpg/800px-Piazza_Vecchia_Bergamo.jpg','ברגמו — Piazza Vecchia'],
-'ortisei':['https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Ortisei_in_Summer.jpg/800px-Ortisei_in_Summer.jpg','אורטיזיי'],
-'siusi':['https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Compatsch_Alpe_di_Siusi.jpg/800px-Compatsch_Alpe_di_Siusi.jpg','אלפה די סיוזי'],
-'seceda':['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Seceda_-_Odle.jpg/800px-Seceda_-_Odle.jpg','סצ\'דה — הדולומיטים'],
-'braies':['https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Pragser_Wildsee.jpg/800px-Pragser_Wildsee.jpg','אגם בראייס'],
-'plose':['https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Plose_Brixen.jpg/800px-Plose_Brixen.jpg','Plose — בריקסן'],
-'otzi':['https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/South_Tyrol_Museum_of_Archaeology_-_Reconstruction_Oetzi.jpg/400px-South_Tyrol_Museum_of_Archaeology_-_Reconstruction_Oetzi.jpg','אוצי — איש הקרח'],
-'gardaland':['https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Gardaland_-_panoramio.jpg/800px-Gardaland_-_panoramio.jpg','גארדלנד'],
-'verona':['https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Arena_di_Verona.jpg/800px-Arena_di_Verona.jpg','ארנה די ורונה'],
-'sirmione':['https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Scaliger_Castle_%28Sirmione%29.jpg/800px-Scaliger_Castle_%28Sirmione%29.jpg','טירת סקליג\'ר — סירמיונה'],
-'venezia':['https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_ponte_dell_Accademia.jpg/800px-Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_ponte_dell_Accademia.jpg','ונציה — Canal Grande'],
-'rialto':['https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Venezia_Ponte_di_Rialto_001.jpg/800px-Venezia_Ponte_di_Rialto_001.jpg','גשר ריאלטו'],
-'sanmarco':['https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Basilica_di_San_Marco_%28Venice%29.jpg/800px-Basilica_di_San_Marco_%28Venice%29.jpg','כיכר סן מרקו'],
-'baldo':['https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Funivia_Malcesine-Monte_Baldo.jpg/800px-Funivia_Malcesine-Monte_Baldo.jpg','Monte Baldo רכבל'],
-'safari':['https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Parco_Natura_Viva_-_panoramio.jpg/800px-Parco_Natura_Viva_-_panoramio.jpg','Parco Natura Viva'],
+'duomo':['https://images.unsplash.com/photo-1520175480921-4edfa2983e0f?w=400&h=300&fit=crop','דואומו די מילאנו'],
+'galleria':['https://images.unsplash.com/photo-1581091012184-7e0cdfbb6797?w=400&h=300&fit=crop','גלריה ויטוריו עמנואלה'],
+'castello':['https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?w=400&h=300&fit=crop','Castello Sforzesco'],
+'navigli':['https://images.unsplash.com/photo-1559014223-4d56f0a81e23?w=400&h=300&fit=crop','Navigli — תעלות מילאנו'],
+'como':['https://images.unsplash.com/photo-1537631468332-5ec89f61e4db?w=400&h=300&fit=crop','אגם קומו — בלאג\'ו'],
+'brunate':['https://images.unsplash.com/photo-1566408669374-2976908e4a85?w=400&h=300&fit=crop','נוף מברונאטה'],
+'swiss':['https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?w=400&h=300&fit=crop','שוויץ'],
+'foxtown':['https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=400&h=300&fit=crop','קניות'],
+'bergamo':['https://images.unsplash.com/photo-1600011250098-75f3e3e07a64?w=400&h=300&fit=crop','ברגמו'],
+'ortisei':['https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=400&h=300&fit=crop','אורטיזיי'],
+'siusi':['https://images.unsplash.com/photo-1501862700950-18382cd41497?w=400&h=300&fit=crop','אלפה די סיוזי'],
+'seceda':['https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=400&h=300&fit=crop','סצ\'דה — דולומיטים'],
+'braies':['https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400&h=300&fit=crop','אגם בראייס'],
+'plose':['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&h=300&fit=crop','Plose — הרים'],
+'otzi':['https://images.unsplash.com/photo-1582225730222-4a7b4c5e2e11?w=400&h=300&fit=crop','מוזיאון בולצאנו'],
+'gardaland':['https://images.unsplash.com/photo-1513889961551-628c1e5e2ee9?w=400&h=300&fit=crop','פארק שעשועים'],
+'verona':['https://images.unsplash.com/photo-1580919557852-1b8c7e5e1f5b?w=400&h=300&fit=crop','ורונה'],
+'sirmione':['https://images.unsplash.com/photo-1596627116790-af6f46dddbbb?w=400&h=300&fit=crop','סירמיונה'],
+'venezia':['https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=400&h=300&fit=crop','ונציה'],
+'rialto':['https://images.unsplash.com/photo-1534113414509-0eec2bfb493f?w=400&h=300&fit=crop','גשר ריאלטו'],
+'sanmarco':['https://images.unsplash.com/photo-1549880338-65ddcdfd017b?w=400&h=300&fit=crop','סן מרקו'],
+'baldo':['https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop','Monte Baldo'],
+'safari':['https://images.unsplash.com/photo-1546182990-dffeafbe841d?w=400&h=300&fit=crop','ספארי'],
 };
 
 // Map photo keys to schedule items
@@ -232,7 +232,7 @@ function flyTo(idx){
   if(dayPopup)dayPopup.remove();
   const ph=getPhoto(s.a);
   dayPopup=new mapboxgl.Popup({offset:25,closeButton:true,className:'map-popup',maxWidth:'220px'}).setLngLat(s.ln)
-    .setHTML(`<div style="font-weight:800;font-size:13px;margin-bottom:2px">${s.i} ${s.a}</div>${s.d?'<div style="font-size:11px;color:#666">'+s.d+'</div>':''}${ph?'<img src="'+ph[0]+'" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-top:6px">':''}`)
+    .setHTML(`<div style="font-weight:800;font-size:13px;margin-bottom:2px">${s.i} ${s.a}</div>${s.d?'<div style="font-size:11px;color:#666">'+s.d+'</div>':''}${ph?'<img src="'+ph[0]+'" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-top:6px" onerror="this.style.display='none'">':''}`)
     .addTo(dayMap);}
 }
 
@@ -352,7 +352,7 @@ function rD(){
   h+=`<div style="padding:0 16px"><h3 style="font-size:15px;font-weight:800;margin-bottom:10px;text-align:right">📋 לו"ז — לחצו לניווט</h3>`;
   d.sc.forEach((s,i)=>{
     const ph=getPhoto(s.a);const phKey=ph?Object.entries(SCH_PHOTOS).find(([k])=>s.a.includes(k))?.[1]:null;
-    h+=`<div class="sch-item" onclick="${s.ln?'flyTo('+i+')':''}"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div style="width:36px;height:36px;border-radius:12px;background:${d.cl}12;display:flex;align-items:center;justify-content:center;font-size:16px">${s.i}</div>${i<d.sc.length-1?'<div style="width:2px;flex:1;background:'+d.cl+'18;margin-top:3px"></div>':''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span style="font-size:13px;font-weight:700">${s.a}${s.ln?' 📍':''}</span><span style="font-size:10px;font-weight:700;color:${d.cl}">${s.t}</span></div>${s.d?`<p style="font-size:11px;color:#777;margin-top:1px">${s.d}</p>`:''}${s.u?`<a href="${s.u}" target="_blank" style="font-size:11px;color:${d.cl};font-weight:600" onclick="event.stopPropagation()">🔗 כרטיסים</a>`:''}</div>${phKey?`<img src="${PHOTOS[phKey][0]}" class="ph-thumb" onclick="event.stopPropagation();showPh('${phKey}')" alt="">`:''}</div>`;
+    h+=`<div class="sch-item" onclick="${s.ln?'flyTo('+i+')':''}"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div style="width:36px;height:36px;border-radius:12px;background:${d.cl}12;display:flex;align-items:center;justify-content:center;font-size:16px">${s.i}</div>${i<d.sc.length-1?'<div style="width:2px;flex:1;background:'+d.cl+'18;margin-top:3px"></div>':''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span style="font-size:13px;font-weight:700">${s.a}${s.ln?' 📍':''}</span><span style="font-size:10px;font-weight:700;color:${d.cl}">${s.t}</span></div>${s.d?`<p style="font-size:11px;color:#777;margin-top:1px">${s.d}</p>`:''}${s.u?`<a href="${s.u}" target="_blank" style="font-size:11px;color:${d.cl};font-weight:600" onclick="event.stopPropagation()">🔗 כרטיסים</a>`:''}</div>${phKey?`<img src="${PHOTOS[phKey][0]}" class="ph-thumb" onerror="this.style.display='none'" onclick="event.stopPropagation();showPh('${phKey}')" alt="">`:''}</div>`;
   });h+=`</div>`;
   // LINKS
   if(d.lk.length){h+=`<div style="padding:8px 16px 0"><h3 style="font-size:15px;font-weight:800;margin-bottom:8px;text-align:right">🔗 קישורים</h3>`;d.lk.forEach(l=>{h+=`<a href="${l.u}" target="_blank" class="lrow"><span style="font-size:13px;font-weight:600">${l.n}</span><span style="font-size:10px;color:${d.cl};font-weight:600">פתח →</span></a>`});h+=`</div>`}
