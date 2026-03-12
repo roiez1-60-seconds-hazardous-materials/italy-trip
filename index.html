@@ -12,51 +12,86 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--b:#1F4E79;--lb:#2E75B6;--bg:#F5F6F8;--r:16px}
+:root{--b:#1F4E79;--lb:#2E75B6;--bg:#F5F6F8}
 html{scroll-behavior:smooth}
-body{font-family:'Heebo',sans-serif;background:var(--bg);color:#333;max-width:430px;margin:0 auto;min-height:100vh;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:#333;max-width:430px;margin:0 auto;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 button{font-family:inherit;cursor:pointer}a{text-decoration:none;color:inherit}
 .hide{display:none!important}
+
 .hdr{position:sticky;top:0;z-index:50;background:rgba(245,246,248,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.05);padding:max(env(safe-area-inset-top),10px) 16px 10px;text-align:center}
 .hdr h1{font-size:15px;font-weight:800;color:var(--b)}
+
 .tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-around;padding:6px 0 max(env(safe-area-inset-bottom),10px);z-index:100}
 .tb{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 14px;opacity:.38;transition:all .25s;font-size:10px;font-weight:700;color:#888}
 .tb.on{opacity:1;transform:scale(1.12);color:var(--b)}
 .tb i{font-size:24px;font-style:normal}
-.map-box{width:calc(100% - 32px);margin:0 auto 12px;border-radius:var(--r);overflow:hidden;border:2px solid rgba(0,0,0,.08);position:relative}
-.map-box .mapboxgl-map{width:100%;height:280px}
-.map-box .map-label{position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border-radius:8px;padding:6px 10px;font-size:11px;text-align:center;font-weight:600;z-index:5;backdrop-filter:blur(4px)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-.bc{border-radius:var(--r);padding:12px 10px;text-align:center;border:2px solid}
-.bc .bi{font-size:28px}.bc .bn{font-size:15px;font-weight:800;margin-top:2px}.bc .bd{font-size:11px;color:#888}.bc .bdt{font-size:10px;font-weight:700}
+
+/* MAP */
+.map-wrap{position:relative;width:calc(100% - 32px);margin:0 auto 12px;border-radius:16px;overflow:hidden;border:2px solid rgba(0,0,0,.08)}
+.map-wrap .mapboxgl-map{width:100%;height:280px;transition:height .4s ease}
+.map-wrap.expanded{position:fixed!important;inset:0;width:100%!important;margin:0!important;border-radius:0!important;border:none!important;z-index:200}
+.map-wrap.expanded .mapboxgl-map{height:100vh!important;height:100dvh!important}
+.fs-btn{position:absolute;top:10px;right:10px;z-index:10;width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.9);backdrop-filter:blur(4px);border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.fs-btn:active{transform:scale(.9)}
+.close-fs{position:absolute;top:max(env(safe-area-inset-top),12px);right:12px;z-index:210;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:none;font-size:22px;display:none;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px)}
+.map-wrap.expanded .close-fs{display:flex}
+.map-wrap.expanded .fs-btn{display:none}
+.map-label{position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,.55);color:#fff;border-radius:10px;padding:6px 10px;font-size:11px;text-align:center;font-weight:600;z-index:5;backdrop-filter:blur(4px);transition:opacity .3s}
+.map-wrap.expanded .map-label{display:none}
+
+/* ACTIVE INDICATOR ON MAP */
+.map-popup{font-family:'Heebo',sans-serif!important;direction:rtl;text-align:right}
+.map-popup .mapboxgl-popup-content{border-radius:12px;padding:10px 14px;box-shadow:0 4px 20px rgba(0,0,0,.2);max-width:200px}
+.map-popup .pop-t{font-size:13px;font-weight:800;margin-bottom:2px}
+.map-popup .pop-d{font-size:11px;color:#666}
+
+/* SCHEDULE */
+.sch-item{display:flex;gap:10px;margin-bottom:2px;padding:8px 0;border-radius:12px;transition:all .25s;cursor:pointer;position:relative}
+.sch-item:active{transform:scale(.98)}
+.sch-item.active{background:rgba(0,0,0,.04);padding:8px 10px;margin:0 -10px 2px}
+.sch-item.active .sch-act{color:var(--accent)}
+.sch-dot{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.sch-ico{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .25s}
+.sch-item.active .sch-ico{transform:scale(1.15);box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.sch-line{width:2px;flex:1;margin-top:3px}
+.sch-time{font-size:10px;font-weight:700;flex-shrink:0}
+.sch-act{font-size:13px;font-weight:700;transition:color .2s}
+.sch-det{font-size:11px;color:#777;line-height:1.4;margin-top:1px}
+.sch-lnk{font-size:11px;font-weight:600;display:inline-block;margin-top:3px}
+
+/* PULSE DOT on map marker */
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.7)}70%{box-shadow:0 0 0 12px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.marker{border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.3);transition:all .3s}
+.marker.active{animation:pulse 1.5s infinite;transform:scale(1.3)}
+
+/* DAY SELECTOR */
 .dsel{display:flex;overflow-x:auto;gap:5px;padding:10px 10px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .dsel::-webkit-scrollbar{display:none}
-.dsel button{min-width:44px;height:44px;border-radius:12px;border:1px solid #ddd;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
-.dsel button.on{border-width:2px}
-.dsel button span:first-child{font-size:14px}
-.dsel button span:last-child{font-size:9px;font-weight:800}
+.dsel button{min-width:44px;height:44px;border-radius:12px;border:1px solid #ddd;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;font-family:inherit}
+.dsel button.on{border-width:2.5px}
+
+/* HERO */
 .hero{padding:20px 16px 16px;color:#fff;text-align:center}
 .hero .ico{font-size:38px}.hero h2{font-size:22px;font-weight:900;margin:4px 0 2px}.hero .sub{font-size:12px;opacity:.85}
 .hero .stats{display:flex;justify-content:center;gap:20px;margin-top:10px}
 .hero .stats .l{font-size:10px;opacity:.65}.hero .stats .v{font-size:12px;font-weight:700}
-.sch{display:flex;gap:10px;margin-bottom:10px}.sch-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px}
-.sch-line{width:2px;flex:1;margin-top:3px}.sch-time{font-size:10px;font-weight:700;flex-shrink:0}.sch-act{font-size:13px;font-weight:700}
-.sch-det{font-size:11px;color:#777;line-height:1.4;margin-top:1px}.sch-lnk{font-size:11px;font-weight:600;display:inline-block;margin-top:2px}
+
+/* MISC */
 .lrow{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:#fff;border:1px solid #eee;border-radius:12px;margin-bottom:6px}
 .lrow:active{background:#f8f8f8}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.bc{border-radius:16px;padding:12px 10px;text-align:center;border:2px solid}
+.total{border-radius:20px;padding:22px 18px;color:#fff;text-align:center;margin-bottom:20px}
 .bbar{background:#f0f0f0;border-radius:6px;height:10px;overflow:hidden;margin:3px 0 2px}
 .bbar-f{height:100%;border-radius:6px;transition:width 1s}
-.total{border-radius:20px;padding:22px 18px;color:#fff;text-align:center;margin-bottom:20px}
 .alert{border-radius:14px;padding:14px;margin-bottom:12px}
 .brow{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #eee;border-radius:14px;margin-bottom:8px}
 .brow:active{opacity:.8}
 .badge{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:800;flex-shrink:0}
+
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .page>*{animation:fadeIn .3s ease both}
-.page>*:nth-child(2){animation-delay:.04s}.page>*:nth-child(3){animation-delay:.08s}.page>*:nth-child(4){animation-delay:.12s}
-.mapboxgl-popup-content{border-radius:12px!important;box-shadow:0 4px 20px rgba(0,0,0,.15)!important;padding:10px 12px!important}
-.mapboxgl-popup-close-button{font-size:18px;padding:2px 8px;color:#888}
-.mapboxgl-popup-close-button:hover{color:#333}
+.page>*:nth-child(2){animation-delay:.04s}.page>*:nth-child(3){animation-delay:.08s}
 </style>
 </head>
 <body>
@@ -71,164 +106,268 @@ button{font-family:inherit;cursor:pointer}a{text-decoration:none;color:inherit}
 <button class="tb" onclick="go('B')"><i>💰</i>תקציב</button>
 <button class="tb" onclick="go('I')"><i>📋</i>מידע</button>
 </div>
+
 <script>
 const MBT='pk.eyJ1Ijoicm9pZXoiLCJhIjoiY2t2YjVqeGZpMDNxZDJ4bXB1dWp1MTNocyJ9.3vPeZHCVkHEkxrCz6Eb4OA';
 mapboxgl.accessToken=MBT;
 
+// ===== ALL DAYS DATA WITH COORDINATES PER SCHEDULE ITEM =====
 const DAYS=[
-{day:1,dt:"22/9",t:"הגעה למילאנו",ic:"✈️",base:"מילאנו",cl:"#FF6B6B",gr:"linear-gradient(135deg,#FF6B6B,#ee5a24)",rt:"מלפנסה → מילאנו (50 ק\"מ, 40 דק')",drv:"50 ק\"מ",cost:"200€",stay:"מלון NYX Milan — 150-250€/לילה",
-pts:[[8.728,45.623],[9.192,45.464]],pn:["שדה התעופה מלפנסה","מלון NYX מילאנו"],
+{day:1,dt:"22/9",t:"הגעה למילאנו",ic:"✈️",base:"מילאנו",cl:"#FF6B6B",gr:"linear-gradient(135deg,#FF6B6B,#ee5a24)",rt:"מלפנסה → מילאנו (50 ק\"מ)",drv:"50 ק\"מ",cost:"200€",stay:"מלון NYX Milan — 150-250€/לילה",
 zoom:9,center:[8.96,45.54],
-sc:[{t:"21:00",a:"נחיתה מלפנסה",d:"הגרה+מזוודות 30-45 דק'",i:"✈️"},{t:"21:45",a:"איסוף רכב",d:"טרמינל 1",i:"🚗"},{t:"22:30",a:"נסיעה למלון",d:"50 ק\"מ, 40 דק'",i:"🛣️"},{t:"23:15",a:"צ'ק-אין",d:"",i:"🏨"}],
-lk:[{n:"NYX Hotel",u:"https://www.booking.com/hotel/it/nyx-milan.html"}]},
+sc:[
+{t:"21:00",a:"נחיתה מלפנסה",d:"הגרה+מזוודות 30-45 דק'",i:"✈️",ln:[8.728,45.623]},
+{t:"21:45",a:"איסוף רכב",d:"טרמינל 1",i:"🚗",ln:[8.728,45.623]},
+{t:"22:30",a:"נסיעה למלון",d:"50 ק\"מ, 40 דק'",i:"🛣️"},
+{t:"23:15",a:"צ'ק-אין",d:"",i:"🏨",ln:[9.199,45.484]}
+],lk:[{n:"NYX Hotel",u:"https://www.booking.com/hotel/it/nyx-milan.html"}]},
 
-{day:2,dt:"23/9",t:"יום מלא במילאנו!",ic:"🏛️",base:"מילאנו",cl:"#FF6B6B",gr:"linear-gradient(135deg,#FF6B6B,#ee5a24)",rt:"דואומו→גלריה→Castello→Eataly→Buenos Aires→Navigli",drv:"מטרו",cost:"~400€",stay:"מלון NYX Milan",
-pts:[[9.192,45.464],[9.189,45.463],[9.179,45.471],[9.184,45.479],[9.206,45.480],[9.178,45.453]],pn:["דואומו","גלריה","Castello Sforzesco","Eataly","Corso Buenos Aires","Navigli"],
-zoom:12.5,center:[9.19,45.467],
-sc:[{t:"9:15",a:"דואומו + גג!",d:"135 צריחים! 14€/מבוגר",i:"⛪",u:"https://www.duomomilano.it/en/visit/tickets/"},{t:"10:45",a:"גלריה ויטוריו עמנואלה",d:"חינם! עדי+מאיה — צילומים!",i:"🏪"},{t:"11:15",a:"Castello + Parco Sempione",d:"רומי תרוץ בגנים!",i:"🏰"},{t:"12:30",a:"Eataly Milano!",d:"3 קומות אוכל! 15-25€/אדם",i:"🍕",u:"https://www.eataly.net"},{t:"14:00",a:"עדי+מאיה+עמית: Corso Buenos Aires קניות!",d:"1.6 ק\"מ קניות! עדי תמות על זה",i:"🛍️"},{t:"14:00",a:"רועי+נועם+רומי: מוזיאון המדע",d:"צוללת! 10€/מבוגר",i:"🔬",u:"https://www.museoscienza.org/en"},{t:"18:00",a:"Navigli — תעלות!",d:"ארוחת ערב על התעלה",i:"🌙"}],
-lk:[{n:"דואומו כרטיסים",u:"https://www.duomomilano.it/en/visit/tickets/"},{n:"מוזיאון המדע",u:"https://www.museoscienza.org/en"},{n:"Eataly",u:"https://www.eataly.net"}]},
+{day:2,dt:"23/9",t:"יום מלא במילאנו!",ic:"🏛️",base:"מילאנו",cl:"#FF6B6B",gr:"linear-gradient(135deg,#FF6B6B,#ee5a24)",rt:"דואומו→גלריה→Castello→Eataly→Navigli",drv:"מטרו",cost:"~400€",stay:"מלון NYX Milan",
+zoom:12.5,center:[9.185,45.467],
+sc:[
+{t:"9:15",a:"דואומו + גג!",d:"135 צריחים! 14€/מבוגר",i:"⛪",ln:[9.192,45.464],u:"https://www.duomomilano.it/en/visit/tickets/"},
+{t:"10:45",a:"גלריה ויטוריו עמנואלה",d:"חינם! עדי+מאיה — צילומים!",i:"🏪",ln:[9.190,45.466]},
+{t:"11:15",a:"Castello + Parco Sempione",d:"רומי תרוץ בגנים!",i:"🏰",ln:[9.179,45.470]},
+{t:"12:30",a:"Eataly Milano!",d:"3 קומות אוכל! 15-25€/אדם",i:"🍕",ln:[9.184,45.479],u:"https://www.eataly.net"},
+{t:"14:00",a:"עדי+מאיה+עמית: Corso Buenos Aires",d:"1.6 ק\"מ קניות!",i:"🛍️",ln:[9.210,45.480]},
+{t:"14:00",a:"רועי+נועם+רומי: מוזיאון המדע",d:"צוללת! 10€/מבוגר",i:"🔬",ln:[9.171,45.462],u:"https://www.museoscienza.org/en"},
+{t:"16:00",a:"La Rinascente — גג!",d:"תצפית על הדואומו",i:"☕",ln:[9.193,45.464]},
+{t:"18:00",a:"Navigli — תעלות!",d:"ארוחת ערב על התעלה",i:"🌙",ln:[9.178,45.453]}
+],lk:[{n:"דואומו כרטיסים",u:"https://www.duomomilano.it/en/visit/tickets/"},{n:"מוזיאון המדע",u:"https://www.museoscienza.org/en"}]},
 
-{day:3,dt:"24/9",t:"מילאנו → אגם קומו",ic:"⛴️",base:"קומו",cl:"#4ECDC4",gr:"linear-gradient(135deg,#4ECDC4,#2ea89e)",rt:"מילאנו→קומו (50 דק')→ברונאטה→מעבורת בלאג'ו",drv:"60 ק\"מ",cost:"~350€",stay:"דירת 3 חד\"ש קומו — 130-200€/לילה",
-pts:[[9.192,45.464],[9.077,45.808],[9.093,45.826],[9.263,45.977]],pn:["מילאנו","עיר קומו","ברונאטה","בלאג'ו"],
-zoom:9,center:[9.17,45.72],
-sc:[{t:"9:30",a:"נסיעה לקומו",d:"58 ק\"מ, 50 דק'",i:"🚗"},{t:"10:30",a:"פוניקולר ברונאטה!",d:"7 דק'! 'המרפסת של האלפים'. 7€",i:"🚡",u:"https://www.funicolarecomo.it"},{t:"12:30",a:"ארוחה בקומו",d:"10-15€/אדם",i:"🍝"},{t:"15:00",a:"מעבורת לבלאג'ו!",d:"45 דק'. 14.80€/מבוגר. ג'לאטו!",i:"⛴️",u:"https://www.navigazionelaghi.it"},{t:"18:30",a:"שקיעה על האגם",d:"",i:"🌅"}],
-lk:[{n:"פוניקולר",u:"https://www.funicolarecomo.it"},{n:"מעבורות",u:"https://www.navigazionelaghi.it"},{n:"דירה בקומו",u:"https://www.airbnb.com/s/Como--Italy/homes?adults=2&children=4"}]},
+{day:3,dt:"24/9",t:"מילאנו → אגם קומו",ic:"⛴️",base:"קומו",cl:"#4ECDC4",gr:"linear-gradient(135deg,#4ECDC4,#2ea89e)",rt:"מילאנו→קומו (50 דק')→ברונאטה→בלאג'ו",drv:"60 ק\"מ",cost:"~350€",stay:"דירת 3 חד\"ש קומו — 130-200€/לילה",
+zoom:9.5,center:[9.15,45.75],
+sc:[
+{t:"9:30",a:"נסיעה לקומו",d:"58 ק\"מ, 50 דק'",i:"🚗",ln:[9.077,45.808]},
+{t:"10:30",a:"פוניקולר ברונאטה!",d:"'המרפסת של האלפים'. 7€",i:"🚡",ln:[9.093,45.826],u:"https://www.funicolarecomo.it"},
+{t:"12:30",a:"ארוחה בקומו",d:"Via Vitani. 10-15€/אדם",i:"🍝",ln:[9.083,45.811]},
+{t:"14:00",a:"צ'ק-אין דירה",d:"",i:"🏠",ln:[9.082,45.810]},
+{t:"15:00",a:"מעבורת לבלאג'ו!",d:"45 דק'. 14.80€/מבוגר",i:"⛴️",ln:[9.263,45.977],u:"https://www.navigazionelaghi.it"},
+{t:"18:30",a:"שקיעה על האגם",d:"",i:"🌅",ln:[9.077,45.808]}
+],lk:[{n:"פוניקולר",u:"https://www.funicolarecomo.it"},{n:"מעבורות",u:"https://www.navigazionelaghi.it"},{n:"דירה בקומו",u:"https://www.airbnb.com/s/Como--Italy/homes?adults=2&children=4"}]},
 
-{day:4,dt:"25/9",t:"🇨🇭 שוויץ!",ic:"🇨🇭",base:"קומו",cl:"#4ECDC4",gr:"linear-gradient(135deg,#e74c3c,#c0392b)",rt:"קומו→Swiss Miniatur→לוגאנו→FoxTown→קומו (80 ק\"מ)",drv:"80 ק\"מ",cost:"~500€",stay:"דירת קומו",
-pts:[[9.077,45.808],[8.951,45.954],[8.947,46.003],[8.980,45.875],[9.077,45.808]],pn:["קומו","Swiss Miniatur","לוגאנו","FoxTown","חזרה לקומו"],
-zoom:10,center:[8.98,45.91],
-sc:[{t:"8:30",a:"נסיעה ללוגאנו",d:"35 דק'. מדבקה שוויצרית 42€!",i:"🚗"},{t:"9:15",a:"Swiss Miniatur!",d:"128 דגמים! רומי+נועם! 22CHF",i:"🏔️",u:"https://www.swissminiatur.ch"},{t:"11:30",a:"לוגאנו + פארק צ'אני",d:"",i:"🌳"},{t:"13:15",a:"Monte Brè פוניקולר!",d:"360°! 26CHF/מבוגר",i:"🚡",u:"https://www.montebre.ch"},{t:"14:30",a:"FoxTown! 160+ חנויות!",d:"30-70% הנחה! עדי+מאיה!",i:"🛍️",u:"https://www.foxtown.com"},{t:"17:15",a:"חזרה לקומו",d:"",i:"🚗"}],
-lk:[{n:"Swiss Miniatur",u:"https://www.swissminiatur.ch"},{n:"FoxTown",u:"https://www.foxtown.com"},{n:"מדבקת כביש",u:"https://www.e-vignette.ch/en"}]},
+{day:4,dt:"25/9",t:"🇨🇭 שוויץ!",ic:"🇨🇭",base:"קומו",cl:"#E74C3C",gr:"linear-gradient(135deg,#e74c3c,#c0392b)",rt:"קומו→Swiss Miniatur→לוגאנו→FoxTown→קומו",drv:"80 ק\"מ",cost:"~500€",stay:"דירת קומו",
+zoom:10.5,center:[8.98,45.92],
+sc:[
+{t:"8:30",a:"נסיעה ללוגאנו",d:"35 דק'. מדבקה שוויצרית 42€!",i:"🚗",ln:[8.951,46.003]},
+{t:"9:15",a:"Swiss Miniatur!",d:"128 דגמים! רומי+נועם! 22CHF",i:"🏔️",ln:[8.951,45.954],u:"https://www.swissminiatur.ch"},
+{t:"11:30",a:"לוגאנו + פארק צ'אני",d:"ארוחה",i:"🌳",ln:[8.951,46.003]},
+{t:"13:15",a:"Monte Brè פוניקולר!",d:"360°! 26CHF/מבוגר",i:"🚡",ln:[8.979,46.009],u:"https://www.montebre.ch"},
+{t:"14:30",a:"FoxTown! 160+ חנויות!",d:"30-70%! עדי+מאיה בגן עדן!",i:"🛍️",ln:[8.980,45.875],u:"https://www.foxtown.com"},
+{t:"17:15",a:"חזרה לקומו",d:"35 דק'",i:"🚗",ln:[9.077,45.808]}
+],lk:[{n:"Swiss Miniatur",u:"https://www.swissminiatur.ch"},{n:"FoxTown",u:"https://www.foxtown.com"},{n:"מדבקת כביש",u:"https://www.e-vignette.ch/en"}]},
 
-{day:5,dt:"26/9",t:"קומו→ברגמו→דולומיטים",ic:"🏔️",base:"דולומיטים",cl:"#45B7D1",gr:"linear-gradient(135deg,#45B7D1,#2980b9)",rt:"קומו→ברגמו (1:15)→אורטיזיי (2:30). סה\"כ 4 שע'",drv:"280 ק\"מ",cost:"~300€",stay:"דירת 3 חד\"ש אורטיזיי — 150-200€/לילה",
-pts:[[9.077,45.808],[9.664,45.705],[11.671,46.575]],pn:["קומו","ברגמו — עיר עליונה","אורטיזיי"],
-zoom:7.5,center:[10.4,46.1],
-sc:[{t:"8:30",a:"יציאה מקומו",d:"",i:"🚗"},{t:"10:00",a:"ברגמו — עיר עליונה!",d:"פוניקולר 1.50€. Piazza Vecchia!",i:"🎭"},{t:"10:30",a:"ג'לאטו סטרצ'יאטלה!",d:"הומצא כאן!",i:"🍨"},{t:"13:00",a:"נסיעה לדולומיטים",d:"185 ק\"מ, 2:30. נוף מדהים!",i:"🚗"},{t:"16:00",a:"הגעה לאורטיזיי!",d:"גילוף עץ, גלידה",i:"🏘️"},{t:"19:00",a:"ארוחה טירולית!",d:"Canederli, Speck, שטרודל!",i:"🍽️"}],
-lk:[{n:"דירה באורטיזיי",u:"https://www.airbnb.com/s/Ortisei--Italy/homes?adults=2&children=4"},{n:"Val Gardena",u:"https://www.valgardena.it/en/"}]},
+{day:5,dt:"26/9",t:"קומו→ברגמו→דולומיטים",ic:"🏔️",base:"דולומיטים",cl:"#45B7D1",gr:"linear-gradient(135deg,#45B7D1,#2980b9)",rt:"קומו→ברגמו (1:15)→אורטיזיי (2:30)",drv:"280 ק\"מ",cost:"~300€",stay:"דירת 3 חד\"ש אורטיזיי — 150-200€/לילה",
+zoom:7.5,center:[10.4,46.05],
+sc:[
+{t:"8:30",a:"יציאה מקומו",d:"",i:"🚗",ln:[9.077,45.808]},
+{t:"10:00",a:"ברגמו — עיר עליונה!",d:"פוניקולר 1.50€. Piazza Vecchia!",i:"🎭",ln:[9.664,45.705]},
+{t:"10:30",a:"ג'לאטו סטרצ'יאטלה!",d:"הומצא כאן!",i:"🍨",ln:[9.664,45.705]},
+{t:"13:00",a:"נסיעה לדולומיטים",d:"185 ק\"מ, 2:30. נוף מדהים!",i:"🚗"},
+{t:"16:00",a:"הגעה לאורטיזיי!",d:"גילוף עץ, גלידה",i:"🏘️",ln:[11.671,46.575]},
+{t:"19:00",a:"ארוחה טירולית!",d:"Canederli, Speck, שטרודל!",i:"🍽️",ln:[11.671,46.575]}
+],lk:[{n:"דירה באורטיזיי",u:"https://www.airbnb.com/s/Ortisei--Italy/homes?adults=2&children=4"},{n:"Val Gardena",u:"https://www.valgardena.it/en/"}]},
 
-{day:6,dt:"27/9",t:"אלפה די סיוזי!",ic:"🌿",base:"דולומיטים",cl:"#45B7D1",gr:"linear-gradient(135deg,#2ecc71,#27ae60)",rt:"רכבל מאורטיזיי (5 דק' הליכה!) → אלפה → בריכה",drv:"רגלי!",cost:"~300€",stay:"דירת אורטיזיי",
-pts:[[11.671,46.575],[11.564,46.540]],pn:["אורטיזיי","אלפה די סיוזי"],
-zoom:12,center:[11.62,46.56],
-sc:[{t:"7:30",a:"שכבות חמות!",d:"8-13°C!",i:"🧥"},{t:"8:30",a:"רכבל Mont Sëuc!",d:"39€/מבוגר, 0-8 חינם!",i:"🚡",u:"https://www.seiseralm.it/en"},{t:"9:00",a:"המרבד הגדול באירופה!",d:"שבילים שטוחים. טרמפולינות!",i:"🏔️"},{t:"12:00",a:"ארוחה בבקתה!",d:"נוף ססולונגו! 15-25€",i:"🍽️"},{t:"15:30",a:"בריכת Mar Dolomit!",d:"חינם עם Guestcard!",i:"🏊",u:"https://www.mardolomit.com"}],
-lk:[{n:"Alpe di Siusi",u:"https://www.seiseralm.it/en"},{n:"Mar Dolomit",u:"https://www.mardolomit.com"}]},
+{day:6,dt:"27/9",t:"אלפה די סיוזי!",ic:"🌿",base:"דולומיטים",cl:"#2ECC71",gr:"linear-gradient(135deg,#2ecc71,#27ae60)",rt:"רכבל מאורטיזיי (5 דק' הליכה!) → אלפה → בריכה",drv:"רגלי!",cost:"~300€",stay:"דירת אורטיזיי",
+zoom:12.5,center:[11.60,46.555],
+sc:[
+{t:"7:30",a:"שכבות חמות!",d:"8-13°C!",i:"🧥"},
+{t:"8:30",a:"רכבל Mont Sëuc!",d:"39€/מבוגר, 0-8 חינם!",i:"🚡",ln:[11.671,46.575],u:"https://www.seiseralm.it/en"},
+{t:"9:00",a:"המרבד הגדול באירופה!",d:"שבילים שטוחים. טרמפולינות!",i:"🏔️",ln:[11.564,46.540]},
+{t:"12:00",a:"ארוחה בבקתה!",d:"נוף ססולונגו! 15-25€",i:"🍽️",ln:[11.555,46.535]},
+{t:"14:30",a:"ירידה",d:"",i:"🚡",ln:[11.671,46.575]},
+{t:"15:30",a:"בריכת Mar Dolomit!",d:"חינם עם Guestcard!",i:"🏊",ln:[11.672,46.574],u:"https://www.mardolomit.com"}
+],lk:[{n:"Alpe di Siusi",u:"https://www.seiseralm.it/en"},{n:"Mar Dolomit",u:"https://www.mardolomit.com"}]},
 
-{day:7,dt:"28/9",t:"סצ'דה + בראייס!",ic:"⛰️",base:"דולומיטים",cl:"#45B7D1",gr:"linear-gradient(135deg,#8e44ad,#6c3483)",rt:"סצ'דה (רגלי) → אגם בראייס (90 ק\"מ) → חזרה",drv:"180 ק\"מ",cost:"~400€",stay:"דירת אורטיזיי",
-pts:[[11.671,46.575],[11.688,46.598],[12.085,46.693],[11.671,46.575]],pn:["אורטיזיי","סצ'דה 2,519 מ'","אגם בראייס","חזרה"],
+{day:7,dt:"28/9",t:"סצ'דה + בראייס!",ic:"⛰️",base:"דולומיטים",cl:"#8E44AD",gr:"linear-gradient(135deg,#8e44ad,#6c3483)",rt:"סצ'דה (רגלי) → אגם בראייס (90 ק\"מ) → חזרה",drv:"180 ק\"מ",cost:"~400€",stay:"דירת אורטיזיי",
 zoom:9.5,center:[11.85,46.63],
-sc:[{t:"8:15",a:"רכבל סצ'דה!",d:"52€/מבוגר. הזמנה מראש!",i:"🚡",u:"https://www.valgardena.it/en/active-holiday/cable-cars-lifts/"},{t:"8:45",a:"רכס Fermeda!",d:"10 דק' — גם רומי!",i:"📸"},{t:"12:30",a:"אגם בראייס!",d:"שביל 3.5 ק\"מ. מים טורקיזיים!",i:"🛶",u:"https://www.prags.bz/en/"},{t:"15:00",a:"סירה!",d:"50€/30 דק'. מזומן!",i:"🚣"}],
-lk:[{n:"סצ'דה — הזמנה!",u:"https://www.valgardena.it/en/active-holiday/cable-cars-lifts/"},{n:"אגם בראייס",u:"https://www.prags.bz/en/"}]},
+sc:[
+{t:"8:15",a:"רכבל סצ'דה!",d:"52€. הזמנה מראש חובה!",i:"🚡",ln:[11.688,46.598],u:"https://www.valgardena.it/en/active-holiday/cable-cars-lifts/"},
+{t:"8:45",a:"רכס Fermeda!",d:"10 דק' — גם רומי!",i:"📸",ln:[11.690,46.602]},
+{t:"10:30",a:"ירידה + ארוחה",d:"",i:"☕",ln:[11.671,46.575]},
+{t:"12:30",a:"אגם בראייס!",d:"שביל 3.5 ק\"מ. מים טורקיזיים!",i:"🛶",ln:[12.085,46.693],u:"https://www.prags.bz/en/"},
+{t:"15:00",a:"סירה!",d:"50€/30 דק'. מזומן!",i:"🚣",ln:[12.085,46.693]},
+{t:"17:30",a:"חזרה",d:"",i:"🚗",ln:[11.671,46.575]}
+],lk:[{n:"סצ'דה — הזמנה!",u:"https://www.valgardena.it/en/active-holiday/cable-cars-lifts/"},{n:"אגם בראייס",u:"https://www.prags.bz/en/"}]},
 
-{day:8,dt:"29/9",t:"Plose Bob + בולצאנו → גארדה",ic:"🛷",base:"גארדה",cl:"#96CEB4",gr:"linear-gradient(135deg,#96CEB4,#6bb596)",rt:"אורטיזיי→Plose Bob בריקסן (30 דק')→בולצאנו (20 דק')→לאציזה (1.5 שע')",drv:"210 ק\"מ",cost:"~370€",stay:"דירת 3 חד\"ש+בריכה לאציזה — 130-220€/לילה",
-pts:[[11.671,46.575],[11.657,46.713],[11.350,46.500],[10.735,45.506]],
-zoom:8,center:[11.1,46.1],
-sc:[{t:"8:00",a:"אריזה + צ'ק-אאוט",d:"",i:"🧳"},{t:"8:30",a:"נסיעה ל-Plose (בריקסן)",d:"30 דק' מאורטיזיי",i:"🚗"},{t:"9:00",a:"Plose Bob — מזחלת על פסים!",d:"בובסלד סגור, ירידה 147 מ'! נסיעת Hero עם קטפולטה! 10€. רומי עם מבוגר, נועם+עמית+מאיה לבד!",i:"🛷",u:"https://www.plose.org/en/plosebob-summer/"},{t:"9:45",a:"Mountaincarts — 9 ק\"מ ירידה!",d:"עגלות על שביל הרים. נוף מטורף! 15-20€/עגלה. עמית+נועם ישתגעו!",i:"🏎️",u:"https://www.plose.org/en/summer-plose/adrenaline-plose/mountaincarts.html"},{t:"11:00",a:"נסיעה לבולצאנו",d:"20 דק'",i:"🚗"},{t:"11:30",a:"מוזיאון אוצי!",d:"מומיה 5,300 שנה! 13€/מבוגר",i:"🏛️",u:"https://www.iceman.it/en/"},{t:"13:00",a:"Via dei Portici + ארוחה",d:"שוק ארקדות",i:"🍎"},{t:"13:30",a:"נסיעה ללאציזה",d:"140 ק\"מ, 1.5 שע'",i:"🚗"},{t:"15:00",a:"הגעה! בריכה/אגם",d:"מים 18-22°C!",i:"🏊"}],
-lk:[{n:"Plose Bob",u:"https://www.plose.org/en/plosebob-summer/"},{n:"Mountaincarts",u:"https://www.plose.org/en/summer-plose/adrenaline-plose/mountaincarts.html"},{n:"מוזיאון אוצי",u:"https://www.iceman.it/en/"}]},
+{day:8,dt:"29/9",t:"Plose Bob + בולצאנו → גארדה",ic:"🛷",base:"גארדה",cl:"#96CEB4",gr:"linear-gradient(135deg,#96CEB4,#6bb596)",rt:"אורטיזיי→Plose בריקסן→בולצאנו→לאציזה",drv:"210 ק\"מ",cost:"~370€",stay:"דירת 3 חד\"ש+בריכה לאציזה — 130-220€/לילה",
+zoom:8,center:[11.15,46.1],
+sc:[
+{t:"8:00",a:"אריזה + צ'ק-אאוט",d:"",i:"🧳"},
+{t:"8:30",a:"נסיעה ל-Plose (בריקסן)",d:"30 דק'",i:"🚗",ln:[11.657,46.713]},
+{t:"9:00",a:"Plose Bob — מזחלת על פסים!",d:"בובסלד סגור, ירידה 147 מ'! Hero עם קטפולטה! 10€",i:"🛷",ln:[11.657,46.713],u:"https://www.plose.org/en/plosebob-summer/"},
+{t:"9:45",a:"Mountaincarts — 9 ק\"מ ירידה!",d:"עגלות הרים. 15-20€. עמית+נועם ישתגעו!",i:"🏎️",ln:[11.657,46.713],u:"https://www.plose.org/en/summer-plose/adrenaline-plose/mountaincarts.html"},
+{t:"11:00",a:"נסיעה לבולצאנו",d:"20 דק'",i:"🚗",ln:[11.350,46.500]},
+{t:"11:30",a:"מוזיאון אוצי!",d:"מומיה 5,300 שנה! 13€",i:"🏛️",ln:[11.350,46.500],u:"https://www.iceman.it/en/"},
+{t:"13:00",a:"Via dei Portici + ארוחה",d:"שוק ארקדות",i:"🍎",ln:[11.354,46.498]},
+{t:"13:30",a:"נסיעה ללאציזה",d:"140 ק\"מ, 1.5 שע'",i:"🚗"},
+{t:"15:00",a:"הגעה! בריכה/אגם",d:"מים 18-22°C!",i:"🏊",ln:[10.735,45.506]}
+],lk:[{n:"Plose Bob",u:"https://www.plose.org/en/plosebob-summer/"},{n:"Mountaincarts",u:"https://www.plose.org/en/summer-plose/adrenaline-plose/mountaincarts.html"},{n:"מוזיאון אוצי",u:"https://www.iceman.it/en/"}]},
 
-{day:9,dt:"30/9",t:"גארדלנד! 🎢",ic:"🎢",base:"גארדה",cl:"#96CEB4",gr:"linear-gradient(135deg,#e67e22,#d35400)",rt:"לאציזה→גארדלנד (10 דק')→חזרה",drv:"16 ק\"מ",cost:"~430€",stay:"דירת לאציזה",
-pts:[[10.735,45.506],[10.713,45.456]],pn:["לאציזה","גארדלנד 🎢"],
+{day:9,dt:"30/9",t:"גארדלנד! 🎢",ic:"🎢",base:"גארדה",cl:"#E67E22",gr:"linear-gradient(135deg,#e67e22,#d35400)",rt:"לאציזה→גארדלנד (10 דק')→חזרה",drv:"16 ק\"מ",cost:"~430€",stay:"דירת לאציזה",
 zoom:12.5,center:[10.72,45.48],
-sc:[{t:"10:00",a:"רומי — Peppa Pig!",d:"Fantasy Kingdom",i:"🐷"},{t:"10:00",a:"עמית+מאיה — Oblivion!",d:"+ Raptor + Blue Tornado!",i:"🎢"},{t:"10:00",a:"נועם — Mammut + Jumanji!",d:"",i:"🦣"},{t:"13:30",a:"כולם: Fuga da Atlantide!",d:"מים!",i:"💦"},{t:"16:00",a:"SEA LIFE!",d:"כרישים, מדוזות",i:"🦈"}],
-lk:[{n:"גארדלנד כרטיסים!",u:"https://www.gardaland.it/en/tickets/"}]},
+sc:[
+{t:"10:00",a:"רומי — Peppa Pig!",d:"Fantasy Kingdom",i:"🐷",ln:[10.713,45.456]},
+{t:"10:00",a:"עמית+מאיה — Oblivion!",d:"+ Raptor + Blue Tornado!",i:"🎢",ln:[10.715,45.458]},
+{t:"10:00",a:"נועם — Mammut + Jumanji!",d:"",i:"🦣",ln:[10.712,45.455]},
+{t:"13:30",a:"כולם: Fuga da Atlantide!",d:"מים!",i:"💦",ln:[10.714,45.457]},
+{t:"16:00",a:"SEA LIFE!",d:"כרישים, מדוזות",i:"🦈",ln:[10.710,45.454]}
+],lk:[{n:"גארדלנד כרטיסים!",u:"https://www.gardaland.it/en/tickets/"}]},
 
-{day:10,dt:"1/10",t:"ספארי + ורונה + סירמיונה",ic:"🦁",base:"גארדה",cl:"#96CEB4",gr:"linear-gradient(135deg,#c0392b,#96281b)",rt:"Natura Viva ספארי (15 דק')→ורונה (20 דק')→סירמיונה→חזרה",drv:"100 ק\"מ",cost:"~430€",stay:"דירת לאציזה",
-pts:[[10.735,45.506],[10.798,45.480],[10.994,45.439],[10.608,45.493],[10.735,45.506]],
+{day:10,dt:"1/10",t:"ספארי + ורונה + סירמיונה",ic:"🦁",base:"גארדה",cl:"#C0392B",gr:"linear-gradient(135deg,#c0392b,#96281b)",rt:"Natura Viva→ורונה→סירמיונה→חזרה",drv:"100 ק\"מ",cost:"~430€",stay:"דירת לאציזה",
 zoom:10,center:[10.78,45.48],
-sc:[{t:"8:30",a:"Parco Natura Viva — ספארי ברכב!",d:"אריות, ג'ירפות, קרנפים! רומי תשתגע! 20€ אונליין",i:"🦁",u:"https://www.parconaturaviva.it/en/"},{t:"10:00",a:"פארק ברגל + דינוזאורים!",d:"בגודל טבעי! נווה פרפרים!",i:"🦕"},{t:"11:30",a:"נסיעה לורונה",d:"20 דק'",i:"🚗"},{t:"12:00",a:"ארנה ורונה!",d:"2,000 שנה! 10€/מבוגר, חינם <8",i:"🏟️",u:"https://www.arena.it/en"},{t:"13:00",a:"בית יוליה!",d:"עדי+מאיה — צילום במרפסת! Via Mazzini קניות",i:"💕"},{t:"13:30",a:"Castel San Pietro",d:"תצפית גגות אדומים. חינם!",i:"🏰"},{t:"14:00",a:"ארוחה בורונה",d:"10-15€/אדם",i:"🍝"},{t:"15:00",a:"סירמיונה!",d:"טירת סקליג'ר 6€ (חינם <18!). Grotte di Catullo. ג'לאטו!",i:"🏰",u:"https://visitsirmione.com/en/"},{t:"17:00",a:"חזרה",d:"",i:"🍦"}],
-lk:[{n:"Parco Natura Viva",u:"https://www.parconaturaviva.it/en/"},{n:"ארנה ורונה",u:"https://www.arena.it/en"},{n:"סירמיונה",u:"https://visitsirmione.com/en/"}]},
+sc:[
+{t:"8:30",a:"Parco Natura Viva — ספארי ברכב!",d:"אריות, ג'ירפות! רומי! 20€",i:"🦁",ln:[10.798,45.480],u:"https://www.parconaturaviva.it/en/"},
+{t:"10:00",a:"דינוזאורים + פרפרים!",d:"בגודל טבעי!",i:"🦕",ln:[10.798,45.480]},
+{t:"12:00",a:"ארנה ורונה!",d:"2,000 שנה! 10€",i:"🏟️",ln:[10.994,45.439],u:"https://www.arena.it/en"},
+{t:"13:00",a:"בית יוליה!",d:"עדי+מאיה — מרפסת! Via Mazzini",i:"💕",ln:[10.998,45.442]},
+{t:"14:00",a:"ארוחה בורונה",d:"10-15€/אדם",i:"🍝",ln:[10.991,45.440]},
+{t:"15:00",a:"סירמיונה!",d:"טירת סקליג'ר 6€. ג'לאטו!",i:"🏰",ln:[10.608,45.493],u:"https://visitsirmione.com/en/"},
+{t:"17:00",a:"חזרה",d:"",i:"🍦",ln:[10.735,45.506]}
+],lk:[{n:"Natura Viva",u:"https://www.parconaturaviva.it/en/"},{n:"ארנה ורונה",u:"https://www.arena.it/en"},{n:"סירמיונה",u:"https://visitsirmione.com/en/"}]},
 
-{day:11,dt:"2/10",t:"ונציה!",ic:"⛴️",base:"גארדה",cl:"#96CEB4",gr:"linear-gradient(135deg,#1a5276,#2e86c1)",rt:"לאציזה→ונציה Tronchetto (150 ק\"מ, 1.5 שע')→ואפורטו→סן מרקו→ריאלטו→גונדולה→חזרה",drv:"300 ק\"מ",cost:"~500€",stay:"דירת לאציזה",
-pts:[[10.735,45.506],[12.305,45.441],[12.338,45.434],[12.336,45.438],[10.735,45.506]],
-zoom:8.5,center:[11.5,45.47],
-sc:[{t:"8:00",a:"יציאה לונציה!",d:"150 ק\"מ, 1.5 שע'. A4 מזרחה",i:"🚗"},{t:"9:30",a:"חניה Tronchetto",d:"חניון מקורה ~30€/יום. אין רכב בונציה!",i:"🅿️"},{t:"10:00",a:"ואפורטו לסן מרקו!",d:"סירת אוטובוס! כרטיס יומי 25€/מבוגר, רומי חינם <6",i:"⛴️"},{t:"10:30",a:"כיכר סן מרקו!",d:"הכיכר הכי מפורסמת בעולם! עדי+מאיה — צילומים! רומי תרדוף יונים!",i:"⛪"},{t:"11:15",a:"ארמון הדוג'ה + גשר האנחות",d:"12€/מבוגר, חינם <6",i:"🏛️"},{t:"12:30",a:"הליכה לגשר ריאלטו!",d:"סמטאות קסומות. ארוחה ליד הגשר",i:"🌉"},{t:"14:00",a:"גונדולה!",d:"80-100€ ל-30 דק'/6 אנשים. חובה! עדי תתעלף!",i:"🛶"},{t:"15:00",a:"מוראנו — אי הזכוכית!",d:"ואפורטו. מפעלי זכוכית + חנויות. או: קניות סן מרקו",i:"🏺"},{t:"16:30",a:"ואפורטו חזרה ל-Tronchetto",d:"",i:"⛴️"},{t:"17:00",a:"נסיעה ללאציזה",d:"1.5 שע'. הגעה 18:30",i:"🚗"}],
-lk:[{n:"ואפורטו כרטיסים",u:"https://www.veneziaunica.it/en/content/buy-your-pass"},{n:"ארמון הדוג'ה",u:"https://palazzoducale.visitmuve.it/en/home/"},{n:"חניון Tronchetto",u:"https://www.veniceparking.it/en/"}]},
+{day:11,dt:"2/10",t:"ונציה!",ic:"⛴️",base:"גארדה",cl:"#1A5276",gr:"linear-gradient(135deg,#1a5276,#2e86c1)",rt:"לאציזה→ונציה (1.5 שע')→סן מרקו→ריאלטו→גונדולה→חזרה",drv:"300 ק\"מ",cost:"~500€",stay:"דירת לאציזה",
+zoom:8,center:[11.5,45.48],
+sc:[
+{t:"8:00",a:"יציאה לונציה!",d:"150 ק\"מ, A4 מזרחה",i:"🚗"},
+{t:"9:30",a:"חניה Tronchetto",d:"~30€/יום. אין רכב בונציה!",i:"🅿️",ln:[12.305,45.441]},
+{t:"10:00",a:"ואפורטו לסן מרקו!",d:"כרטיס יומי 25€. רומי חינם <6",i:"⛴️",ln:[12.338,45.434]},
+{t:"10:30",a:"כיכר סן מרקו!",d:"עדי+מאיה צילומים! רומי תרדוף יונים!",i:"⛪",ln:[12.338,45.434]},
+{t:"11:15",a:"ארמון הדוג'ה + גשר האנחות",d:"12€/מבוגר, חינם <6",i:"🏛️",ln:[12.340,45.433]},
+{t:"12:30",a:"גשר ריאלטו!",d:"סמטאות קסומות. ארוחה",i:"🌉",ln:[12.336,45.438]},
+{t:"14:00",a:"גונדולה!",d:"80-100€/6 אנשים. עדי תתעלף!",i:"🛶",ln:[12.335,45.436]},
+{t:"15:00",a:"מוראנו — אי הזכוכית!",d:"מפעלי זכוכית, חנויות",i:"🏺",ln:[12.352,45.458]},
+{t:"16:30",a:"חזרה ל-Tronchetto",d:"",i:"⛴️",ln:[12.305,45.441]},
+{t:"17:00",a:"נסיעה ללאציזה",d:"1.5 שע'",i:"🚗",ln:[10.735,45.506]}
+],lk:[{n:"ואפורטו כרטיסים",u:"https://www.veneziaunica.it/en/content/buy-your-pass"},{n:"ארמון הדוג'ה",u:"https://palazzoducale.visitmuve.it/en/home/"},{n:"חניון Tronchetto",u:"https://www.veniceparking.it/en/"}]},
 
-{day:12,dt:"3/10",t:"Monte Baldo + קניות",ic:"🪂",base:"גארדה",cl:"#96CEB4",gr:"linear-gradient(135deg,#3498db,#2980b9)",rt:"לאציזה→מלצ'זינה→Monte Baldo→Franciacorta",drv:"90 ק\"מ",cost:"~350€",stay:"דירת לאציזה",
-pts:[[10.735,45.506],[10.813,45.766],[10.162,45.537],[10.735,45.506]],pn:["לאציזה","Monte Baldo 🪂","Franciacorta Outlet","חזרה"],
+{day:12,dt:"3/10",t:"Monte Baldo + קניות",ic:"🪂",base:"גארדה",cl:"#3498DB",gr:"linear-gradient(135deg,#3498db,#2980b9)",rt:"לאציזה→מלצ'זינה→Monte Baldo→Franciacorta",drv:"90 ק\"מ",cost:"~350€",stay:"דירת לאציזה",
 zoom:9.5,center:[10.5,45.6],
-sc:[{t:"9:15",a:"Monte Baldo רכבל 360°!",d:"22€/מבוגר. 1,760 מ'!",i:"🚡",u:"https://www.funiviedelbaldo.it"},{t:"9:15",a:"עמית: פראגליידינג?!",d:"~150€!",i:"🪂"},{t:"14:00",a:"Franciacorta Outlet!",d:"160+ חנויות, 30-70%! עדי+מאיה!",i:"🛍️",u:"https://www.franciacortaoutlet.it/en/"},{t:"18:00",a:"ארוחת פרידה!",d:"שקיעה בברדולינו!",i:"🌅"}],
-lk:[{n:"Monte Baldo",u:"https://www.funiviedelbaldo.it"},{n:"Franciacorta",u:"https://www.franciacortaoutlet.it/en/"}]},
+sc:[
+{t:"9:15",a:"Monte Baldo רכבל 360°!",d:"22€/מבוגר. 1,760 מ'!",i:"🚡",ln:[10.858,45.790],u:"https://www.funiviedelbaldo.it"},
+{t:"9:15",a:"עמית: פראגליידינג?!",d:"~150€!",i:"🪂",ln:[10.858,45.790]},
+{t:"11:30",a:"סיור מלצ'זינה",d:"טירה על האגם",i:"🏰",ln:[10.813,45.766]},
+{t:"12:00",a:"ארוחה על האגם",d:"",i:"🍽️",ln:[10.813,45.766]},
+{t:"14:00",a:"Franciacorta Outlet!",d:"160+ חנויות! עדי+מאיה!",i:"🛍️",ln:[10.162,45.537],u:"https://www.franciacortaoutlet.it/en/"},
+{t:"18:00",a:"ארוחת פרידה בברדולינו!",d:"שקיעה!",i:"🌅",ln:[10.720,45.548]}
+],lk:[{n:"Monte Baldo",u:"https://www.funiviedelbaldo.it"},{n:"Franciacorta",u:"https://www.franciacortaoutlet.it/en/"}]},
 
 {day:13,dt:"4/10",t:"חזרה ✈️",ic:"✈️",base:"טיסה",cl:"#DDA0DD",gr:"linear-gradient(135deg,#DDA0DD,#c070c0)",rt:"לאציזה→מלפנסה (185 ק\"מ, 2 שע')",drv:"185 ק\"מ",cost:"~100€",stay:null,
-pts:[[10.735,45.506],[8.728,45.623]],pn:["לאציזה","מלפנסה ✈️"],
 zoom:8,center:[9.7,45.55],
-sc:[{t:"7:00",a:"השכמה + אריזה",d:"",i:"⏰"},{t:"8:15",a:"תדלוק!",d:"ליד A4!",i:"⛽"},{t:"8:30",a:"נסיעה",d:"185 ק\"מ, 2 שע'",i:"🚗"},{t:"10:30",a:"החזרת רכב",d:"",i:"🚗"},{t:"13:00",a:"טיסה!",d:"!Arrivederci 🇮🇹",i:"✈️"}],
-lk:[]}
+sc:[
+{t:"7:00",a:"השכמה + אריזה",d:"",i:"⏰"},
+{t:"8:15",a:"תדלוק!",d:"ליד A4!",i:"⛽"},
+{t:"8:30",a:"נסיעה",d:"185 ק\"מ, 2 שע'",i:"🚗"},
+{t:"10:30",a:"החזרת רכב",d:"",i:"🚗",ln:[8.728,45.623]},
+{t:"13:00",a:"טיסה!",d:"!Arrivederci 🇮🇹",i:"✈️",ln:[8.728,45.623]}
+],lk:[]}
 ];
 
 const BAS=[{n:"מילאנו",ng:2,dt:"22-24/9",c:"#FF6B6B",i:"🏙️",tp:"מלון"},{n:"אגם קומו",ng:2,dt:"24-26/9",c:"#4ECDC4",i:"⛴️",tp:"דירה"},{n:"דולומיטים",ng:3,dt:"26-29/9",c:"#45B7D1",i:"🏔️",tp:"דירה"},{n:"אגם גארדה",ng:5,dt:"29/9-4/10",c:"#96CEB4",i:"🌊",tp:"דירה"}];
-const BDG=[{c:"לינה",a:1865,i:"🏠",d:"2 מילאנו+2 קומו+3 דולומיטים+5 גארדה"},{c:"רכב+ביטוח",a:900,i:"🚗",d:"7+ מושבים, ביטוח מלא"},{c:"דלק+אגרות",a:350,i:"⛽",d:"~1,300 ק\"מ+מדבקה שוויצרית"},{c:"אטרקציות",a:1200,i:"🎢",d:"גארדלנד, רכבלים, מוזיאונים"},{c:"אוכל",a:2000,i:"🍕",d:"12 ימים"},{c:"שונות",a:350,i:"📍",d:"חניה, SIM, כביסה"}];
-const BKS=[{w:"רכבל סצ'דה",wh:"אפריל 2026",ur:1,u:"https://www.valgardena.it/en/active-holiday/cable-cars-lifts/"},{w:"Last Supper",wh:"יוני 2026",ur:1,u:"https://cenacolovinciano.vivaticket.it"},{w:"רכב 7+",wh:"3-6 חודשים",ur:1,u:"https://www.rentalcars.com"},{w:"דירות",wh:"3-4 חודשים",ur:0,u:"https://www.airbnb.com"},{w:"גארדלנד",wh:"שבועות מראש",ur:0,u:"https://www.gardaland.it/en/tickets/"},{w:"מדבקה שוויצרית",wh:"לפני הטיול",ur:0,u:"https://www.e-vignette.ch/en"}];
+const BDG=[{c:"לינה",a:1865,i:"🏠",d:"2 מילאנו+2 קומו+3 דולומיטים+5 גארדה"},{c:"רכב+ביטוח",a:900,i:"🚗",d:"7+ מושבים, ביטוח מלא"},{c:"דלק+אגרות",a:350,i:"⛽",d:"~1,300 ק\"מ+מדבקה שוויצרית"},{c:"אטרקציות",a:1250,i:"🎢",d:"גארדלנד, רכבלים, מוזיאונים, ונציה"},{c:"אוכל",a:2000,i:"🍕",d:"12 ימים"},{c:"שונות",a:400,i:"📍",d:"חניה, ואפורטו, SIM, כביסה"}];
+const BKS=[{w:"רכבל סצ'דה",wh:"אפריל 2026",ur:1,u:"https://www.valgardena.it/en/active-holiday/cable-cars-lifts/"},{w:"Last Supper",wh:"יוני 2026",ur:1,u:"https://cenacolovinciano.vivaticket.it"},{w:"רכב 7+",wh:"3-6 חודשים",ur:1,u:"https://www.rentalcars.com"},{w:"דירות",wh:"3-4 חודשים",ur:0,u:"https://www.airbnb.com"},{w:"גארדלנד",wh:"שבועות מראש",ur:0,u:"https://www.gardaland.it/en/tickets/"},{w:"מדבקת כביש שוויץ",wh:"לפני הטיול",ur:0,u:"https://www.e-vignette.ch/en"}];
 
-let cTab='H',cDay=0,maps={};
+let cTab='H',cDay=0,dayMap=null,dayMarkers=[],dayPopup=null,activeSch=-1;
 
-function go(t){cTab=t;['H','D','B','I'].forEach(x=>{document.getElementById('p'+x).classList.toggle('hide',x!==t)});document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('on',['H','D','B','I'][i]===t));
+function go(t){cTab=t;['H','D','B','I'].forEach(x=>document.getElementById('p'+x).classList.toggle('hide',x!==t));
+document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('on',['H','D','B','I'][i]===t));
 const ts={H:'🇮🇹 צוקרמניה באיטליה',D:`${DAYS[cDay].ic} יום ${cDay+1} — ${DAYS[cDay].t}`,B:'💰 תקציב',I:'📋 מידע'};
 document.getElementById('hdrT').textContent=ts[t];window.scrollTo(0,0);if(t==='D')rD();}
-
 function gD(i){cDay=i;go('D')}
 
-// ===== CREATE MAP =====
-function mkMap(container,d,addRoute=true){
-  const map=new mapboxgl.Map({container,style:'mapbox://styles/mapbox/outdoors-v12',center:d.center,zoom:d.zoom,interactive:true,attributionControl:false});
+// ===== TOGGLE FULLSCREEN MAP =====
+function toggleFS(id){
+  const w=document.getElementById(id);
+  w.classList.toggle('expanded');
+  document.body.style.overflow=w.classList.contains('expanded')?'hidden':'';
+  if(dayMap)setTimeout(()=>dayMap.resize(),100);
+}
+
+// ===== FLY TO SCHEDULE ITEM =====
+function flyTo(idx){
+  const d=DAYS[cDay];
+  const s=d.sc[idx];
+  if(!s.ln)return;
+  activeSch=idx;
+  // Update active styling
+  document.querySelectorAll('.sch-item').forEach((el,i)=>{el.classList.toggle('active',i===idx)});
+  // Update markers
+  dayMarkers.forEach((m,i)=>{
+    const el=m.getElement();
+    if(el){el.classList.toggle('active',m._schIdx===idx)}
+  });
+  // Fly map
+  if(dayMap){
+    dayMap.flyTo({center:s.ln,zoom:Math.max(dayMap.getZoom(),13),duration:1200,essential:true});
+    // Show popup
+    if(dayPopup)dayPopup.remove();
+    dayPopup=new mapboxgl.Popup({offset:25,closeButton:false,className:'map-popup',maxWidth:'200px'})
+      .setLngLat(s.ln)
+      .setHTML(`<div class="pop-t">${s.i} ${s.a}</div>${s.d?'<div class="pop-d">'+s.d+'</div>':''}`)
+      .addTo(dayMap);
+  }
+}
+
+// ===== CREATE DAY MAP =====
+function mkDayMap(containerId,d){
+  if(dayMap){dayMap.remove();dayMap=null}
+  dayMarkers=[];dayPopup=null;activeSch=-1;
+  const map=new mapboxgl.Map({container:containerId,style:'mapbox://styles/mapbox/outdoors-v12',center:d.center,zoom:d.zoom,interactive:true,attributionControl:false});
   map.addControl(new mapboxgl.NavigationControl({showCompass:false}),'top-left');
+  dayMap=map;
   map.on('load',()=>{
-    // Markers with popups
-    d.pts.forEach((p,i)=>{
+    // Add markers for each schedule item with coords
+    const pts=[];
+    d.sc.forEach((s,i)=>{
+      if(!s.ln)return;
+      pts.push(s.ln);
       const el=document.createElement('div');
-      el.style.cssText=`width:30px;height:30px;border-radius:50%;background:${d.cl};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:2.5px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.35);cursor:pointer;transition:transform .2s`;
+      el.className='marker';
+      el.style.cssText=`width:30px;height:30px;background:${d.cl};`;
       el.textContent=i+1;
-      el.onmouseenter=()=>el.style.transform='scale(1.2)';
-      el.onmouseleave=()=>el.style.transform='scale(1)';
-      const name=d.pn&&d.pn[i]?d.pn[i]:`נקודה ${i+1}`;
-      const navUrl=`https://www.google.com/maps/dir/?api=1&destination=${p[1]},${p[0]}&travelmode=driving`;
-      const popup=new mapboxgl.Popup({offset:20,closeButton:true,maxWidth:'220px'})
-        .setHTML(`<div style="font-family:Heebo,sans-serif;text-align:center;padding:4px 0"><div style="font-size:14px;font-weight:800;color:#333;margin-bottom:6px">${name}</div><a href="${navUrl}" target="_blank" style="display:inline-block;padding:6px 14px;background:${d.cl};color:#fff;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none">🧭 נווט לכאן</a></div>`);
-      new mapboxgl.Marker(el).setLngLat(p).setPopup(popup).addTo(map);
+      el.onclick=()=>flyTo(i);
+      el._schIdx=i;
+      const m=new mapboxgl.Marker(el).setLngLat(s.ln).addTo(map);
+      m._schIdx=i;
+      dayMarkers.push(m);
     });
-    // Route line
-    if(addRoute&&d.pts.length>=2){
-      const coords=d.pts.map(p=>p.join(',')).join(';');
+    // Draw route
+    if(pts.length>=2){
+      const coords=pts.map(p=>p.join(',')).join(';');
       fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${coords}?geometries=geojson&overview=full&access_token=${MBT}`)
         .then(r=>r.json()).then(data=>{
           if(data.routes&&data.routes[0]){
-            map.addSource('route',{type:'geojson',data:{type:'Feature',geometry:data.routes[0].geometry}});
-            map.addLayer({id:'route',type:'line',source:'route',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':d.cl,'line-width':4,'line-opacity':.8}});
+            map.addSource('rt',{type:'geojson',data:{type:'Feature',geometry:data.routes[0].geometry}});
+            map.addLayer({id:'rt-bg',type:'line',source:'rt',paint:{'line-color':'#fff','line-width':6,'line-opacity':.8}});
+            map.addLayer({id:'rt',type:'line',source:'rt',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':d.cl,'line-width':3.5,'line-opacity':.85}});
           }
-        }).catch(()=>{
-          // Fallback: straight lines
-          map.addSource('route',{type:'geojson',data:{type:'Feature',geometry:{type:'LineString',coordinates:d.pts}}});
-          map.addLayer({id:'route',type:'line',source:'route',paint:{'line-color':d.cl,'line-width':3,'line-dasharray':[2,2]}});
-        });
+        }).catch(()=>{});
     }
   });
-  return map;
 }
 
 // ===== OVERVIEW MAP =====
-function mkOverview(container){
-  const allPts=[[8.728,45.623],[9.192,45.464],[9.077,45.808],[8.951,45.954],[9.664,45.705],[11.671,46.575],[11.350,46.500],[10.735,45.506],[10.994,45.439],[10.608,45.493],[10.813,45.766]];
-  const map=new mapboxgl.Map({container,style:'mapbox://styles/mapbox/outdoors-v12',center:[10.2,45.9],zoom:7,interactive:true,attributionControl:false});
+function mkOverview(containerId){
+  const pts=[[8.728,45.623],[9.192,45.464],[9.077,45.808],[8.951,45.954],[9.664,45.705],[11.671,46.575],[11.657,46.713],[11.350,46.500],[10.735,45.506],[10.994,45.439],[10.608,45.493],[12.338,45.434],[10.858,45.790]];
+  const labels=['✈️ מלפנסה','🏛️ מילאנו','⛴️ קומו','🇨🇭 שוויץ','🎭 ברגמו','🏔️ אורטיזיי','🛷 Plose','🏛️ בולצאנו','🌊 לאציזה','🏟️ ורונה','🏰 סירמיונה','⛴️ ונציה','🪂 Monte Baldo'];
+  const colors=['#FF6B6B','#FF6B6B','#4ECDC4','#E74C3C','#45B7D1','#45B7D1','#96CEB4','#45B7D1','#96CEB4','#C0392B','#C0392B','#1A5276','#3498DB'];
+  const map=new mapboxgl.Map({container:containerId,style:'mapbox://styles/mapbox/outdoors-v12',center:[10.3,45.9],zoom:6.8,interactive:true,attributionControl:false});
   map.addControl(new mapboxgl.NavigationControl({showCompass:false}),'top-left');
   map.on('load',()=>{
-    const labels=['מלפנסה','מילאנו','קומו','שוויץ','ברגמו','אורטיזיי','בולצאנו','לאציזה','ורונה','סירמיונה','Monte Baldo'];
-    const colors=['#FF6B6B','#FF6B6B','#4ECDC4','#e74c3c','#45B7D1','#45B7D1','#45B7D1','#96CEB4','#96CEB4','#96CEB4','#96CEB4'];
-    allPts.forEach((p,i)=>{
+    pts.forEach((p,i)=>{
       const el=document.createElement('div');
-      el.style.cssText=`background:${colors[i]};color:#fff;padding:2px 6px;border-radius:8px;font-size:10px;font-weight:700;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);white-space:nowrap;font-family:Heebo,sans-serif;cursor:pointer`;
+      el.style.cssText=`background:${colors[i]};color:#fff;padding:2px 6px;border-radius:8px;font-size:9px;font-weight:700;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);white-space:nowrap;font-family:Heebo,sans-serif;cursor:pointer`;
       el.textContent=labels[i];
-      const navUrl=`https://www.google.com/maps/dir/?api=1&destination=${p[1]},${p[0]}&travelmode=driving`;
-      const popup=new mapboxgl.Popup({offset:15,closeButton:true,maxWidth:'200px'})
-        .setHTML(`<div style="font-family:Heebo,sans-serif;text-align:center;padding:2px 0"><div style="font-size:13px;font-weight:800;margin-bottom:5px">${labels[i]}</div><a href="${navUrl}" target="_blank" style="display:inline-block;padding:5px 12px;background:${colors[i]};color:#fff;border-radius:8px;font-size:11px;font-weight:700;text-decoration:none">🧭 נווט</a></div>`);
-      new mapboxgl.Marker(el).setLngLat(p).setPopup(popup).addTo(map);
+      new mapboxgl.Marker(el).setLngLat(p).addTo(map);
     });
-    // Route through all bases
-    const bases=[[8.728,45.623],[9.192,45.464],[9.077,45.808],[8.951,45.954],[9.664,45.705],[11.671,46.575],[11.350,46.500],[10.735,45.506],[8.728,45.623]];
-    const coords=bases.map(p=>p.join(',')).join(';');
+    const route=[[8.728,45.623],[9.192,45.464],[9.077,45.808],[8.951,45.954],[9.077,45.808],[9.664,45.705],[11.671,46.575],[11.350,46.500],[10.735,45.506],[10.994,45.439],[10.608,45.493],[10.735,45.506],[12.338,45.434],[10.735,45.506],[10.858,45.790],[10.735,45.506],[8.728,45.623]];
+    const coords=route.map(p=>p.join(',')).join(';');
     fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${coords}?geometries=geojson&overview=full&access_token=${MBT}`)
       .then(r=>r.json()).then(data=>{
         if(data.routes&&data.routes[0]){
-          map.addSource('fullroute',{type:'geojson',data:{type:'Feature',geometry:data.routes[0].geometry}});
-          map.addLayer({id:'fullroute',type:'line',source:'fullroute',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':'#1F4E79','line-width':3.5,'line-opacity':.7}});
+          map.addSource('fr',{type:'geojson',data:{type:'Feature',geometry:data.routes[0].geometry}});
+          map.addLayer({id:'fr-bg',type:'line',source:'fr',paint:{'line-color':'#fff','line-width':5,'line-opacity':.7}});
+          map.addLayer({id:'fr',type:'line',source:'fr',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':'#1F4E79','line-width':3,'line-opacity':.7}});
         }
       }).catch(()=>{});
   });
@@ -237,53 +376,61 @@ function mkOverview(container){
 // ===== RENDER HOME =====
 function rH(){
   const el=document.getElementById('pH');
-  let h=`<div style="text-align:center;padding:16px 0 12px"><div style="font-size:50px">🇮🇹</div><h1 style="font-size:28px;font-weight:900;background:linear-gradient(135deg,#1F4E79,#2E75B6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:4px 0">צוקרמניה באיטליה</h1><p style="font-size:13px;color:#888">22/9 — 4/10/2026 • 12 ימים מלאים</p><p style="font-size:12px;color:#aaa;margin-top:2px">רועי, עדי, רומי (5), נועם (10), עמית (14), מאיה (18)</p></div>`;
-  h+=`<div class="grid2">`;BAS.forEach(b=>{h+=`<div class="bc" style="background:linear-gradient(145deg,${b.c}15,white);border-color:${b.c}30"><div class="bi">${b.i}</div><div class="bn">${b.n}</div><div class="bd">${b.ng} לילות • ${b.tp}</div><div class="bdt" style="color:${b.c}">${b.dt}</div></div>`});h+=`</div>`;
-  h+=`<div class="map-box"><div id="mapOverview"></div><div class="map-label">🗺️ מסלול מלא: מילאנו→קומו→שוויץ→ברגמו→דולומיטים→גארדה</div></div>`;
-  h+=`<div class="total" style="background:linear-gradient(135deg,#1F4E79,#2E75B6)"><div style="font-size:12px;opacity:.75">תקציב משוער (ללא טיסות)</div><div style="font-size:36px;font-weight:900">~€7,000</div><div style="font-size:11px;opacity:.6">~1,300 ק"מ • אף יום מעל 4 שעות</div></div>`;
-  h+=`<h2 style="font-size:16px;font-weight:800;margin-bottom:8px;text-align:right">📅 לחצו ליום מפורט + מפת ניווט</h2>`;
+  let h=`<div style="text-align:center;padding:16px 0 12px"><div style="font-size:50px">🇮🇹</div><h1 style="font-size:28px;font-weight:900;background:linear-gradient(135deg,#1F4E79,#2E75B6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:4px 0">צוקרמניה באיטליה</h1><p style="font-size:13px;color:#888">22/9 — 4/10/2026 • 12 ימים</p><p style="font-size:12px;color:#aaa;margin-top:2px">רועי, עדי, רומי (5), נועם (10), עמית (14), מאיה (18)</p></div>`;
+  h+=`<div class="grid2">`;BAS.forEach(b=>{h+=`<div class="bc" style="background:linear-gradient(145deg,${b.c}15,white);border-color:${b.c}30"><div style="font-size:28px">${b.i}</div><div style="font-size:15px;font-weight:800">${b.n}</div><div style="font-size:11px;color:#888">${b.ng} לילות • ${b.tp}</div><div style="font-size:10px;font-weight:700;color:${b.c}">${b.dt}</div></div>`});h+=`</div>`;
+  h+=`<div class="map-wrap" id="mwOver"><button class="fs-btn" onclick="toggleFS('mwOver')">⛶</button><button class="close-fs" onclick="toggleFS('mwOver')">✕</button><div id="mapOver"></div><div class="map-label">🗺️ לחצו ⛶ למסך מלא • גררו וזומו</div></div>`;
+  h+=`<div class="total" style="background:linear-gradient(135deg,#1F4E79,#2E75B6)"><div style="font-size:12px;opacity:.75">תקציב (ללא טיסות)</div><div style="font-size:36px;font-weight:900">~€7,000</div><div style="font-size:11px;opacity:.6">~1,500 ק"מ • כולל ונציה!</div></div>`;
+  h+=`<h2 style="font-size:16px;font-weight:800;margin-bottom:8px;text-align:right">📅 לחצו ליום מפורט</h2>`;
   DAYS.forEach(d=>{h+=`<button onclick="gD(${d.day-1})" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border:1px solid #eee;border-radius:14px;margin-bottom:6px;text-align:right;font-family:inherit"><div style="width:40px;height:40px;border-radius:12px;background:${d.gr};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${d.ic}</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700">יום ${d.day} — ${d.t}</div><div style="font-size:10px;color:#999">${d.dt} • ${d.drv}</div></div><span style="font-size:14px;color:#ccc">←</span></button>`});
   el.innerHTML=h;
-  setTimeout(()=>mkOverview('mapOverview'),100);
+  setTimeout(()=>mkOverview('mapOver'),150);
 }
 
 // ===== RENDER DAY =====
 function rD(){
-  const d=DAYS[cDay];document.getElementById('hdrT').textContent=`${d.ic} יום ${d.day} — ${d.t}`;
+  const d=DAYS[cDay];
+  document.getElementById('hdrT').textContent=`${d.ic} יום ${d.day} — ${d.t}`;
   const el=document.getElementById('pD');
   let h=`<div class="dsel">`;DAYS.forEach((day,i)=>{h+=`<button onclick="gD(${i})" class="${cDay===i?'on':''}" style="${cDay===i?'border-color:'+day.cl+';background:'+day.cl+'15':''}"><span>${day.ic}</span><span style="color:${cDay===i?day.cl:'#aaa'}">${day.day}</span></button>`});h+=`</div>`;
   h+=`<div class="hero" style="background:${d.gr}"><div class="ico">${d.ic}</div><h2>${d.t}</h2><p class="sub">יום ${d.day} • ${d.dt}</p><div class="stats"><div><div class="l">נסיעה</div><div class="v">${d.drv}</div></div><div><div class="l">עלות</div><div class="v">${d.cost}</div></div><div><div class="l">בסיס</div><div class="v">${d.base}</div></div></div></div>`;
+  // Route text
   h+=`<div style="margin:12px 16px;padding:10px 14px;background:${d.cl}10;border:1px solid ${d.cl}25;border-radius:12px"><div style="font-size:12px;font-weight:700;color:${d.cl}">🛣️ מסלול</div><div style="font-size:12px;color:#555;margin-top:2px">${d.rt}</div></div>`;
-  h+=`<div class="map-box" style="margin:0 16px 12px"><div id="mapDay${d.day}"></div><div class="map-label">מפה אינטראקטיבית — גררו וזומו</div></div>`;
-  h+=`<div style="padding:0 16px"><h3 style="font-size:15px;font-weight:800;margin-bottom:10px;text-align:right">📋 לו"ז</h3>`;
-  d.sc.forEach((s,i)=>{h+=`<div class="sch"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div class="sch-ico" style="background:${d.cl}12">${s.i}</div>${i<d.sc.length-1?`<div class="sch-line" style="background:${d.cl}18"></div>`:''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span class="sch-act">${s.a}</span><span class="sch-time" style="color:${d.cl}">${s.t}</span></div>${s.d?`<p class="sch-det">${s.d}</p>`:''}${s.u?`<a href="${s.u}" target="_blank" class="sch-lnk" style="color:${d.cl}">🔗 כרטיסים / אתר</a>`:''}</div></div>`});
+  // MAP with fullscreen
+  h+=`<div class="map-wrap" id="mwDay" style="margin:0 16px 12px"><button class="fs-btn" onclick="toggleFS('mwDay')">⛶</button><button class="close-fs" onclick="toggleFS('mwDay')">✕</button><div id="mapDay"></div><div class="map-label">📍 לחצו על פעילות בלו"ז → המפה תעוף למיקום!</div></div>`;
+  // SCHEDULE
+  h+=`<div style="padding:0 16px"><h3 style="font-size:15px;font-weight:800;margin-bottom:10px;text-align:right">📋 לו"ז — לחצו לניווט במפה</h3>`;
+  d.sc.forEach((s,i)=>{
+    const hasLoc=!!s.ln;
+    h+=`<div class="sch-item${hasLoc?' clickable':''}" onclick="${hasLoc?'flyTo('+i+')':''}" style="${hasLoc?'cursor:pointer':'cursor:default'};--accent:${d.cl}"><div class="sch-dot"><div class="sch-ico" style="background:${d.cl}12">${s.i}</div>${i<d.sc.length-1?`<div class="sch-line" style="background:${d.cl}18"></div>`:''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span class="sch-act">${s.a}${hasLoc?' 📍':''}</span><span class="sch-time" style="color:${d.cl}">${s.t}</span></div>${s.d?`<p class="sch-det">${s.d}</p>`:''}${s.u?`<a href="${s.u}" target="_blank" class="sch-lnk" style="color:${d.cl}" onclick="event.stopPropagation()">🔗 כרטיסים / אתר</a>`:''}</div></div>`;
+  });
   h+=`</div>`;
+  // Links
   if(d.lk.length){h+=`<div style="padding:8px 16px 0"><h3 style="font-size:15px;font-weight:800;margin-bottom:8px;text-align:right">🔗 קישורים</h3>`;d.lk.forEach(l=>{h+=`<a href="${l.u}" target="_blank" class="lrow"><span style="font-size:13px;font-weight:600">${l.n}</span><span style="font-size:10px;color:${d.cl};font-weight:600">פתח →</span></a>`});h+=`</div>`}
+  // Stay
   if(d.stay){h+=`<div style="margin:12px 16px 0;padding:14px;background:${d.cl}06;border:1px solid ${d.cl}18;border-radius:14px"><div style="font-size:13px;font-weight:800">🏠 לינה</div><div style="font-size:12px;color:#666;margin-top:2px">${d.stay}</div></div>`}
   el.innerHTML=h;
-  setTimeout(()=>mkMap(`mapDay${d.day}`,d),100);
+  setTimeout(()=>mkDayMap('mapDay',d),150);
 }
 
-// ===== RENDER BUDGET =====
+// ===== BUDGET =====
 function rB(){
   const el=document.getElementById('pB');const tot=BDG.reduce((s,b)=>s+b.a,0);
   let h=`<div class="total" style="background:linear-gradient(135deg,#1F4E79,#2E75B6)"><div style="font-size:12px;opacity:.75">סה"כ (ללא טיסות)</div><div style="font-size:42px;font-weight:900">€${tot.toLocaleString()}</div><div style="font-size:11px;opacity:.6">עם טיסות: ~€8,500-9,500</div></div>`;
   BDG.forEach((b,i)=>{const p=(b.a/tot*100);h+=`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:14px;font-weight:700">${b.i} ${b.c}</span><span style="font-size:14px;font-weight:800;color:#1F4E79">€${b.a.toLocaleString()}</span></div><div class="bbar"><div class="bbar-f" style="background:hsl(${210-i*25},60%,50%);width:${p}%"></div></div><div style="font-size:10px;color:#aaa">${b.d}</div></div>`});
-  h+=`<div class="alert" style="background:#FEFCE8;border:1px solid #FDE68A"><div style="font-size:14px;font-weight:800">💡 חיסכון</div><div style="font-size:12px;color:#92400E;margin-top:4px;line-height:1.6">• גארדלנד אונליין: -72€<br>• Guestcard דולומיטים: בריכה+אוטובוסים חינם<br>• דלק fai da te<br>• Gardena Card 3 ימים</div></div>`;
+  h+=`<div class="alert" style="background:#FEFCE8;border:1px solid #FDE68A"><div style="font-size:14px;font-weight:800">💡 חיסכון</div><div style="font-size:12px;color:#92400E;margin-top:4px;line-height:1.6">• גארדלנד אונליין: -72€<br>• Guestcard דולומיטים: בריכה+אוטובוסים חינם<br>• דלק fai da te<br>• ואפורטו כרטיס יומי 25€ במקום 9.50 לנסיעה</div></div>`;
   el.innerHTML=h;
 }
 
-// ===== RENDER INFO =====
+// ===== INFO =====
 function rI(){
   const el=document.getElementById('pI');
   let h=`<h2 style="font-size:18px;font-weight:900;color:#1F4E79;text-align:center;margin-bottom:16px">📋 הזמנות + טיפים</h2>`;
   h+=`<h3 style="font-size:15px;font-weight:800;text-align:right;margin-bottom:8px">⏰ הזמנות מראש</h3>`;
   BKS.forEach(b=>{h+=`<a href="${b.u}" target="_blank" class="brow" style="background:${b.ur?'#FFF5F5':'#fff'};border-color:${b.ur?'#FCA5A5':'#eee'}"><div class="badge" style="background:${b.ur?'#EF4444':'#22C55E'}">${b.ur?'!':'✓'}</div><div style="flex:1"><div style="font-size:13px;font-weight:700">${b.w}</div><div style="font-size:11px;color:${b.ur?'#EF4444':'#888'}">${b.wh}</div></div><span style="font-size:11px;color:#2E75B6;font-weight:600">🔗</span></a>`});
-  h+=`<div class="alert" style="background:#FEF2F2;border:1px solid #FECACA;margin-top:16px"><div style="font-size:13px;font-weight:700;color:#991B1B">⚠️ ZTL — 80-335€ לכל כניסה!</div><div style="font-size:12px;color:#7F1D1D;margin-top:4px;line-height:1.5">מצלמות בכל מרכז עיר. חנו בפריפריה!<br>• מילאנו: Area C. חנו ליד מטרו<br>• ורונה: חניון Cittadella<br>• סירמיונה: לפני 10:00 או מעבורת</div></div>`;
-  h+=`<h3 style="font-size:15px;font-weight:800;text-align:right;margin-top:16px;margin-bottom:8px">🌤️ מזג אוויר</h3>`;
+  h+=`<div class="alert" style="background:#FEF2F2;border:1px solid #FECACA;margin-top:16px"><div style="font-size:13px;font-weight:700;color:#991B1B">⚠️ ZTL — 80-335€ לכל כניסה!</div><div style="font-size:12px;color:#7F1D1D;margin-top:4px;line-height:1.5">מצלמות בכל מרכז עיר. חנו בפריפריה!<br>• מילאנו: Area C. מטרו<br>• ורונה: Cittadella<br>• סירמיונה: לפני 10:00<br>• ונציה: חניון Tronchetto חובה!</div></div>`;
   [{a:"אגמים",t:"18-24°C",i:"☀️"},{a:"אורטיזיי",t:"13-20°C",i:"⛅"},{a:"פסגות 2,000+",t:"5-13°C",i:"🥶"}].forEach(w=>{h+=`<div style="display:flex;justify-content:space-between;padding:10px 14px;background:#fff;border:1px solid #eee;border-radius:12px;margin-bottom:6px"><span style="font-size:13px;font-weight:600">${w.a}</span><span style="font-size:14px;font-weight:700;color:#1F4E79">${w.i} ${w.t}</span></div>`});
   [{n:"Google Maps",d:"מפות אופליין!",i:"🗺️"},{n:"Waze",d:"מצלמות",i:"📍"},{n:"EasyPark",d:"חניה",i:"🅿️"},{n:"Gardaland",d:"תורים",i:"🎢"}].forEach(a=>{h+=`<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:#F8F9FA;border-radius:10px;margin-bottom:6px"><span style="font-size:20px">${a.i}</span><div><div style="font-size:12px;font-weight:700">${a.n}</div><div style="font-size:10px;color:#888">${a.d}</div></div></div>`});
-  ["חניה: לבן=חינם, כחול=תשלום, צהוב=אסור","דלק: Gasolio=דיזל. fai da te חוסך","בוסטר לרומי חובה (<150 ס\"מ)","רישיון בינלאומי חובה","הצהירו שוויץ בהשכרה","גיר אוטומט להרים"].forEach((t,i)=>{h+=`<div style="padding:8px 12px;background:${i%2?'#fff':'#F0F9FF'};border-radius:10px;margin-bottom:4px;font-size:12px">• ${t}</div>`});
+  ["חניה: לבן=חינם, כחול=תשלום, צהוב=אסור","דלק: Gasolio=דיזל. fai da te חוסך","בוסטר לרומי חובה (<150 ס\"מ)","רישיון בינלאומי חובה","הצהירו שוויץ בהשכרה","גיר אוטומט להרים","ונציה: אין רכב! רק ואפורטו"].forEach((t,i)=>{h+=`<div style="padding:8px 12px;background:${i%2?'#fff':'#F0F9FF'};border-radius:10px;margin-bottom:4px;font-size:12px">• ${t}</div>`});
   h+=`<div style="text-align:center;margin-top:24px;padding:16px;background:linear-gradient(135deg,#1F4E7908,#2E75B608);border-radius:16px"><div style="font-size:32px">🇮🇹</div><div style="font-size:18px;font-weight:900;color:#1F4E79">!צוקרמניה באיטליה</div><div style="font-size:13px;color:#888">רועי • עדי • רומי • נועם • עמית • מאיה</div></div>`;
   el.innerHTML=h;
 }
