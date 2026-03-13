@@ -5,89 +5,169 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1F4E79">
+<meta name="theme-color" content="#0A1628">
 <title>🇮🇹 צוקרמניה באיטליה 2026</title>
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--b:#1F4E79;--lb:#2E75B6;--bg:#F5F6F8}
+:root{
+  --bg:#FAF7F2;--bg2:#F3EDE4;
+  --navy:#0A1628;--navy2:#142238;--gold:#D4A853;--gold2:#C49A42;--goldL:#F5E6C8;
+  --txt:#1A1A2E;--txt2:#4A4A5A;--txt3:#8A8A9A;
+  --glass:rgba(255,255,255,.72);--glass2:rgba(255,255,255,.45);
+  --shadow:0 8px 32px rgba(10,22,40,.08);--shadow2:0 4px 16px rgba(10,22,40,.06);
+  --r:20px;--r2:14px;--r3:10px;
+  --blur:saturate(180%) blur(20px);
+  --milan:#E8666A;--como:#3ABFAD;--dolo:#4A9BD9;--garda:#7BAE7F;--venice:#1E3A5F;--swiss:#D94040;
+}
 html{scroll-behavior:smooth}
-body{font-family:'Heebo',sans-serif;background:var(--bg);color:#333;max-width:430px;margin:0 auto;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--txt);max-width:430px;margin:0 auto;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;position:relative}
+/* Grain texture overlay */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")}
 button{font-family:inherit;cursor:pointer}a{text-decoration:none;color:inherit}
 .hide{display:none!important}
-.hdr{position:sticky;top:0;z-index:50;background:rgba(245,246,248,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.05);padding:max(env(safe-area-inset-top),10px) 16px 10px;text-align:center}
-.hdr h1{font-size:15px;font-weight:800;color:var(--b)}
-.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);border-top:1px solid rgba(0,0,0,.06);display:flex;justify-content:space-around;padding:6px 0 max(env(safe-area-inset-bottom),10px);z-index:100}
-.tb{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 10px;opacity:.38;transition:all .25s;font-size:9px;font-weight:700;color:#888}
-.tb.on{opacity:1;transform:scale(1.1);color:var(--b)}
-.tb i{font-size:22px;font-style:normal}
-.map-wrap{position:relative;width:calc(100% - 32px);margin:0 auto 12px;border-radius:16px;overflow:hidden;border:2px solid rgba(0,0,0,.08)}
-.map-wrap .mapboxgl-map{width:100%;height:260px;transition:height .4s}
-.map-wrap.exp{position:relative!important;width:100%!important;height:100%!important;max-width:none!important;margin:0!important;padding:0!important;border-radius:0!important;border:none!important}
+h1,h2,h3,.display{font-family:'Playfair Display','Heebo',serif}
+
+/* HEADER — frosted glass */
+.hdr{position:sticky;top:0;z-index:50;background:rgba(250,247,242,.85);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid rgba(212,168,83,.15);padding:max(env(safe-area-inset-top),12px) 16px 10px;text-align:center}
+.hdr h1{font-size:14px;font-weight:700;color:var(--navy);font-family:'Heebo',sans-serif;letter-spacing:.3px}
+
+/* TABS — gold accent, frosted */
+.tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(250,247,242,.88);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-top:1px solid rgba(212,168,83,.12);display:flex;justify-content:space-around;padding:6px 0 max(env(safe-area-inset-bottom),10px);z-index:100}
+.tb{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 10px;opacity:.35;transition:all .35s cubic-bezier(.4,0,.2,1);font-size:9px;font-weight:700;color:var(--navy)}
+.tb.on{opacity:1;transform:scale(1.08);color:var(--gold2)}
+.tb.on i{filter:drop-shadow(0 2px 4px rgba(212,168,83,.4))}
+.tb i{font-size:22px;font-style:normal;transition:all .35s}
+
+/* PAGE TRANSITIONS */
+.page{opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s ease}
+.page.active{opacity:1;transform:none}
+
+/* GLASS CARD */
+.gcard{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;margin-bottom:14px;transition:transform .2s}
+.gcard:active{transform:scale(.985)}
+
+/* MAP */
+.map-wrap{position:relative;width:calc(100% - 32px);margin:0 auto 14px;border-radius:var(--r);overflow:hidden;border:1px solid rgba(212,168,83,.2);box-shadow:var(--shadow)}
+.map-wrap .mapboxgl-map{width:100%;height:260px}
 .map-wrap.exp .mapboxgl-map{width:100%!important;height:100%!important}
-.fs-btn{position:absolute;top:10px;right:10px;z-index:10;width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.1);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-.fs-btn:active{transform:scale(.9)}
-.cls-fs{position:fixed;top:max(env(safe-area-inset-top),16px);right:16px;z-index:10000;width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.7);color:#fff;border:2px solid rgba(255,255,255,.3);font-size:24px;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);cursor:pointer}
-.cls-fs:active{transform:scale(.85)}
+.map-wrap.exp{position:relative!important;width:100%!important;height:100%!important;max-width:none!important;margin:0!important;border-radius:0!important;border:none!important}
+.fs-btn{position:absolute;top:12px;right:12px;z-index:10;width:36px;height:36px;border-radius:var(--r3);background:var(--glass);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;font-size:16px;box-shadow:var(--shadow2);transition:all .2s}
+.fs-btn:active{transform:scale(.88)}
+.cls-fs{position:fixed;top:16px;right:16px;z-index:100000;width:48px;height:48px;border-radius:50%;background:rgba(10,22,40,.7);color:#fff;border:2px solid rgba(255,255,255,.25);font-size:24px;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);box-shadow:0 4px 20px rgba(0,0,0,.3)}
 .map-wrap.exp .cls-fs{display:flex}
 .map-wrap.exp .fs-btn{display:none}
 .map-wrap.exp .ml{display:none}
-.ml{position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,.55);color:#fff;border-radius:10px;padding:5px 10px;font-size:10px;text-align:center;font-weight:600;z-index:5}
-.map-popup .mapboxgl-popup-content{border-radius:12px;padding:8px 12px;box-shadow:0 4px 20px rgba(0,0,0,.2);max-width:220px;direction:rtl;text-align:right;font-family:Heebo,sans-serif}
-.sch-item{display:flex;gap:10px;padding:8px 0;border-radius:12px;transition:all .25s;cursor:pointer}
-.sch-item:active{transform:scale(.98)}
-.sch-item.on{background:rgba(0,0,0,.04);padding:8px 10px;margin:0 -10px 2px}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.7)}70%{box-shadow:0 0 0 12px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
-.mkr{width:28px;height:28px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.3);transition:all .3s;cursor:pointer}
-.mkr.on{animation:pulse 1.5s infinite;transform:scale(1.3)}
-.dsel{display:flex;overflow-x:auto;gap:5px;padding:10px 10px 6px;scrollbar-width:none}
+.ml{position:absolute;bottom:10px;left:10px;right:10px;background:rgba(10,22,40,.6);color:var(--goldL);border-radius:var(--r3);padding:6px 12px;font-size:10px;text-align:center;font-weight:600;z-index:5;backdrop-filter:blur(4px)}
+.map-popup .mapboxgl-popup-content{border-radius:var(--r2);padding:10px 14px;box-shadow:var(--shadow);max-width:220px;direction:rtl;text-align:right;font-family:Heebo,sans-serif;border:1px solid rgba(212,168,83,.15)}
+
+/* SCHEDULE */
+.sch-item{display:flex;gap:12px;padding:10px 0;border-radius:var(--r2);transition:all .3s cubic-bezier(.4,0,.2,1);cursor:pointer;position:relative}
+.sch-item:active{transform:scale(.97)}
+.sch-item.on{background:var(--goldL);padding:10px 12px;margin:0 -12px 2px;box-shadow:0 4px 16px rgba(212,168,83,.15)}
+.sch-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:17px;transition:all .3s}
+.sch-item.on .sch-ico{transform:scale(1.15);box-shadow:0 4px 12px rgba(0,0,0,.12)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(212,168,83,.5)}70%{box-shadow:0 0 0 14px rgba(212,168,83,0)}100%{box-shadow:0 0 0 0 rgba(212,168,83,0)}}
+.mkr{width:30px;height:30px;border-radius:50%;border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.25);transition:all .3s;cursor:pointer}
+.mkr.on{animation:pulse 1.5s infinite;transform:scale(1.35)}
+
+/* DAY SELECTOR */
+.dsel{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;scrollbar-width:none}
 .dsel::-webkit-scrollbar{display:none}
-.dsel button{min-width:44px;height:44px;border-radius:12px;border:1px solid #ddd;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;font-family:inherit}
-.hero{padding:20px 16px 16px;color:#fff;text-align:center}
-.lrow{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:#fff;border:1px solid #eee;border-radius:12px;margin-bottom:6px}
-.lrow:active{background:#f8f8f8}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-.total{border-radius:20px;padding:20px 16px;color:#fff;text-align:center;margin-bottom:16px}
-.bbar{background:#f0f0f0;border-radius:6px;height:10px;overflow:hidden;margin:3px 0 2px}
-.bbar-f{height:100%;border-radius:6px;transition:width 1s}
-.alert{border-radius:14px;padding:14px;margin-bottom:12px}
-.card{background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06);box-shadow:0 2px 12px rgba(0,0,0,.05);padding:14px;margin-bottom:12px}
-/* PHOTO MODAL */
-.modal{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px}
+.dsel button{min-width:46px;height:46px;border-radius:var(--r2);border:1.5px solid rgba(212,168,83,.2);background:var(--glass);backdrop-filter:blur(8px);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;font-family:inherit;transition:all .25s}
+.dsel button.on{border-color:var(--gold);background:var(--goldL);box-shadow:0 4px 16px rgba(212,168,83,.2)}
+.dsel button span:first-child{font-size:15px}
+.dsel button span:last-child{font-size:9px;font-weight:800}
+
+/* HERO */
+.hero{padding:24px 20px 20px;color:#fff;text-align:center;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.3));pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.hero .ico{font-size:42px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2))}
+.hero h2{font-size:24px;font-weight:800;margin:6px 0 2px;text-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hero .sub{font-size:12px;opacity:.85;font-weight:300}
+
+/* LINKS */
+.lrow{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--glass);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.5);border-radius:var(--r2);margin-bottom:7px;transition:all .2s;box-shadow:var(--shadow2)}
+.lrow:active{background:var(--goldL);transform:scale(.98)}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+
+/* BUDGET */
+.bbar{background:rgba(10,22,40,.06);border-radius:8px;height:8px;overflow:hidden;margin:4px 0}
+.bbar-f{height:100%;border-radius:8px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.total{border-radius:var(--r);padding:24px 20px;color:#fff;text-align:center;margin-bottom:16px;position:relative;overflow:hidden}
+.total::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.12),transparent 60%);pointer-events:none}
+
+/* PHOTO */
+.modal{position:fixed;inset:0;z-index:10000;background:rgba(10,22,40,.92);display:none;align-items:center;justify-content:center;flex-direction:column;padding:20px;backdrop-filter:blur(8px)}
 .modal.show{display:flex}
-.modal img{max-width:100%;max-height:70vh;border-radius:12px;object-fit:cover}
-.modal .mc{color:#fff;font-size:14px;font-weight:700;margin-top:10px;text-align:center}
-.modal .mx{position:absolute;top:max(env(safe-area-inset-top),12px);right:12px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;border:none;font-size:22px;display:flex;align-items:center;justify-content:center}
-/* PHOTO THUMB */
-.ph-thumb{width:60px;height:60px;border-radius:10px;object-fit:cover;cursor:pointer;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:transform .2s;flex-shrink:0}
-.ph-thumb:active{transform:scale(.9)}
-/* CHECK */
-.chk{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0;cursor:pointer}
-.chk-box{width:24px;height:24px;border-radius:8px;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;flex-shrink:0}
-.chk.done .chk-box{background:#22C55E;border-color:#22C55E;color:#fff}
-.chk.done .chk-txt{text-decoration:line-through;color:#aaa}
-/* WA BTN */
-.wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:#25D366;color:#fff;border-radius:14px;border:none;font-size:14px;font-weight:700;width:100%;margin-top:12px;font-family:inherit}
-.wa-btn:active{opacity:.8}
+.modal img{max-width:100%;max-height:70vh;border-radius:var(--r);object-fit:cover;box-shadow:0 16px 48px rgba(0,0,0,.4)}
+.modal .mc{color:var(--goldL);font-size:15px;font-weight:600;margin-top:12px;text-align:center;font-family:'Playfair Display',serif}
+.modal .mx{position:absolute;top:max(env(safe-area-inset-top),14px);right:14px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:22px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.ph-thumb{width:56px;height:56px;border-radius:var(--r3);object-fit:cover;cursor:pointer;border:2px solid var(--goldL);box-shadow:0 4px 12px rgba(0,0,0,.1);transition:all .25s;flex-shrink:0}
+.ph-thumb:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+
+/* CHECKLIST */
+.chk{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(212,168,83,.08);cursor:pointer;transition:all .2s}
+.chk:active{background:var(--goldL);margin:0 -8px;padding:11px 8px;border-radius:var(--r3)}
+.chk-box{width:26px;height:26px;border-radius:9px;border:2px solid rgba(212,168,83,.3);display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .25s cubic-bezier(.4,0,.2,1);flex-shrink:0}
+.chk.done .chk-box{background:var(--gold);border-color:var(--gold);color:#fff;transform:scale(1.1)}
+.chk.done .chk-txt{text-decoration:line-through;color:var(--txt3)}
+
+/* WHATSAPP */
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;background:linear-gradient(135deg,#25D366,#20BA5C);color:#fff;border-radius:var(--r2);border:none;font-size:14px;font-weight:700;width:100%;margin-top:14px;font-family:inherit;box-shadow:0 4px 16px rgba(37,211,102,.3);transition:all .2s}
+.wa-btn:active{transform:scale(.97);box-shadow:0 2px 8px rgba(37,211,102,.2)}
+
+/* SPOTIFY */
+.spotify-btn{display:flex;align-items:center;gap:10px;padding:14px;background:linear-gradient(135deg,#1DB954,#169C46);color:#fff;border-radius:var(--r2);margin-top:12px;box-shadow:0 4px 16px rgba(29,185,84,.25);transition:all .2s}
+.spotify-btn:active{transform:scale(.97)}
+
 /* WEATHER */
 .wx{display:flex;gap:8px;overflow-x:auto;padding:4px 0;scrollbar-width:none}
 .wx::-webkit-scrollbar{display:none}
-.wx-card{flex-shrink:0;background:#fff;border-radius:12px;padding:8px 12px;text-align:center;border:1px solid #eee;min-width:70px}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.page>*{animation:fadeIn .3s ease both}
-.page>*:nth-child(2){animation-delay:.04s}
-.page>*:nth-child(3){animation-delay:.08s}
+.wx-card{flex-shrink:0;background:var(--glass);backdrop-filter:blur(8px);border-radius:var(--r2);padding:10px 14px;text-align:center;border:1px solid rgba(255,255,255,.5);min-width:75px;box-shadow:var(--shadow2)}
+
+/* CANVAS */
+#cdCanvas{display:block;margin:0 auto}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+.fade-up{animation:fadeUp .5s cubic-bezier(.4,0,.2,1) both}
+.fade-up:nth-child(2){animation-delay:.06s}
+.fade-up:nth-child(3){animation-delay:.12s}
+.fade-up:nth-child(4){animation-delay:.18s}
+.fade-up:nth-child(5){animation-delay:.24s}
+.fade-up:nth-child(6){animation-delay:.3s}
+.fade-up:nth-child(7){animation-delay:.36s}
+.fade-up:nth-child(8){animation-delay:.42s}
+
+/* SECTION TITLES */
+.sec-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:10px;text-align:right;display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.sec-title::before{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(212,168,83,.3))}
+
+/* REGION BADGE */
+.reg-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;color:#fff}
+
+/* ALERT BOX */
+.alert{border-radius:var(--r2);padding:16px;margin-bottom:14px;border:1px solid}
+
+/* BASE CARD */
+.bc{border-radius:var(--r);padding:14px 10px;text-align:center;border:1.5px solid;background:var(--glass);backdrop-filter:blur(8px);transition:transform .2s;box-shadow:var(--shadow2)}
+.bc:active{transform:scale(.96)}
 </style>
 </head>
 <body>
 <div class="hdr"><h1 id="hdrT">🇮🇹 צוקרמניה באיטליה</h1></div>
-<div id="pH" class="page" style="padding:0 16px 100px"></div>
-<div id="pD" class="page hide" style="padding-bottom:100px"></div>
-<div id="pB" class="page hide" style="padding:16px 16px 100px"></div>
-<div id="pT" class="page hide" style="padding:16px 16px 100px"></div>
-<div id="pI" class="page hide" style="padding:16px 16px 100px"></div>
+<div id="pH" class="page active" style="padding:0 16px 100px"></div>
+<div id="pD" class="page" style="padding-bottom:100px"></div>
+<div id="pB" class="page" style="padding:16px 16px 100px"></div>
+<div id="pT" class="page" style="padding:16px 16px 100px"></div>
+<div id="pI" class="page" style="padding:16px 16px 100px"></div>
 <div class="tabs">
 <button class="tb on" onclick="go('H')"><i>🗺️</i>מסלול</button>
 <button class="tb" onclick="go('D')"><i>📅</i>ימים</button>
@@ -95,436 +175,238 @@ button{font-family:inherit;cursor:pointer}a{text-decoration:none;color:inherit}
 <button class="tb" onclick="go('T')"><i>🧰</i>כלים</button>
 <button class="tb" onclick="go('I')"><i>📋</i>מידע</button>
 </div>
-<!-- PHOTO MODAL -->
 <div class="modal" id="photoModal" onclick="closePh()"><button class="mx" onclick="closePh()">✕</button><img id="phImg" src=""><div class="mc" id="phCap"></div></div>
 
 <script>
 const MBT='pk.eyJ1Ijoicm9pZXoiLCJhIjoiY2t2YjVqeGZpMDNxZDJ4bXB1dWp1MTNocyJ9.3vPeZHCVkHEkxrCz6Eb4OA';
 mapboxgl.accessToken=MBT;
-const TRIP_DATE=new Date('2026-09-22T18:00:00+03:00');
+const TRIP=new Date('2026-09-22T18:00:00+03:00');
 
-// PHOTOS - Wikimedia Commons direct URLs (free, no API key)
-const PHOTO_WIKI={
-'duomo':'Milan_Cathedral',
-'galleria':'Galleria_Vittorio_Emanuele_II',
-'castello':'Sforza_Castle',
-'navigli':'Navigli',
-'como':'Bellagio,_Lombardy',
-'brunate':'Brunate',
-'swiss':'Swissminiatur',
-'foxtown':'Mendrisio',
-'bergamo':'Bergamo',
-'ortisei':'Ortisei',
-'siusi':'Seiser_Alm',
-'seceda':'Seceda',
-'braies':'Pragser_Wildsee',
-'plose':'Plose',
-'otzi':'%C3%96tzi',
-'gardaland':'Gardaland',
-'verona':'Verona_Arena',
-'sirmione':'Sirmione',
-'venezia':'Venice',
-'rialto':'Rialto_Bridge',
-'sanmarco':'St_Mark%27s_Square',
-'baldo':'Monte_Baldo',
-'safari':'Parco_Natura_Viva',
-};
-const PHOTO_LABELS={
-'duomo':'דואומו די מילאנו','galleria':'גלריה ויטוריו עמנואלה','castello':'Castello Sforzesco',
-'navigli':'Navigli','como':'בלאג\'ו — אגם קומו','brunate':'ברונאטה',
-'swiss':'Swiss Miniatur','foxtown':'FoxTown','bergamo':'ברגמו',
-'ortisei':'אורטיזיי','siusi':'אלפה די סיוזי','seceda':'סצ\'דה',
-'braies':'אגם בראייס','plose':'Plose','otzi':'מוזיאון אוצי',
-'gardaland':'גארדלנד','verona':'ארנה ורונה','sirmione':'סירמיונה',
-'venezia':'ונציה','rialto':'גשר ריאלטו','sanmarco':'סן מרקו',
-'baldo':'Monte Baldo','safari':'Parco Natura Viva'
-};
-// Cache for loaded photos
+// WIKI PHOTOS
+const PHOTO_WIKI={'duomo':'Milan_Cathedral','galleria':'Galleria_Vittorio_Emanuele_II','castello':'Sforza_Castle','navigli':'Navigli','como':'Bellagio,_Lombardy','brunate':'Brunate','swiss':'Swissminiatur','foxtown':'Mendrisio','bergamo':'Bergamo','ortisei':'Ortisei','siusi':'Seiser_Alm','seceda':'Seceda','braies':'Pragser_Wildsee','plose':'Plose','otzi':'%C3%96tzi','gardaland':'Gardaland','verona':'Verona_Arena','sirmione':'Sirmione','venezia':'Venice','rialto':'Rialto_Bridge','sanmarco':'St_Mark%27s_Square','baldo':'Monte_Baldo','safari':'Parco_Natura_Viva'};
+const PHOTO_LABELS={'duomo':'דואומו','galleria':'גלריה','castello':'Castello','navigli':'Navigli','como':'בלאג\'ו','brunate':'ברונאטה','swiss':'Swiss Miniatur','foxtown':'FoxTown','bergamo':'ברגמו','ortisei':'אורטיזיי','siusi':'אלפה','seceda':'סצ\'דה','braies':'בראייס','plose':'Plose','otzi':'אוצי','gardaland':'גארדלנד','verona':'ורונה','sirmione':'סירמיונה','venezia':'ונציה','rialto':'ריאלטו','sanmarco':'סן מרקו','baldo':'Monte Baldo','safari':'Natura Viva'};
 const PHOTOS={};
-// Load photo from Wikipedia
-async function loadWikiPhoto(key){
-  if(PHOTOS[key])return PHOTOS[key];
-  const article=PHOTO_WIKI[key];
-  if(!article)return null;
-  try{
-    const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+article);
-    const d=await r.json();
-    if(d.thumbnail&&d.thumbnail.source){
-      const url=d.thumbnail.source.replace(/\/\d+px-/,'/600px-');
-      PHOTOS[key]=[url,PHOTO_LABELS[key]||key];
-      return PHOTOS[key];
-    }
-  }catch(e){}
-  return null;
-}
-// Preload all photos
-async function preloadPhotos(){
-  const keys=Object.keys(PHOTO_WIKI);
-  await Promise.allSettled(keys.map(k=>loadWikiPhoto(k)));
-}
-preloadPhotos();
-
-// Map photo keys to schedule items
-const SCH_PHOTOS={
-'דואומו':'duomo','גלריה':'galleria','Castello':'castello','Navigli':'navigli',
-'ברונאטה':'brunate','בלאג\'ו':'como','Swiss':'swiss','FoxTown':'foxtown',
-'ברגמו':'bergamo','אורטיזיי':'ortisei','Mont Sëuc':'siusi','אלפה':'siusi',
-'סצ\'דה':'seceda','Fermeda':'seceda','בראייס':'braies','Plose':'plose',
-'אוצי':'otzi','Peppa':'gardaland','Oblivion':'gardaland','Mammut':'gardaland',
-'SEA LIFE':'gardaland','ארנה':'verona','יוליה':'verona','סירמיונה':'sirmione',
-'סן מרקו':'sanmarco','ריאלטו':'rialto','גונדולה':'venezia','מוראנו':'venezia',
-'Tronchetto':'venezia','Monte Baldo':'baldo','Franciacorta':'foxtown',
-'ספארי':'safari','דינוזאורים':'safari','Natura':'safari','ברדולינו':'como',
-'Eataly':'duomo','מוזיאון המדע':'castello','La Rinascente':'duomo',
-'Buenos':'galleria','Monte Brè':'swiss','לוגאנו':'swiss',
-'Mountaincarts':'plose','מזחלת':'plose'
-};
-
-function getPhoto(actName){
-  for(const[k,v]of Object.entries(SCH_PHOTOS)){if(actName.includes(k))return PHOTOS[v]||null;}
-  return null;
-}
+async function loadPh(k){if(PHOTOS[k])return PHOTOS[k];const a=PHOTO_WIKI[k];if(!a)return null;try{const r=await fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+a);const d=await r.json();if(d.thumbnail){const u=d.thumbnail.source.replace(/\/\d+px-/,'/600px-');PHOTOS[k]=[u,PHOTO_LABELS[k]||k];return PHOTOS[k];}}catch(e){}return null;}
+async function preload(){await Promise.allSettled(Object.keys(PHOTO_WIKI).map(k=>loadPh(k)))}
+preload();
+const SCH_PH={'דואומו':'duomo','גלריה':'galleria','Castello':'castello','Navigli':'navigli','ברונאטה':'brunate','בלאג\'ו':'como','Swiss':'swiss','FoxTown':'foxtown','ברגמו':'bergamo','אורטיזיי':'ortisei','Mont Sëuc':'siusi','אלפה':'siusi','סצ\'דה':'seceda','Fermeda':'seceda','בראייס':'braies','Plose':'plose','אוצי':'otzi','Peppa':'gardaland','Oblivion':'gardaland','Mammut':'gardaland','SEA LIFE':'gardaland','ארנה':'verona','יוליה':'verona','סירמיונה':'sirmione','סן מרקו':'sanmarco','ריאלטו':'rialto','גונדולה':'venezia','מוראנו':'venezia','Tronchetto':'venezia','Monte Baldo':'baldo','Franciacorta':'foxtown','ספארי':'safari','דינוזאורים':'safari','Natura':'safari','Eataly':'duomo','מוזיאון המדע':'castello','La Rinascente':'duomo','Buenos':'galleria','Monte Brè':'swiss','לוגאנו':'swiss','Mountaincarts':'plose','מזחלת':'plose'};
+function getPh(n){for(const[k,v]of Object.entries(SCH_PH)){if(n.includes(k))return PHOTOS[v]?v:null;}return null;}
 
 const DAYS=[
-{day:1,dt:"22/9",t:"הגעה למילאנו",ic:"✈️",base:"מילאנו",cl:"#FF6B6B",gr:"linear-gradient(135deg,#FF6B6B,#ee5a24)",rt:"מלפנסה → מילאנו (50 ק\"מ)",drv:"50 ק\"מ",cost:"200€",stay:"מלון NYX Milan — 150-250€/לילה",zoom:9,center:[8.96,45.54],wxLat:45.46,wxLon:9.19,
-sc:[{t:"21:00",a:"נחיתה מלפנסה",d:"הגרה+מזוודות",i:"✈️",ln:[8.728,45.623]},{t:"21:45",a:"איסוף רכב",d:"טרמינל 1",i:"🚗",ln:[8.728,45.623]},{t:"22:30",a:"נסיעה למלון",d:"50 ק\"מ",i:"🛣️"},{t:"23:15",a:"צ'ק-אין",d:"",i:"🏨",ln:[9.199,45.484]}],lk:[{n:"NYX Hotel",u:"https://www.booking.com/hotel/it/nyx-milan.html"}]},
-
-{day:2,dt:"23/9",t:"יום מלא במילאנו!",ic:"🏛️",base:"מילאנו",cl:"#FF6B6B",gr:"linear-gradient(135deg,#FF6B6B,#ee5a24)",rt:"דואומו→גלריה→Castello→Eataly→Navigli",drv:"מטרו",cost:"~400€",stay:"מלון NYX",zoom:12.5,center:[9.185,45.467],wxLat:45.46,wxLon:9.19,
-sc:[{t:"9:15",a:"דואומו + גג!",d:"135 צריחים! 14€",i:"⛪",ln:[9.192,45.464],u:"https://www.duomomilano.it/en/visit/tickets/"},{t:"10:45",a:"גלריה ויטוריו עמנואלה",d:"חינם!",i:"🏪",ln:[9.190,45.466]},{t:"11:15",a:"Castello + Parco Sempione",d:"רומי תרוץ!",i:"🏰",ln:[9.179,45.470]},{t:"12:30",a:"Eataly Milano!",d:"3 קומות! 15-25€",i:"🍕",ln:[9.184,45.479],u:"https://www.eataly.net"},{t:"14:00",a:"עדי+מאיה: Corso Buenos Aires",d:"1.6 ק\"מ קניות!",i:"🛍️",ln:[9.210,45.480]},{t:"14:00",a:"רועי+נועם+רומי: מוזיאון המדע",d:"צוללת! 10€",i:"🔬",ln:[9.171,45.462],u:"https://www.museoscienza.org/en"},{t:"18:00",a:"Navigli — תעלות!",d:"ארוחת ערב",i:"🌙",ln:[9.178,45.453]}],lk:[{n:"דואומו",u:"https://www.duomomilano.it/en/visit/tickets/"},{n:"מוזיאון המדע",u:"https://www.museoscienza.org/en"}]},
-
-{day:3,dt:"24/9",t:"מילאנו → אגם קומו",ic:"⛴️",base:"קומו",cl:"#4ECDC4",gr:"linear-gradient(135deg,#4ECDC4,#2ea89e)",rt:"מילאנו→קומו→ברונאטה→בלאג'ו",drv:"60 ק\"מ",cost:"~350€",stay:"דירת 3 חד\"ש קומו",zoom:9.5,center:[9.15,45.75],wxLat:45.81,wxLon:9.08,
-sc:[{t:"9:30",a:"נסיעה לקומו",d:"58 ק\"מ",i:"🚗",ln:[9.077,45.808]},{t:"10:30",a:"פוניקולר ברונאטה!",d:"7€",i:"🚡",ln:[9.093,45.826],u:"https://www.funicolarecomo.it"},{t:"12:30",a:"ארוחה בקומו",d:"10-15€",i:"🍝",ln:[9.083,45.811]},{t:"15:00",a:"מעבורת לבלאג'ו!",d:"14.80€",i:"⛴️",ln:[9.263,45.977],u:"https://www.navigazionelaghi.it"},{t:"18:30",a:"שקיעה על האגם",d:"",i:"🌅",ln:[9.077,45.808]}],lk:[{n:"פוניקולר",u:"https://www.funicolarecomo.it"},{n:"מעבורות",u:"https://www.navigazionelaghi.it"}]},
-
-{day:4,dt:"25/9",t:"🇨🇭 שוויץ!",ic:"🇨🇭",base:"קומו",cl:"#E74C3C",gr:"linear-gradient(135deg,#e74c3c,#c0392b)",rt:"קומו→Swiss Miniatur→לוגאנו→FoxTown→קומו",drv:"80 ק\"מ",cost:"~500€",stay:"דירת קומו",zoom:10.5,center:[8.98,45.92],wxLat:46.0,wxLon:8.95,
-sc:[{t:"9:15",a:"Swiss Miniatur!",d:"128 דגמים! 22CHF",i:"🏔️",ln:[8.951,45.954],u:"https://www.swissminiatur.ch"},{t:"11:30",a:"לוגאנו + פארק צ'אני",d:"",i:"🌳",ln:[8.951,46.003]},{t:"13:15",a:"Monte Brè פוניקולר!",d:"26CHF",i:"🚡",ln:[8.979,46.009]},{t:"14:30",a:"FoxTown! 160+ חנויות!",d:"עדי+מאיה בגן עדן!",i:"🛍️",ln:[8.980,45.875],u:"https://www.foxtown.com"},{t:"17:15",a:"חזרה לקומו",d:"",i:"🚗",ln:[9.077,45.808]}],lk:[{n:"Swiss Miniatur",u:"https://www.swissminiatur.ch"},{n:"FoxTown",u:"https://www.foxtown.com"}]},
-
-{day:5,dt:"26/9",t:"קומו→ברגמו→דולומיטים",ic:"🏔️",base:"דולומיטים",cl:"#45B7D1",gr:"linear-gradient(135deg,#45B7D1,#2980b9)",rt:"קומו→ברגמו→אורטיזיי (4 שע')",drv:"280 ק\"מ",cost:"~300€",stay:"דירת 3 חד\"ש אורטיזיי",zoom:7.5,center:[10.4,46.05],wxLat:46.57,wxLon:11.67,
-sc:[{t:"10:00",a:"ברגמו — עיר עליונה!",d:"Piazza Vecchia!",i:"🎭",ln:[9.664,45.705]},{t:"10:30",a:"ג'לאטו סטרצ'יאטלה!",d:"הומצא כאן!",i:"🍨",ln:[9.664,45.705]},{t:"16:00",a:"הגעה לאורטיזיי!",d:"גילוף עץ, גלידה",i:"🏘️",ln:[11.671,46.575]},{t:"19:00",a:"ארוחה טירולית!",d:"Canederli, Speck",i:"🍽️",ln:[11.671,46.575]}],lk:[{n:"דירה באורטיזיי",u:"https://www.airbnb.com/s/Ortisei/homes"},{n:"Val Gardena",u:"https://www.valgardena.it/en/"}]},
-
-{day:6,dt:"27/9",t:"אלפה די סיוזי!",ic:"🌿",base:"דולומיטים",cl:"#2ECC71",gr:"linear-gradient(135deg,#2ecc71,#27ae60)",rt:"רכבל מאורטיזיי → אלפה → בריכה",drv:"רגלי!",cost:"~300€",stay:"דירת אורטיזיי",zoom:12.5,center:[11.60,46.555],wxLat:46.54,wxLon:11.56,
-sc:[{t:"8:30",a:"רכבל Mont Sëuc!",d:"39€, 0-8 חינם!",i:"🚡",ln:[11.671,46.575],u:"https://www.seiseralm.it/en"},{t:"9:00",a:"המרבד הגדול באירופה!",d:"שבילים שטוחים",i:"🏔️",ln:[11.564,46.540]},{t:"12:00",a:"ארוחה בבקתה!",d:"נוף ססולונגו!",i:"🍽️",ln:[11.555,46.535]},{t:"15:30",a:"בריכת Mar Dolomit!",d:"חינם Guestcard!",i:"🏊",ln:[11.672,46.574],u:"https://www.mardolomit.com"}],lk:[{n:"Alpe di Siusi",u:"https://www.seiseralm.it/en"}]},
-
-{day:7,dt:"28/9",t:"סצ'דה + בראייס!",ic:"⛰️",base:"דולומיטים",cl:"#8E44AD",gr:"linear-gradient(135deg,#8e44ad,#6c3483)",rt:"סצ'דה → אגם בראייס → חזרה",drv:"180 ק\"מ",cost:"~400€",stay:"דירת אורטיזיי",zoom:9.5,center:[11.85,46.63],wxLat:46.60,wxLon:11.69,
-sc:[{t:"8:15",a:"רכבל סצ'דה!",d:"52€. הזמנה מראש!",i:"🚡",ln:[11.688,46.598],u:"https://www.valgardena.it/en/active-holiday/cable-cars-lifts/"},{t:"8:45",a:"רכס Fermeda!",d:"גם רומי!",i:"📸",ln:[11.690,46.602]},{t:"12:30",a:"אגם בראייס!",d:"מים טורקיזיים!",i:"🛶",ln:[12.085,46.693],u:"https://www.prags.bz/en/"},{t:"15:00",a:"סירה!",d:"50€/30 דק'. מזומן!",i:"🚣",ln:[12.085,46.693]}],lk:[{n:"סצ'דה הזמנה!",u:"https://www.valgardena.it/en/active-holiday/cable-cars-lifts/"},{n:"אגם בראייס",u:"https://www.prags.bz/en/"}]},
-
-{day:8,dt:"29/9",t:"Plose Bob + בולצאנו → גארדה",ic:"🛷",base:"גארדה",cl:"#96CEB4",gr:"linear-gradient(135deg,#96CEB4,#6bb596)",rt:"אורטיזיי→Plose→בולצאנו→לאציזה",drv:"210 ק\"מ",cost:"~370€",stay:"דירת 3 חד\"ש+בריכה לאציזה",zoom:8,center:[11.15,46.1],wxLat:46.50,wxLon:11.35,
-sc:[{t:"9:00",a:"Plose Bob — מזחלת על פסים!",d:"Hero עם קטפולטה! 10€",i:"🛷",ln:[11.657,46.713],u:"https://www.plose.org/en/plosebob-summer/"},{t:"9:45",a:"Mountaincarts — 9 ק\"מ ירידה!",d:"15-20€. עמית+נועם!",i:"🏎️",ln:[11.657,46.713]},{t:"11:30",a:"מוזיאון אוצי!",d:"מומיה 5,300 שנה! 13€",i:"🏛️",ln:[11.350,46.500],u:"https://www.iceman.it/en/"},{t:"13:00",a:"Via dei Portici",d:"ארקדות",i:"🍎",ln:[11.354,46.498]},{t:"15:00",a:"הגעה ללאציזה!",d:"בריכה!",i:"🏊",ln:[10.735,45.506]}],lk:[{n:"Plose Bob",u:"https://www.plose.org/en/plosebob-summer/"},{n:"מוזיאון אוצי",u:"https://www.iceman.it/en/"}]},
-
-{day:9,dt:"30/9",t:"גארדלנד! 🎢",ic:"🎢",base:"גארדה",cl:"#E67E22",gr:"linear-gradient(135deg,#e67e22,#d35400)",rt:"לאציזה→גארדלנד (10 דק')",drv:"16 ק\"מ",cost:"~430€",stay:"דירת לאציזה",zoom:12.5,center:[10.72,45.48],wxLat:45.46,wxLon:10.71,
-sc:[{t:"10:00",a:"רומי — Peppa Pig!",d:"Fantasy Kingdom",i:"🐷",ln:[10.713,45.456]},{t:"10:00",a:"עמית+מאיה — Oblivion!",d:"+ Raptor!",i:"🎢",ln:[10.715,45.458]},{t:"10:00",a:"נועם — Mammut + Jumanji!",d:"",i:"🦣",ln:[10.712,45.455]},{t:"13:30",a:"Fuga da Atlantide!",d:"מים!",i:"💦",ln:[10.714,45.457]},{t:"16:00",a:"SEA LIFE!",d:"כרישים!",i:"🦈",ln:[10.710,45.454]}],lk:[{n:"גארדלנד!",u:"https://www.gardaland.it/en/tickets/"}]},
-
-{day:10,dt:"1/10",t:"ספארי + ורונה + סירמיונה",ic:"🦁",base:"גארדה",cl:"#C0392B",gr:"linear-gradient(135deg,#c0392b,#96281b)",rt:"Natura Viva→ורונה→סירמיונה",drv:"100 ק\"מ",cost:"~430€",stay:"דירת לאציזה",zoom:10,center:[10.78,45.48],wxLat:45.44,wxLon:10.99,
-sc:[{t:"8:30",a:"ספארי ברכב! Parco Natura Viva",d:"אריות! רומי! 20€",i:"🦁",ln:[10.798,45.480],u:"https://www.parconaturaviva.it/en/"},{t:"10:00",a:"דינוזאורים!",d:"בגודל טבעי!",i:"🦕",ln:[10.798,45.480]},{t:"12:00",a:"ארנה ורונה!",d:"2,000 שנה! 10€",i:"🏟️",ln:[10.994,45.439],u:"https://www.arena.it/en"},{t:"13:00",a:"בית יוליה!",d:"עדי+מאיה — מרפסת!",i:"💕",ln:[10.998,45.442]},{t:"15:00",a:"סירמיונה!",d:"טירת סקליג'ר 6€",i:"🏰",ln:[10.608,45.493],u:"https://visitsirmione.com/en/"}],lk:[{n:"Natura Viva",u:"https://www.parconaturaviva.it/en/"},{n:"ורונה",u:"https://www.arena.it/en"},{n:"סירמיונה",u:"https://visitsirmione.com/en/"}]},
-
-{day:11,dt:"2/10",t:"ונציה!",ic:"⛴️",base:"גארדה",cl:"#1A5276",gr:"linear-gradient(135deg,#1a5276,#2e86c1)",rt:"לאציזה→ונציה→סן מרקו→גונדולה→חזרה",drv:"300 ק\"מ",cost:"~500€",stay:"דירת לאציזה",zoom:8,center:[11.5,45.48],wxLat:45.44,wxLon:12.34,
-sc:[{t:"9:30",a:"חניה Tronchetto ונציה",d:"~30€/יום",i:"🅿️",ln:[12.305,45.441]},{t:"10:00",a:"ואפורטו!",d:"25€ יומי. רומי חינם!",i:"⛴️",ln:[12.338,45.434]},{t:"10:30",a:"כיכר סן מרקו!",d:"עדי+מאיה צילומים!",i:"⛪",ln:[12.338,45.434]},{t:"11:15",a:"ארמון הדוג'ה",d:"12€",i:"🏛️",ln:[12.340,45.433]},{t:"12:30",a:"גשר ריאלטו!",d:"ארוחה",i:"🌉",ln:[12.336,45.438]},{t:"14:00",a:"גונדולה!",d:"80-100€/6. עדי!",i:"🛶",ln:[12.335,45.436]},{t:"15:00",a:"מוראנו — זכוכית!",d:"",i:"🏺",ln:[12.352,45.458]},{t:"17:00",a:"חזרה",d:"1.5 שע'",i:"🚗",ln:[10.735,45.506]}],lk:[{n:"ואפורטו",u:"https://www.veneziaunica.it/en/content/buy-your-pass"},{n:"הדוג'ה",u:"https://palazzoducale.visitmuve.it/en/home/"},{n:"Tronchetto",u:"https://www.veniceparking.it/en/"}]},
-
-{day:12,dt:"3/10",t:"Monte Baldo + קניות",ic:"🪂",base:"גארדה",cl:"#3498DB",gr:"linear-gradient(135deg,#3498db,#2980b9)",rt:"לאציזה→Monte Baldo→Franciacorta",drv:"90 ק\"מ",cost:"~350€",stay:"דירת לאציזה",zoom:9.5,center:[10.5,45.6],wxLat:45.77,wxLon:10.81,
-sc:[{t:"9:15",a:"Monte Baldo רכבל 360°!",d:"22€. 1,760 מ'!",i:"🚡",ln:[10.858,45.790],u:"https://www.funiviedelbaldo.it"},{t:"9:15",a:"עמית: פראגליידינג?!",d:"~150€!",i:"🪂",ln:[10.858,45.790]},{t:"11:30",a:"מלצ'זינה",d:"טירה",i:"🏰",ln:[10.813,45.766]},{t:"14:00",a:"Franciacorta Outlet!",d:"עדי+מאיה!",i:"🛍️",ln:[10.162,45.537],u:"https://www.franciacortaoutlet.it/en/"},{t:"18:00",a:"שקיעה בברדולינו!",d:"ארוחת פרידה!",i:"🌅",ln:[10.720,45.548]}],lk:[{n:"Monte Baldo",u:"https://www.funiviedelbaldo.it"},{n:"Franciacorta",u:"https://www.franciacortaoutlet.it/en/"}]},
-
-{day:13,dt:"4/10",t:"חזרה ✈️",ic:"✈️",base:"טיסה",cl:"#DDA0DD",gr:"linear-gradient(135deg,#DDA0DD,#c070c0)",rt:"לאציזה→מלפנסה (2 שע')",drv:"185 ק\"מ",cost:"~100€",stay:null,zoom:8,center:[9.7,45.55],wxLat:45.63,wxLon:8.73,
-sc:[{t:"8:15",a:"תדלוק!",d:"ליד A4!",i:"⛽"},{t:"8:30",a:"נסיעה",d:"185 ק\"מ",i:"🚗"},{t:"10:30",a:"החזרת רכב",d:"",i:"🚗",ln:[8.728,45.623]},{t:"13:00",a:"טיסה! ✈️",d:"!Arrivederci",i:"✈️",ln:[8.728,45.623]}],lk:[]}
+{day:1,dt:"22/9",t:"הגעה למילאנו",ic:"✈️",base:"מילאנו",cl:"var(--milan)",clh:"#E8666A",gr:"linear-gradient(135deg,#E8666A,#C44E52)",rt:"מלפנסה → מילאנו",drv:"50 ק\"מ",cost:"200€",stay:"NYX Milan — 150-250€",zm:9,ct:[8.96,45.54],wLat:45.46,wLon:9.19,sc:[{t:"21:00",a:"נחיתה מלפנסה",d:"",i:"✈️",ln:[8.728,45.623]},{t:"21:45",a:"איסוף רכב",d:"טרמינל 1",i:"🚗",ln:[8.728,45.623]},{t:"23:15",a:"צ'ק-אין",d:"",i:"🏨",ln:[9.199,45.484]}],lk:[{n:"NYX Hotel",u:"https://www.booking.com/hotel/it/nyx-milan.html"}]},
+{day:2,dt:"23/9",t:"יום מלא במילאנו!",ic:"🏛️",base:"מילאנו",cl:"var(--milan)",clh:"#E8666A",gr:"linear-gradient(135deg,#E8666A,#C44E52)",rt:"דואומו→גלריה→Castello→Eataly→Navigli",drv:"מטרו",cost:"~400€",stay:"NYX Milan",zm:12.5,ct:[9.185,45.467],wLat:45.46,wLon:9.19,sc:[{t:"9:15",a:"דואומו + גג!",d:"135 צריחים! 14€",i:"⛪",ln:[9.192,45.464],u:"https://www.duomomilano.it"},{t:"10:45",a:"גלריה ויטוריו עמנואלה",d:"חינם!",i:"🏪",ln:[9.190,45.466]},{t:"11:15",a:"Castello + Parco Sempione",d:"רומי תרוץ!",i:"🏰",ln:[9.179,45.470]},{t:"12:30",a:"Eataly Milano!",d:"3 קומות! 15-25€",i:"🍕",ln:[9.184,45.479]},{t:"14:00",a:"עדי+מאיה: Corso Buenos Aires",d:"1.6 ק\"מ קניות!",i:"🛍️",ln:[9.210,45.480]},{t:"14:00",a:"רועי+נועם+רומי: מוזיאון המדע",d:"צוללת! 10€",i:"🔬",ln:[9.171,45.462]},{t:"18:00",a:"Navigli — תעלות!",d:"ארוחת ערב",i:"🌙",ln:[9.178,45.453]}],lk:[{n:"דואומו",u:"https://www.duomomilano.it"},{n:"מוזיאון המדע",u:"https://www.museoscienza.org/en"}]},
+{day:3,dt:"24/9",t:"מילאנו → אגם קומו",ic:"⛴️",base:"קומו",cl:"var(--como)",clh:"#3ABFAD",gr:"linear-gradient(135deg,#3ABFAD,#2EA08E)",rt:"מילאנו→קומו→ברונאטה→בלאג'ו",drv:"60 ק\"מ",cost:"~350€",stay:"דירת 3 חד\"ש קומו",zm:9.5,ct:[9.15,45.75],wLat:45.81,wLon:9.08,sc:[{t:"9:30",a:"נסיעה לקומו",d:"58 ק\"מ",i:"🚗",ln:[9.077,45.808]},{t:"10:30",a:"פוניקולר ברונאטה!",d:"7€",i:"🚡",ln:[9.093,45.826],u:"https://www.funicolarecomo.it"},{t:"12:30",a:"ארוחה בקומו",d:"",i:"🍝",ln:[9.083,45.811]},{t:"15:00",a:"מעבורת לבלאג'ו!",d:"14.80€",i:"⛴️",ln:[9.263,45.977]},{t:"18:30",a:"שקיעה על האגם",d:"",i:"🌅",ln:[9.077,45.808]}],lk:[{n:"פוניקולר",u:"https://www.funicolarecomo.it"},{n:"מעבורות",u:"https://www.navigazionelaghi.it"}]},
+{day:4,dt:"25/9",t:"🇨🇭 שוויץ!",ic:"🇨🇭",base:"שוויץ",cl:"var(--swiss)",clh:"#D94040",gr:"linear-gradient(135deg,#D94040,#B53333)",rt:"קומו→Swiss Miniatur→לוגאנו→FoxTown",drv:"80 ק\"מ",cost:"~500€",stay:"דירת קומו",zm:10.5,ct:[8.98,45.92],wLat:46.0,wLon:8.95,sc:[{t:"9:15",a:"Swiss Miniatur!",d:"128 דגמים! 22CHF",i:"🏔️",ln:[8.951,45.954],u:"https://www.swissminiatur.ch"},{t:"11:30",a:"לוגאנו",d:"",i:"🌳",ln:[8.951,46.003]},{t:"13:15",a:"Monte Brè!",d:"26CHF",i:"🚡",ln:[8.979,46.009]},{t:"14:30",a:"FoxTown! 160+ חנויות!",d:"עדי+מאיה!",i:"🛍️",ln:[8.980,45.875],u:"https://www.foxtown.com"},{t:"17:15",a:"חזרה",d:"",i:"🚗",ln:[9.077,45.808]}],lk:[{n:"Swiss Miniatur",u:"https://www.swissminiatur.ch"},{n:"FoxTown",u:"https://www.foxtown.com"}]},
+{day:5,dt:"26/9",t:"קומו→ברגמו→דולומיטים",ic:"🏔️",base:"דולומיטים",cl:"var(--dolo)",clh:"#4A9BD9",gr:"linear-gradient(135deg,#4A9BD9,#3A7DB5)",rt:"קומו→ברגמו→אורטיזיי",drv:"280 ק\"מ",cost:"~300€",stay:"דירת אורטיזיי",zm:7.5,ct:[10.4,46.05],wLat:46.57,wLon:11.67,sc:[{t:"10:00",a:"ברגמו — עיר עליונה!",d:"Piazza Vecchia!",i:"🎭",ln:[9.664,45.705]},{t:"16:00",a:"הגעה לאורטיזיי!",d:"",i:"🏘️",ln:[11.671,46.575]},{t:"19:00",a:"ארוחה טירולית!",d:"Canederli, Speck",i:"🍽️",ln:[11.671,46.575]}],lk:[{n:"Val Gardena",u:"https://www.valgardena.it/en/"}]},
+{day:6,dt:"27/9",t:"אלפה די סיוזי!",ic:"🌿",base:"דולומיטים",cl:"var(--dolo)",clh:"#4A9BD9",gr:"linear-gradient(135deg,#2ECC71,#27AE60)",rt:"רכבל → אלפה → בריכה",drv:"רגלי!",cost:"~300€",stay:"דירת אורטיזיי",zm:12.5,ct:[11.60,46.555],wLat:46.54,wLon:11.56,sc:[{t:"8:30",a:"רכבל Mont Sëuc!",d:"39€, 0-8 חינם!",i:"🚡",ln:[11.671,46.575],u:"https://www.seiseralm.it"},{t:"9:00",a:"המרבד הגדול באירופה!",d:"שבילים שטוחים",i:"🏔️",ln:[11.564,46.540]},{t:"12:00",a:"ארוחה בבקתה!",d:"נוף ססולונגו!",i:"🍽️",ln:[11.555,46.535]},{t:"15:30",a:"בריכת Mar Dolomit!",d:"חינם Guestcard!",i:"🏊",ln:[11.672,46.574]}],lk:[{n:"Alpe di Siusi",u:"https://www.seiseralm.it/en"}]},
+{day:7,dt:"28/9",t:"סצ'דה + בראייס!",ic:"⛰️",base:"דולומיטים",cl:"var(--dolo)",clh:"#4A9BD9",gr:"linear-gradient(135deg,#8E44AD,#6C3483)",rt:"סצ'דה → אגם בראייס",drv:"180 ק\"מ",cost:"~400€",stay:"דירת אורטיזיי",zm:9.5,ct:[11.85,46.63],wLat:46.60,wLon:11.69,sc:[{t:"8:15",a:"רכבל סצ'דה!",d:"52€. הזמנה מראש!",i:"🚡",ln:[11.688,46.598],u:"https://www.valgardena.it"},{t:"8:45",a:"רכס Fermeda!",d:"גם רומי!",i:"📸",ln:[11.690,46.602]},{t:"12:30",a:"אגם בראייס!",d:"מים טורקיזיים!",i:"🛶",ln:[12.085,46.693]},{t:"15:00",a:"סירה!",d:"50€. מזומן!",i:"🚣",ln:[12.085,46.693]}],lk:[{n:"סצ'דה הזמנה!",u:"https://www.valgardena.it"},{n:"בראייס",u:"https://www.prags.bz/en/"}]},
+{day:8,dt:"29/9",t:"Plose Bob + בולצאנו → גארדה",ic:"🛷",base:"גארדה",cl:"var(--garda)",clh:"#7BAE7F",gr:"linear-gradient(135deg,#7BAE7F,#5F9463)",rt:"Plose→בולצאנו→לאציזה",drv:"210 ק\"מ",cost:"~370€",stay:"דירת לאציזה",zm:8,ct:[11.15,46.1],wLat:46.50,wLon:11.35,sc:[{t:"9:00",a:"Plose Bob — מזחלת על פסים!",d:"10€. Hero!",i:"🛷",ln:[11.657,46.713],u:"https://www.plose.org"},{t:"9:45",a:"Mountaincarts — 9 ק\"מ!",d:"15-20€",i:"🏎️",ln:[11.657,46.713]},{t:"11:30",a:"מוזיאון אוצי!",d:"5,300 שנה! 13€",i:"🏛️",ln:[11.350,46.500],u:"https://www.iceman.it"},{t:"15:00",a:"הגעה ללאציזה!",d:"",i:"🏊",ln:[10.735,45.506]}],lk:[{n:"Plose Bob",u:"https://www.plose.org"},{n:"אוצי",u:"https://www.iceman.it"}]},
+{day:9,dt:"30/9",t:"גארדלנד! 🎢",ic:"🎢",base:"גארדה",cl:"var(--garda)",clh:"#7BAE7F",gr:"linear-gradient(135deg,#E67E22,#D35400)",rt:"לאציזה→גארדלנד",drv:"16 ק\"מ",cost:"~430€",stay:"דירת לאציזה",zm:12.5,ct:[10.72,45.48],wLat:45.46,wLon:10.71,sc:[{t:"10:00",a:"רומי — Peppa Pig!",d:"",i:"🐷",ln:[10.713,45.456]},{t:"10:00",a:"עמית+מאיה — Oblivion!",d:"",i:"🎢",ln:[10.715,45.458]},{t:"10:00",a:"נועם — Mammut!",d:"",i:"🦣",ln:[10.712,45.455]},{t:"13:30",a:"Fuga da Atlantide!",d:"מים!",i:"💦",ln:[10.714,45.457]},{t:"16:00",a:"SEA LIFE!",d:"כרישים!",i:"🦈",ln:[10.710,45.454]}],lk:[{n:"גארדלנד!",u:"https://www.gardaland.it/en/tickets/"}]},
+{day:10,dt:"1/10",t:"ספארי + ורונה + סירמיונה",ic:"🦁",base:"גארדה",cl:"var(--garda)",clh:"#7BAE7F",gr:"linear-gradient(135deg,#C0392B,#96281B)",rt:"Natura Viva→ורונה→סירמיונה",drv:"100 ק\"מ",cost:"~430€",stay:"דירת לאציזה",zm:10,ct:[10.78,45.48],wLat:45.44,wLon:10.99,sc:[{t:"8:30",a:"ספארי ברכב! Parco Natura Viva",d:"20€",i:"🦁",ln:[10.798,45.480],u:"https://www.parconaturaviva.it"},{t:"10:00",a:"דינוזאורים!",d:"",i:"🦕",ln:[10.798,45.480]},{t:"12:00",a:"ארנה ורונה!",d:"2,000 שנה! 10€",i:"🏟️",ln:[10.994,45.439],u:"https://www.arena.it"},{t:"13:00",a:"בית יוליה!",d:"עדי+מאיה!",i:"💕",ln:[10.998,45.442]},{t:"15:00",a:"סירמיונה!",d:"טירה 6€",i:"🏰",ln:[10.608,45.493]}],lk:[{n:"Natura Viva",u:"https://www.parconaturaviva.it"},{n:"ורונה",u:"https://www.arena.it"}]},
+{day:11,dt:"2/10",t:"ונציה!",ic:"⛴️",base:"ונציה",cl:"var(--venice)",clh:"#1E3A5F",gr:"linear-gradient(135deg,#1E3A5F,#2E86C1)",rt:"לאציזה→ונציה→סן מרקו→גונדולה",drv:"300 ק\"מ",cost:"~500€",stay:"דירת לאציזה",zm:8,ct:[11.5,45.48],wLat:45.44,wLon:12.34,sc:[{t:"9:30",a:"חניה Tronchetto ונציה",d:"~30€",i:"🅿️",ln:[12.305,45.441]},{t:"10:30",a:"כיכר סן מרקו!",d:"צילומים!",i:"⛪",ln:[12.338,45.434]},{t:"11:15",a:"ארמון הדוג'ה",d:"12€",i:"🏛️",ln:[12.340,45.433]},{t:"12:30",a:"גשר ריאלטו!",d:"ארוחה",i:"🌉",ln:[12.336,45.438]},{t:"14:00",a:"גונדולה!",d:"80-100€/6. עדי!",i:"🛶",ln:[12.335,45.436]},{t:"15:00",a:"מוראנו — זכוכית!",d:"",i:"🏺",ln:[12.352,45.458]},{t:"17:00",a:"חזרה",d:"",i:"🚗",ln:[10.735,45.506]}],lk:[{n:"ואפורטו",u:"https://www.veneziaunica.it"},{n:"הדוג'ה",u:"https://palazzoducale.visitmuve.it"}]},
+{day:12,dt:"3/10",t:"Monte Baldo + קניות",ic:"🪂",base:"גארדה",cl:"var(--garda)",clh:"#7BAE7F",gr:"linear-gradient(135deg,#3498DB,#2980B9)",rt:"Monte Baldo→Franciacorta",drv:"90 ק\"מ",cost:"~350€",stay:"דירת לאציזה",zm:9.5,ct:[10.5,45.6],wLat:45.77,wLon:10.81,sc:[{t:"9:15",a:"Monte Baldo רכבל 360°!",d:"22€",i:"🚡",ln:[10.858,45.790],u:"https://www.funiviedelbaldo.it"},{t:"9:15",a:"עמית: פראגליידינג?!",d:"~150€!",i:"🪂",ln:[10.858,45.790]},{t:"14:00",a:"Franciacorta Outlet!",d:"עדי+מאיה!",i:"🛍️",ln:[10.162,45.537]},{t:"18:00",a:"שקיעה בברדולינו!",d:"ארוחת פרידה!",i:"🌅",ln:[10.720,45.548]}],lk:[{n:"Monte Baldo",u:"https://www.funiviedelbaldo.it"},{n:"Franciacorta",u:"https://www.franciacortaoutlet.it"}]},
+{day:13,dt:"4/10",t:"חזרה הביתה ✈️",ic:"✈️",base:"טיסה",cl:"var(--navy)",clh:"#0A1628",gr:"linear-gradient(135deg,#DDA0DD,#C070C0)",rt:"לאציזה→מלפנסה (2 שע')",drv:"185 ק\"מ",cost:"~100€",stay:null,zm:8,ct:[9.7,45.55],wLat:45.63,wLon:8.73,sc:[{t:"8:15",a:"תדלוק!",d:"ליד A4!",i:"⛽"},{t:"8:30",a:"נסיעה",d:"185 ק\"מ",i:"🚗"},{t:"10:30",a:"החזרת רכב",d:"",i:"🚗",ln:[8.728,45.623]},{t:"13:00",a:"טיסה! ✈️",d:"!Arrivederci",i:"✈️",ln:[8.728,45.623]}],lk:[]}
 ];
-
-const BAS=[{n:"מילאנו",ng:2,dt:"22-24/9",c:"#FF6B6B",i:"🏙️",tp:"מלון"},{n:"אגם קומו",ng:2,dt:"24-26/9",c:"#4ECDC4",i:"⛴️",tp:"דירה"},{n:"דולומיטים",ng:3,dt:"26-29/9",c:"#45B7D1",i:"🏔️",tp:"דירה"},{n:"אגם גארדה",ng:5,dt:"29/9-4/10",c:"#96CEB4",i:"🌊",tp:"דירה"}];
+const BAS=[{n:"מילאנו",ng:2,dt:"22-24/9",c:"var(--milan)",ch:"#E8666A",i:"🏙️"},{n:"אגם קומו",ng:2,dt:"24-26/9",c:"var(--como)",ch:"#3ABFAD",i:"⛴️"},{n:"דולומיטים",ng:3,dt:"26-29/9",c:"var(--dolo)",ch:"#4A9BD9",i:"🏔️"},{n:"אגם גארדה",ng:5,dt:"29/9-4/10",c:"var(--garda)",ch:"#7BAE7F",i:"🌊"}];
 const BDG=[{c:"לינה",a:1865,i:"🏠"},{c:"רכב+ביטוח",a:900,i:"🚗"},{c:"דלק+אגרות",a:350,i:"⛽"},{c:"אטרקציות",a:1250,i:"🎢"},{c:"אוכל",a:2000,i:"🍕"},{c:"שונות",a:400,i:"📍"}];
-const BKS=[{w:"רכבל סצ'דה",wh:"אפריל 2026",ur:1,u:"https://www.valgardena.it/en/active-holiday/cable-cars-lifts/"},{w:"Last Supper",wh:"יוני 2026",ur:1,u:"https://cenacolovinciano.vivaticket.it"},{w:"רכב 7+",wh:"3-6 חודשים",ur:1,u:"https://www.rentalcars.com"},{w:"דירות",wh:"3-4 חודשים",ur:0,u:"https://www.airbnb.com"},{w:"גארדלנד",wh:"שבועות מראש",ur:0,u:"https://www.gardaland.it/en/tickets/"},{w:"מדבקה שוויצרית",wh:"לפני הטיול",ur:0,u:"https://www.e-vignette.ch/en"}];
+const BKS=[{w:"רכבל סצ'דה",wh:"אפריל 2026",ur:1,u:"https://www.valgardena.it"},{w:"Last Supper",wh:"יוני 2026",ur:1,u:"https://cenacolovinciano.vivaticket.it"},{w:"רכב 7+",wh:"3-6 חודשים",ur:1,u:"https://www.rentalcars.com"},{w:"דירות",wh:"3-4 חודשים",ur:0,u:"https://www.airbnb.com"},{w:"גארדלנד",wh:"שבועות מראש",ur:0,u:"https://www.gardaland.it/en/tickets/"},{w:"מדבקה שוויצרית",wh:"לפני הטיול",ur:0,u:"https://www.e-vignette.ch/en"}];
+const CHKLIST=[{cat:"מסמכים",items:["דרכונים (תוקף 6+ חודשים)","רישיון בינלאומי","ביטוח נסיעות","צילומי מסמכים בטלפון","כרטיסי טיסה","אישורי הזמנות"]},{cat:"ביגוד",items:["שכבות חמות (5-13°C!)","מעיל גשם/רוח","כובע+כפפות לרכבלים","בגדי ים","נעלי הליכה","סנדלים"]},{cat:"ציוד",items:["Powerbank","מתאם שקע איטלקי","כבלי טעינה","אוזניות","בקבוקי מים","חטיפים לרכב","משחקים/טאבלט"]},{cat:"כסף+דיגיטל",items:["כרטיס אשראי","פרנקים שוויצריים","מזומן 50-100€","EasyPark","מפות אופליין"]}];
+const SPOTIFY={'מילאנו':'https://open.spotify.com/playlist/37i9dQZF1DX5UlKIjWJXwp','קומו':'https://open.spotify.com/playlist/37i9dQZF1DWVkMVYEmiApd','דולומיטים':'https://open.spotify.com/playlist/37i9dQZF1DX4H7FFUM2osB','גארדה':'https://open.spotify.com/playlist/37i9dQZF1DX5UlKIjWJXwp','ונציה':'https://open.spotify.com/playlist/37i9dQZF1DX0Tkc6ltcBfU'};
 
-const CHECKLIST=[
-{cat:"מסמכים",items:["דרכונים (תוקף 6+ חודשים)","רישיון נהיגה בינלאומי","ביטוח נסיעות","צילומי מסמכים בטלפון","כרטיסי טיסה (מודפסים)","אישורי הזמנות (דירות+רכב)"]},
-{cat:"ביגוד",items:["שכבות חמות לדולומיטים (5-13°C!)","מעיל גשם / רוח לכולם","כובע + כפפות לרכבלים","בגדי ים (אגמים + בריכות)","נעלי הליכה נוחות","סנדלים"]},
-{cat:"ציוד",items:["מטען נייד (powerbank)","מתאם שקע איטלקי","כבלי טעינה","אוזניות לטיסה","בקבוקי מים","חטיפים לרכב","שקיות הקאה (רומי ברכבל!)","משחקים/טאבלט לנסיעות"]},
-{cat:"כסף",items:["כרטיס אשראי בינלאומי","פרנקים שוויצריים (FoxTown)","מזומן אירו (50-100€)","אפליקציית EasyPark"]},
-{cat:"לפני הטיול",items:["הזמנת רכבל סצ'דה","הזמנת Last Supper","קניית מדבקת כביש שוויצרית","הורדת מפות אופליין","הזמנת כרטיסי גארדלנד","יצירת קשר עם דירות"]}
-];
-
-const SPOTIFY={
-'מילאנו':'https://open.spotify.com/playlist/37i9dQZF1DX5UlKIjWJXwp',
-'קומו':'https://open.spotify.com/playlist/37i9dQZF1DWVkMVYEmiApd',
-'דולומיטים':'https://open.spotify.com/playlist/37i9dQZF1DX4H7FFUM2osB',
-'גארדה':'https://open.spotify.com/playlist/37i9dQZF1DX5UlKIjWJXwp',
-'ונציה':'https://open.spotify.com/playlist/37i9dQZF1DX0Tkc6ltcBfU'
-};
-
-let cTab='H',cDay=0,dayMap=null,dayMarkers=[],dayPopup=null,activeSch=-1,checked={};
-try{checked=JSON.parse(localStorage.getItem('ck')||'{}');}catch(e){checked={}}
+let cTab='H',cDay=0,dayMap=null,dayMarkers=[],dayPopup=null,checked={};
+try{checked=JSON.parse(localStorage.getItem('ck')||'{}')}catch(e){checked={}}
 function saveCk(){try{localStorage.setItem('ck',JSON.stringify(checked))}catch(e){}}
 
-function go(t){cTab=t;['H','D','B','T','I'].forEach(x=>document.getElementById('p'+x).classList.toggle('hide',x!==t));
-document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('on',['H','D','B','T','I'][i]===t));
-const ts={H:'🇮🇹 צוקרמניה באיטליה',D:`${DAYS[cDay].ic} יום ${cDay+1}`,B:'💰 תקציב + מטבעות',T:'🧰 צ\'קליסט + כלים',I:'📋 מידע'};
-document.getElementById('hdrT').textContent=ts[t];window.scrollTo(0,0);if(t==='D')rD();if(t==='T')rT();}
+function go(t){
+  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.style.display='none'});
+  const el=document.getElementById('p'+t);el.style.display='block';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('active')));
+  document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('on',['H','D','B','T','I'][i]===t));
+  const ts={H:'🇮🇹 צוקרמניה באיטליה',D:`${DAYS[cDay].ic} יום ${cDay+1}`,B:'💰 תקציב',T:'🧰 כלים',I:'📋 מידע'};
+  document.getElementById('hdrT').textContent=ts[t];window.scrollTo({top:0,behavior:'instant'});
+  cTab=t;if(t==='D')rD();if(t==='T')rT();
+}
 function gD(i){cDay=i;go('D')}
+
 function toggleFS(id){
-  const w=document.getElementById(id);
-  const opening=!w.classList.contains('exp');
-  if(opening){
-    w._origParent=w.parentNode;
-    w._origNext=w.nextSibling;
-    // Create overlay on <html> element - OUTSIDE the 430px body!
-    let ov=document.getElementById('_fsOv');
-    if(!ov){
-      ov=document.createElement('div');
-      ov.id='_fsOv';
-      ov.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;background:#000';
-      document.documentElement.appendChild(ov);
-    }
-    ov.style.display='block';
-    ov.appendChild(w);
-    w.classList.add('exp');
-    document.body.style.overflow='hidden';
-  }else{
-    w.classList.remove('exp');
-    const ov=document.getElementById('_fsOv');
-    if(ov)ov.style.display='none';
-    document.body.style.overflow='';
-    if(w._origParent){
-      if(w._origNext)w._origParent.insertBefore(w,w._origNext);
-      else w._origParent.appendChild(w);
-    }
-  }
-  const doResize=()=>{
-    const me=w.querySelector('.mapboxgl-map');
-    if(me&&me.__mbMap)me.__mbMap.resize();
-    if(dayMap)dayMap.resize();
-    if(window._overviewMap)window._overviewMap.resize();
-  };
-  setTimeout(doResize,50);
-  setTimeout(doResize,300);
-  setTimeout(doResize,600);
+  const w=document.getElementById(id);const expanding=!w.classList.contains('exp');
+  if(expanding){w._op=w.parentNode;w._on=w.nextSibling;let ov=document.getElementById('_fsOv');
+    if(!ov){ov=document.createElement('div');ov.id='_fsOv';ov.style.cssText='position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;background:#000';document.documentElement.appendChild(ov)}
+    ov.style.display='block';ov.appendChild(w);w.classList.add('exp');document.body.style.overflow='hidden';
+  }else{w.classList.remove('exp');const ov=document.getElementById('_fsOv');if(ov)ov.style.display='none';document.body.style.overflow='';if(w._op){if(w._on)w._op.insertBefore(w,w._on);else w._op.appendChild(w)}}
+  const r=()=>{const m=w.querySelector('.mapboxgl-map');if(m&&m.__mbMap)m.__mbMap.resize();if(dayMap)dayMap.resize();if(window._oMap)window._oMap.resize()};
+  setTimeout(r,50);setTimeout(r,300);setTimeout(r,600);
 }
-async function showPh(key){
-  let p=PHOTOS[key];
-  if(!p)p=await loadWikiPhoto(key);
-  if(!p)return;
-  document.getElementById('phImg').src=p[0];
-  document.getElementById('phCap').textContent=p[1];
-  document.getElementById('photoModal').classList.add('show');
-}
-function closePh(){document.getElementById('photoModal').classList.remove('show');}
+async function showPh(k){let p=PHOTOS[k];if(!p)p=await loadPh(k);if(!p)return;document.getElementById('phImg').src=p[0];document.getElementById('phCap').textContent=p[1];document.getElementById('photoModal').classList.add('show')}
+function closePh(){document.getElementById('photoModal').classList.remove('show')}
 
 function flyTo(idx){
-  const d=DAYS[cDay],s=d.sc[idx];if(!s.ln)return;activeSch=idx;
+  const d=DAYS[cDay],s=d.sc[idx];if(!s.ln)return;
   document.querySelectorAll('.sch-item').forEach((el,i)=>el.classList.toggle('on',i===idx));
   dayMarkers.forEach(m=>{const el=m.getElement();if(el)el.classList.toggle('on',m._si===idx)});
   if(dayMap){dayMap.flyTo({center:s.ln,zoom:Math.max(dayMap.getZoom(),14),duration:1200,essential:true});
-  if(dayPopup)dayPopup.remove();
-  const ph=getPhoto(s.a);
+  if(dayPopup)dayPopup.remove();const ph=getPh(s.a);
   dayPopup=new mapboxgl.Popup({offset:25,closeButton:true,className:'map-popup',maxWidth:'220px'}).setLngLat(s.ln)
-    .setHTML(`<div style="font-weight:800;font-size:13px;margin-bottom:2px">${s.i} ${s.a}</div>${s.d?'<div style="font-size:11px;color:#666">'+s.d+'</div>':''}${ph?'<img src="'+ph[0]+'" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-top:6px" >':''}`)
-    .addTo(dayMap);}
+    .setHTML(`<div style="font-weight:800;font-size:13px;margin-bottom:2px">${s.i} ${s.a}</div>${s.d?'<div style="font-size:11px;color:#666">'+s.d+'</div>':''}${ph&&PHOTOS[ph]?'<img src="'+PHOTOS[ph][0]+'" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-top:6px" onerror="this.hidden=true">':''}`)
+    .addTo(dayMap)}
 }
-
-function mkDayMap(cid,d){
-  if(dayMap){dayMap.remove();dayMap=null}dayMarkers=[];dayPopup=null;activeSch=-1;
-  const map=new mapboxgl.Map({container:cid,style:'mapbox://styles/mapbox/outdoors-v12',center:d.center,zoom:d.zoom,interactive:true,attributionControl:false});
-  map.addControl(new mapboxgl.NavigationControl({showCompass:false}),'top-left');dayMap=map;
-  document.getElementById(cid).__mbMap=map;
-  map.on('load',()=>{const pts=[];
-  d.sc.forEach((s,i)=>{if(!s.ln)return;pts.push(s.ln);
-    const el=document.createElement('div');el.className='mkr';el.style.cssText=`background:${d.cl}`;el.textContent=i+1;el.onclick=()=>flyTo(i);
-    const m=new mapboxgl.Marker(el).setLngLat(s.ln).addTo(map);m._si=i;dayMarkers.push(m);});
+function mkMap(cid,d){
+  if(dayMap){dayMap.remove();dayMap=null}dayMarkers=[];dayPopup=null;
+  const map=new mapboxgl.Map({container:cid,style:'mapbox://styles/mapbox/outdoors-v12',center:d.ct,zoom:d.zm,interactive:true,attributionControl:false});
+  map.addControl(new mapboxgl.NavigationControl({showCompass:false}),'top-left');dayMap=map;document.getElementById(cid).__mbMap=map;
+  map.on('load',()=>{const pts=[];d.sc.forEach((s,i)=>{if(!s.ln)return;pts.push(s.ln);
+    const el=document.createElement('div');el.className='mkr';el.style.background=d.clh;el.textContent=i+1;el.onclick=()=>flyTo(i);
+    const m=new mapboxgl.Marker(el).setLngLat(s.ln).addTo(map);m._si=i;dayMarkers.push(m)});
   if(pts.length>=2){const c=pts.map(p=>p.join(',')).join(';');
     fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${c}?geometries=geojson&overview=full&access_token=${MBT}`)
     .then(r=>r.json()).then(data=>{if(data.routes&&data.routes[0]){
       map.addSource('rt',{type:'geojson',data:{type:'Feature',geometry:data.routes[0].geometry}});
-      map.addLayer({id:'rtb',type:'line',source:'rt',paint:{'line-color':'#fff','line-width':6,'line-opacity':.7}});
-      map.addLayer({id:'rt',type:'line',source:'rt',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':d.cl,'line-width':3.5}});
-    }}).catch(()=>{});}});
+      map.addLayer({id:'rtb',type:'line',source:'rt',paint:{'line-color':'#fff','line-width':6,'line-opacity':.6}});
+      map.addLayer({id:'rt',type:'line',source:'rt',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':d.clh,'line-width':3.5}})
+    }}).catch(()=>{})}})
 }
-
-function mkOverview(cid){
+function mkOv(cid){
   const map=new mapboxgl.Map({container:cid,style:'mapbox://styles/mapbox/outdoors-v12',center:[10.3,45.9],zoom:6.8,interactive:true,attributionControl:false});
-  window._overviewMap=map;
-  document.getElementById(cid).__mbMap=map;
-  map.addControl(new mapboxgl.NavigationControl({showCompass:false}),'top-left');
+  map.addControl(new mapboxgl.NavigationControl({showCompass:false}),'top-left');window._oMap=map;document.getElementById(cid).__mbMap=map;
   const pts=[[8.728,45.623],[9.192,45.464],[9.077,45.808],[8.951,45.954],[9.664,45.705],[11.671,46.575],[11.350,46.500],[10.735,45.506],[10.994,45.439],[10.608,45.493],[12.338,45.434],[10.858,45.790]];
   const lbl=['✈️','🏛️','⛴️','🇨🇭','🎭','🏔️','🏛️','🌊','🏟️','🏰','⛴️','🪂'];
-  const cls=['#FF6B6B','#FF6B6B','#4ECDC4','#E74C3C','#45B7D1','#45B7D1','#45B7D1','#96CEB4','#C0392B','#C0392B','#1A5276','#3498DB'];
-  map.on('load',()=>{pts.forEach((p,i)=>{
-    const el=document.createElement('div');el.style.cssText=`background:${cls[i]};color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)`;
-    el.textContent=lbl[i];new mapboxgl.Marker(el).setLngLat(p).addTo(map);});
-    const route=[[8.728,45.623],[9.192,45.464],[9.077,45.808],[8.951,45.954],[9.077,45.808],[9.664,45.705],[11.671,46.575],[11.350,46.500],[10.735,45.506],[12.338,45.434],[10.735,45.506],[8.728,45.623]];
-    const c=route.map(p=>p.join(',')).join(';');
-    fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${c}?geometries=geojson&overview=full&access_token=${MBT}`)
-    .then(r=>r.json()).then(data=>{if(data.routes&&data.routes[0]){
-      map.addSource('fr',{type:'geojson',data:{type:'Feature',geometry:data.routes[0].geometry}});
-      map.addLayer({id:'frb',type:'line',source:'fr',paint:{'line-color':'#fff','line-width':5,'line-opacity':.7}});
-      map.addLayer({id:'fr',type:'line',source:'fr',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':'#1F4E79','line-width':3}});}}).catch(()=>{});
-  });
+  const cls=['#E8666A','#E8666A','#3ABFAD','#D94040','#4A9BD9','#4A9BD9','#4A9BD9','#7BAE7F','#C0392B','#C0392B','#1E3A5F','#3498DB'];
+  map.on('load',()=>{pts.forEach((p,i)=>{const el=document.createElement('div');el.className='mkr';el.style.background=cls[i];el.style.width='26px';el.style.height='26px';el.style.fontSize='12px';el.textContent=lbl[i];new mapboxgl.Marker(el).setLngLat(p).addTo(map)});
+    const route=[[8.728,45.623],[9.192,45.464],[9.077,45.808],[8.951,45.954],[9.664,45.705],[11.671,46.575],[11.350,46.500],[10.735,45.506],[12.338,45.434],[10.735,45.506],[8.728,45.623]];
+    fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${route.map(p=>p.join(',')).join(';')}?geometries=geojson&overview=full&access_token=${MBT}`)
+    .then(r=>r.json()).then(d=>{if(d.routes&&d.routes[0]){map.addSource('fr',{type:'geojson',data:{type:'Feature',geometry:d.routes[0].geometry}});map.addLayer({id:'frb',type:'line',source:'fr',paint:{'line-color':'#fff','line-width':5,'line-opacity':.6}});map.addLayer({id:'fr',type:'line',source:'fr',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':'#0A1628','line-width':3}})}}).catch(()=>{})})
 }
 
-// COUNTDOWN
-function countdown(){
-  const now=new Date(),diff=TRIP_DATE-now;
-  if(diff<=0)return'🎉 הטיול התחיל!';
-  const d=Math.floor(diff/864e5),h=Math.floor((diff%864e5)/36e5);
-  return `${d} ימים ${h} שעות`;
+// CANVAS COUNTDOWN
+function drawCD(canvas){
+  const ctx=canvas.getContext('2d');const w=canvas.width=200,h=canvas.height=200;
+  const now=new Date(),diff=TRIP-now;
+  if(diff<=0){ctx.font='bold 24px Playfair Display';ctx.fillStyle='#D4A853';ctx.textAlign='center';ctx.fillText('!הטיול התחיל',100,105);return}
+  const days=Math.floor(diff/864e5),hrs=Math.floor((diff%864e5)/36e5),mins=Math.floor((diff%36e5)/6e4);
+  const totalDays=Math.ceil((TRIP-new Date('2025-01-01'))/864e5);
+  const progress=1-(diff/(totalDays*864e5));
+  // Clear
+  ctx.clearRect(0,0,w,h);
+  // Background ring
+  ctx.beginPath();ctx.arc(100,100,85,0,Math.PI*2);ctx.strokeStyle='rgba(212,168,83,.12)';ctx.lineWidth=8;ctx.stroke();
+  // Progress ring
+  const startAngle=-Math.PI/2;const endAngle=startAngle+progress*Math.PI*2;
+  ctx.beginPath();ctx.arc(100,100,85,startAngle,endAngle);
+  const grad=ctx.createLinearGradient(0,0,200,200);grad.addColorStop(0,'#D4A853');grad.addColorStop(1,'#C49A42');
+  ctx.strokeStyle=grad;ctx.lineWidth=8;ctx.lineCap='round';ctx.stroke();
+  // Glow dot at end
+  const dotX=100+85*Math.cos(endAngle),dotY=100+85*Math.sin(endAngle);
+  ctx.beginPath();ctx.arc(dotX,dotY,6,0,Math.PI*2);ctx.fillStyle='#D4A853';ctx.fill();
+  ctx.beginPath();ctx.arc(dotX,dotY,10,0,Math.PI*2);ctx.fillStyle='rgba(212,168,83,.25)';ctx.fill();
+  // Text
+  ctx.textAlign='center';
+  ctx.font='800 36px Playfair Display';ctx.fillStyle='#0A1628';ctx.fillText(days,100,92);
+  ctx.font='600 13px Heebo';ctx.fillStyle='#8A8A9A';ctx.fillText('ימים',100,110);
+  ctx.font='500 12px Heebo';ctx.fillStyle='#D4A853';ctx.fillText(`${hrs} שעות ${mins} דקות`,100,130);
 }
 
-// WEATHER
-async function fetchWx(lat,lon,el){
-  try{
-    const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=Europe/Rome&forecast_days=3`);
-    const data=await r.json();
-    const wc={'0':'☀️','1':'🌤️','2':'⛅','3':'☁️','45':'🌫️','48':'🌫️','51':'🌧️','53':'🌧️','55':'🌧️','61':'🌧️','63':'🌧️','65':'🌧️','71':'❄️','73':'❄️','80':'🌦️','81':'🌦️','95':'⛈️'};
-    let h='';data.daily.time.forEach((t,i)=>{
-      const code=data.daily.weathercode[i];const icon=wc[code]||'🌤️';
-      h+=`<div class="wx-card"><div style="font-size:10px;color:#888">${t.slice(5)}</div><div style="font-size:20px">${icon}</div><div style="font-size:12px;font-weight:700">${Math.round(data.daily.temperature_2m_max[i])}°</div><div style="font-size:10px;color:#888">${Math.round(data.daily.temperature_2m_min[i])}°</div></div>`;
-    });el.innerHTML=h;
-  }catch(e){el.innerHTML='<div style="font-size:11px;color:#999">מזג אוויר לא זמין</div>';}
-}
-
-// CURRENCY
-async function fetchRates(){
-  try{const r=await fetch('https://open.er-api.com/v6/latest/EUR');const d=await r.json();return{CHF:d.rates.CHF,ILS:d.rates.ILS};}
-  catch(e){return{CHF:0.93,ILS:3.95};}
-}
-
-// WHATSAPP SHARE
-function shareWA(day){
-  const d=DAYS[day];
-  let msg=`🇮🇹 *צוקרמניה באיטליה — יום ${d.day}*\n📅 ${d.dt}\n${d.ic} *${d.t}*\n🛣️ ${d.rt}\n💰 ${d.cost}\n\n📋 *לו"ז:*\n`;
-  d.sc.forEach(s=>{msg+=`${s.t} ${s.i} ${s.a}\n`});
-  msg+=`\n🏠 ${d.stay||''}`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`);
-}
+function countdown(){const d=TRIP-new Date();if(d<=0)return'🎉 הטיול התחיל!';return`${Math.floor(d/864e5)} ימים`}
+async function fetchWx(lat,lon,el){try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=Europe/Rome&forecast_days=3`);const d=await r.json();const wc={'0':'☀️','1':'🌤️','2':'⛅','3':'☁️','45':'🌫️','51':'🌧️','61':'🌧️','71':'❄️','80':'🌦️','95':'⛈️'};let h='';d.daily.time.forEach((t,i)=>{const icon=wc[d.daily.weathercode[i]]||'🌤️';h+=`<div class="wx-card"><div style="font-size:10px;color:var(--txt3)">${t.slice(5)}</div><div style="font-size:22px">${icon}</div><div style="font-size:13px;font-weight:800;color:var(--navy)">${Math.round(d.daily.temperature_2m_max[i])}°</div><div style="font-size:10px;color:var(--txt3)">${Math.round(d.daily.temperature_2m_min[i])}°</div></div>`});el.innerHTML=h}catch(e){el.innerHTML='<div style="font-size:11px;color:var(--txt3)">—</div>'}}
+async function fetchRates(){try{const r=await fetch('https://open.er-api.com/v6/latest/EUR');const d=await r.json();return{CHF:d.rates.CHF,ILS:d.rates.ILS}}catch(e){return{CHF:.93,ILS:3.95}}}
+function shareWA(day){const d=DAYS[day];let m=`🇮🇹 *צוקרמניה — יום ${d.day}*\n${d.ic} *${d.t}*\n🛣️ ${d.rt}\n💰 ${d.cost}\n\n`;d.sc.forEach(s=>{m+=`${s.t} ${s.i} ${s.a}\n`});window.open(`https://wa.me/?text=${encodeURIComponent(m)}`)}
 
 // ===== RENDER HOME =====
 function rH(){
   const el=document.getElementById('pH');
-  const cd=countdown();
-  const totalKm=1500,totalAttr=DAYS.reduce((s,d)=>s+d.sc.length,0);
-  let h=`<div style="text-align:center;padding:16px 0 8px"><div style="font-size:50px">🇮🇹</div><h1 style="font-size:28px;font-weight:900;background:linear-gradient(135deg,#1F4E79,#2E75B6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:4px 0">צוקרמניה באיטליה</h1><p style="font-size:13px;color:#888">22/9 — 4/10/2026</p><p style="font-size:12px;color:#aaa">רועי, עדי, רומי (5), נועם (10), עמית (14), מאיה (18)</p></div>`;
-  // COUNTDOWN
-  h+=`<div style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:16px;padding:14px;color:#fff;text-align:center;margin-bottom:12px"><div style="font-size:11px;opacity:.8">⏱️ ספירה לאחור</div><div style="font-size:28px;font-weight:900" id="cdTimer">${cd}</div></div>`;
+  const totalAttr=DAYS.reduce((s,d)=>s+d.sc.length,0);
+  let h=`<div class="fade-up" style="text-align:center;padding:20px 0 12px"><div style="font-size:52px;filter:drop-shadow(0 4px 8px rgba(0,0,0,.1))">🇮🇹</div><h1 class="display" style="font-size:30px;font-weight:800;color:var(--navy);margin:6px 0 2px">צוקרמניה באיטליה</h1><p style="font-size:13px;color:var(--txt3);font-weight:300">22 ספטמבר — 4 אוקטובר 2026</p><p style="font-size:12px;color:var(--gold2);font-weight:600;margin-top:4px">רועי • עדי • רומי • נועם • עמית • מאיה</p></div>`;
+  // CANVAS COUNTDOWN
+  h+=`<div class="fade-up gcard" style="text-align:center;padding:20px"><div style="font-size:11px;color:var(--gold2);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">⏱ ספירה לאחור</div><canvas id="cdCanvas" width="200" height="200"></canvas></div>`;
   // DASHBOARD
-  h+=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px">`;
-  [{v:'13',l:'ימים',i:'📅'},{v:totalKm,l:"ק\"מ",i:'🚗'},{v:totalAttr,l:'פעילויות',i:'🎯'},{v:'4',l:'מדינות',i:'🌍'}].forEach(s=>{
-    h+=`<div style="background:#fff;border-radius:12px;padding:8px 4px;text-align:center;border:1px solid #eee"><div style="font-size:16px">${s.i}</div><div style="font-size:18px;font-weight:900;color:#1F4E79">${s.v}</div><div style="font-size:9px;color:#888">${s.l}</div></div>`;
+  h+=`<div class="fade-up" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">`;
+  [{v:'13',l:'ימים',i:'📅'},{v:'1,500',l:"ק\"מ",i:'🚗'},{v:totalAttr,l:'פעילויות',i:'🎯'},{v:'4',l:'מדינות',i:'🌍'}].forEach(s=>{
+    h+=`<div class="gcard" style="padding:10px 4px;text-align:center;margin-bottom:0"><div style="font-size:18px">${s.i}</div><div style="font-size:20px;font-weight:900;color:var(--navy)">${s.v}</div><div style="font-size:9px;color:var(--txt3);font-weight:600">${s.l}</div></div>`
   });h+=`</div>`;
   // BASES
-  h+=`<div class="grid2">`;BAS.forEach(b=>{h+=`<div class="bc" style="background:linear-gradient(145deg,${b.c}15,white);border-color:${b.c}30"><div style="font-size:28px">${b.i}</div><div style="font-size:15px;font-weight:800">${b.n}</div><div style="font-size:11px;color:#888">${b.ng} לילות</div><div style="font-size:10px;font-weight:700;color:${b.c}">${b.dt}</div></div>`});h+=`</div>`;
+  h+=`<div class="fade-up grid2">`;BAS.forEach(b=>{h+=`<div class="bc" style="border-color:${b.ch}30;background:linear-gradient(145deg,${b.ch}10,var(--glass))"><div style="font-size:30px">${b.i}</div><div style="font-size:16px;font-weight:800;margin-top:4px">${b.n}</div><div style="font-size:11px;color:var(--txt3)">${b.ng} לילות</div><div style="font-size:10px;font-weight:700;color:${b.ch}">${b.dt}</div></div>`});h+=`</div>`;
   // MAP
-  h+=`<div class="map-wrap" id="mwO"><button class="fs-btn" onclick="toggleFS('mwO')">⛶</button><button class="cls-fs" onclick="toggleFS('mwO')">✕</button><div id="mapO"></div><div class="ml">⛶ מסך מלא • גררו וזומו</div></div>`;
+  h+=`<div class="fade-up map-wrap" id="mwO"><button class="fs-btn" onclick="toggleFS('mwO')">⛶</button><button class="cls-fs" onclick="toggleFS('mwO')">✕</button><div id="mapO"></div><div class="ml">⛶ מסך מלא • גררו וזומו</div></div>`;
   // BUDGET
-  h+=`<div class="total" style="background:linear-gradient(135deg,#1F4E79,#2E75B6)"><div style="font-size:12px;opacity:.75">תקציב (ללא טיסות)</div><div style="font-size:36px;font-weight:900">~€7,000</div></div>`;
-  // DAY LIST
-  h+=`<h2 style="font-size:16px;font-weight:800;margin-bottom:8px;text-align:right">📅 לחצו ליום מפורט</h2>`;
-  DAYS.forEach(d=>{h+=`<button onclick="gD(${d.day-1})" style="width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;background:#fff;border:1px solid #eee;border-radius:14px;margin-bottom:6px;text-align:right;font-family:inherit"><div style="width:38px;height:38px;border-radius:12px;background:${d.gr};display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">${d.ic}</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700">יום ${d.day} — ${d.t}</div><div style="font-size:10px;color:#999">${d.dt} • ${d.drv}</div></div><span style="color:#ccc">←</span></button>`});
+  h+=`<div class="fade-up total" style="background:linear-gradient(135deg,var(--navy),var(--navy2))"><div style="font-size:11px;opacity:.6;letter-spacing:1px">תקציב משוער</div><div class="display" style="font-size:38px;font-weight:900">~€7,000</div><div style="font-size:11px;opacity:.5;margin-top:2px">ללא טיסות וקניות</div></div>`;
+  // DAYS
+  h+=`<div class="fade-up sec-title">לו"ז מפורט</div>`;
+  DAYS.forEach(d=>{h+=`<button onclick="gD(${d.day-1})" class="fade-up" style="width:100%;display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--glass);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.5);border-radius:var(--r2);margin-bottom:8px;text-align:right;font-family:inherit;box-shadow:var(--shadow2);transition:all .2s"><div style="width:40px;height:40px;border-radius:12px;background:${d.gr};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px ${d.clh}30">${d.ic}</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;color:var(--navy)">יום ${d.day} — ${d.t}</div><div style="font-size:10px;color:var(--txt3);margin-top:1px">${d.dt} • ${d.drv}</div></div><span style="color:var(--gold);font-size:16px">←</span></button>`});
   el.innerHTML=h;
-  setTimeout(()=>mkOverview('mapO'),150);
-  setInterval(()=>{const t=document.getElementById('cdTimer');if(t)t.textContent=countdown()},60000);
+  setTimeout(()=>{mkOv('mapO');const cv=document.getElementById('cdCanvas');if(cv)drawCD(cv)},200);
+  setInterval(()=>{const cv=document.getElementById('cdCanvas');if(cv&&cTab==='H')drawCD(cv)},60000);
 }
 
 // ===== RENDER DAY =====
 function rD(){
-  const d=DAYS[cDay];
-  document.getElementById('hdrT').textContent=`${d.ic} יום ${d.day} — ${d.t}`;
+  const d=DAYS[cDay];document.getElementById('hdrT').textContent=`${d.ic} יום ${d.day} — ${d.t}`;
   const el=document.getElementById('pD');
-  let h=`<div class="dsel">`;DAYS.forEach((day,i)=>{h+=`<button onclick="gD(${i})" class="${cDay===i?'on':''}" style="${cDay===i?'border-color:'+day.cl+';background:'+day.cl+'15':''}"><span>${day.ic}</span><span style="color:${cDay===i?day.cl:'#aaa'}">${day.day}</span></button>`});h+=`</div>`;
-  h+=`<div class="hero" style="background:${d.gr}"><div style="font-size:38px">${d.ic}</div><h2 style="font-size:22px;font-weight:900;margin:4px 0">${d.t}</h2><p style="font-size:12px;opacity:.85">יום ${d.day} • ${d.dt}</p><div style="display:flex;justify-content:center;gap:20px;margin-top:10px"><div><div style="font-size:10px;opacity:.65">נסיעה</div><div style="font-size:12px;font-weight:700">${d.drv}</div></div><div><div style="font-size:10px;opacity:.65">עלות</div><div style="font-size:12px;font-weight:700">${d.cost}</div></div></div></div>`;
-  // WEATHER
-  h+=`<div style="margin:8px 16px"><div style="font-size:12px;font-weight:700;margin-bottom:4px">🌤️ מזג אוויר (תחזית)</div><div class="wx" id="wxDay"></div></div>`;
-  // ROUTE
-  h+=`<div style="margin:8px 16px;padding:10px 14px;background:${d.cl}10;border:1px solid ${d.cl}25;border-radius:12px"><div style="font-size:12px;font-weight:700;color:${d.cl}">🛣️ ${d.rt}</div></div>`;
-  // MAP
-  h+=`<div class="map-wrap" id="mwD" style="margin:0 16px 12px"><button class="fs-btn" onclick="toggleFS('mwD')">⛶</button><button class="cls-fs" onclick="toggleFS('mwD')">✕</button><div id="mapD"></div><div class="ml">📍 לחצו פעילות → המפה תעוף!</div></div>`;
-  // SCHEDULE
-  h+=`<div style="padding:0 16px"><h3 style="font-size:15px;font-weight:800;margin-bottom:10px;text-align:right">📋 לו"ז — לחצו לניווט</h3>`;
-  d.sc.forEach((s,i)=>{
-    const ph=getPhoto(s.a);const phKey=ph?Object.entries(SCH_PHOTOS).find(([k])=>s.a.includes(k))?.[1]:null;
-    h+=`<div class="sch-item" onclick="${s.ln?'flyTo('+i+')':''}"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div style="width:36px;height:36px;border-radius:12px;background:${d.cl}12;display:flex;align-items:center;justify-content:center;font-size:16px">${s.i}</div>${i<d.sc.length-1?'<div style="width:2px;flex:1;background:'+d.cl+'18;margin-top:3px"></div>':''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span style="font-size:13px;font-weight:700">${s.a}${s.ln?' 📍':''}</span><span style="font-size:10px;font-weight:700;color:${d.cl}">${s.t}</span></div>${s.d?`<p style="font-size:11px;color:#777;margin-top:1px">${s.d}</p>`:''}${s.u?`<a href="${s.u}" target="_blank" style="font-size:11px;color:${d.cl};font-weight:600" onclick="event.stopPropagation()">🔗 כרטיסים</a>`:''}</div>${phKey?`<img src="${PHOTOS[phKey][0]}" class="ph-thumb" onerror="this.hidden=true" onclick="event.stopPropagation();showPh('${phKey}')" alt="">`:''}</div>`;
-  });h+=`</div>`;
-  // LINKS
-  if(d.lk.length){h+=`<div style="padding:8px 16px 0"><h3 style="font-size:15px;font-weight:800;margin-bottom:8px;text-align:right">🔗 קישורים</h3>`;d.lk.forEach(l=>{h+=`<a href="${l.u}" target="_blank" class="lrow"><span style="font-size:13px;font-weight:600">${l.n}</span><span style="font-size:10px;color:${d.cl};font-weight:600">פתח →</span></a>`});h+=`</div>`}
-  // STAY
-  if(d.stay){h+=`<div style="margin:12px 16px 0;padding:14px;background:${d.cl}06;border:1px solid ${d.cl}18;border-radius:14px"><div style="font-size:13px;font-weight:800">🏠 ${d.stay}</div></div>`}
-  // SPOTIFY
-  const sp=SPOTIFY[d.base];
-  if(sp){h+=`<a href="${sp}" target="_blank" style="display:flex;align-items:center;gap:10px;margin:12px 16px 0;padding:12px;background:#1DB954;color:#fff;border-radius:14px"><span style="font-size:24px">🎵</span><div><div style="font-size:13px;font-weight:700">פלייליסט ${d.base}</div><div style="font-size:10px;opacity:.8">Spotify</div></div></a>`}
-  // WHATSAPP
+  let h=`<div class="dsel">`;DAYS.forEach((day,i)=>{h+=`<button onclick="gD(${i})" class="${cDay===i?'on':''}" style="${cDay===i?'border-color:'+day.clh:''}"><span>${day.ic}</span><span style="color:${cDay===i?day.clh:'var(--txt3)'}">${day.day}</span></button>`});h+=`</div>`;
+  h+=`<div class="hero" style="background:${d.gr}"><div class="ico">${d.ic}</div><h2 class="display">${d.t}</h2><p class="sub">יום ${d.day} • ${d.dt}</p><div style="display:flex;justify-content:center;gap:24px;margin-top:12px"><div><div style="font-size:10px;opacity:.6">נסיעה</div><div style="font-size:13px;font-weight:700">${d.drv}</div></div><div><div style="font-size:10px;opacity:.6">עלות</div><div style="font-size:13px;font-weight:700">${d.cost}</div></div></div></div>`;
+  h+=`<div style="margin:10px 16px"><div style="font-size:12px;font-weight:700;color:var(--gold2);margin-bottom:4px">🌤️ תחזית</div><div class="wx" id="wxD"></div></div>`;
+  h+=`<div style="margin:8px 16px" class="gcard"><div style="font-size:12px;font-weight:700;color:${d.clh}">🛣️ ${d.rt}</div></div>`;
+  h+=`<div class="map-wrap" id="mwD" style="margin:0 16px 14px"><button class="fs-btn" onclick="toggleFS('mwD')">⛶</button><button class="cls-fs" onclick="toggleFS('mwD')">✕</button><div id="mapD"></div><div class="ml">📍 לחצו פעילות → המפה תעוף!</div></div>`;
+  h+=`<div style="padding:0 16px"><div class="sec-title">לו"ז</div>`;
+  d.sc.forEach((s,i)=>{const pk=getPh(s.a);
+    h+=`<div class="sch-item fade-up" onclick="${s.ln?'flyTo('+i+')':''}"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div class="sch-ico" style="background:${d.clh}15">${s.i}</div>${i<d.sc.length-1?`<div style="width:2px;flex:1;background:linear-gradient(${d.clh}30,${d.clh}08);margin-top:3px"></div>`:''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span style="font-size:14px;font-weight:700;color:var(--navy)">${s.a}${s.ln?' 📍':''}</span><span style="font-size:10px;font-weight:700;color:${d.clh}">${s.t}</span></div>${s.d?`<p style="font-size:11px;color:var(--txt2);margin-top:2px">${s.d}</p>`:''}${s.u?`<a href="${s.u}" target="_blank" style="font-size:11px;color:var(--gold2);font-weight:600" onclick="event.stopPropagation()">🔗 כרטיסים</a>`:''}</div>${pk?`<img class="ph-thumb" data-w="${pk}" onerror="this.hidden=true" onclick="event.stopPropagation();showPh('${pk}')">`:''}</div>`});
+  h+=`</div>`;
+  if(d.lk.length){h+=`<div style="padding:8px 16px 0"><div class="sec-title">קישורים</div>`;d.lk.forEach(l=>{h+=`<a href="${l.u}" target="_blank" class="lrow"><span style="font-size:13px;font-weight:600">${l.n}</span><span style="font-size:11px;color:var(--gold2);font-weight:600">פתח →</span></a>`});h+=`</div>`}
+  if(d.stay){h+=`<div style="margin:14px 16px 0" class="gcard"><div style="font-size:13px;font-weight:800;color:var(--navy)">🏠 ${d.stay}</div></div>`}
+  const sp=SPOTIFY[d.base];if(sp)h+=`<a href="${sp}" target="_blank" class="spotify-btn" style="margin:14px 16px 0"><span style="font-size:22px">🎵</span><div><div style="font-size:13px;font-weight:700">פלייליסט ${d.base}</div><div style="font-size:10px;opacity:.8">Spotify</div></div></a>`;
   h+=`<div style="padding:0 16px"><button class="wa-btn" onclick="shareWA(${cDay})">📱 שתף יום ${d.day} בוואטסאפ</button></div>`;
   el.innerHTML=h;
-  setTimeout(async()=>{
-    mkDayMap('mapD',d);
-    if(d.wxLat)fetchWx(d.wxLat,d.wxLon,document.getElementById('wxDay'));
-    // Load thumbnails
-    document.querySelectorAll('.ph-thumb[data-wiki]').forEach(async img=>{
-      const key=img.dataset.wiki;
-      const p=PHOTOS[key]||await loadWikiPhoto(key);
-      if(p)img.src=p[0];else img.hidden=true;
-    });
-  },150);
+  setTimeout(async()=>{mkMap('mapD',d);if(d.wLat)fetchWx(d.wLat,d.wLon,document.getElementById('wxD'));
+    document.querySelectorAll('.ph-thumb[data-w]').forEach(async img=>{const k=img.dataset.w;const p=PHOTOS[k]||await loadPh(k);if(p)img.src=p[0];else img.hidden=true})},200);
 }
 
-// ===== BUDGET + CURRENCY =====
+// ===== BUDGET =====
+let rates={};
 function rB(){
   const el=document.getElementById('pB');const tot=BDG.reduce((s,b)=>s+b.a,0);
-  let h=`<div class="total" style="background:linear-gradient(135deg,#1F4E79,#2E75B6)"><div style="font-size:12px;opacity:.75">סה"כ (ללא טיסות)</div><div style="font-size:42px;font-weight:900">€${tot.toLocaleString()}</div></div>`;
-  BDG.forEach((b,i)=>{const p=(b.a/tot*100);h+=`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:14px;font-weight:700">${b.i} ${b.c}</span><span style="font-size:14px;font-weight:800;color:#1F4E79">€${b.a.toLocaleString()}</span></div><div class="bbar"><div class="bbar-f" style="background:hsl(${210-i*25},60%,50%);width:${p}%"></div></div></div>`});
-  // CURRENCY CONVERTER
-  h+=`<div class="card"><h3 style="font-size:15px;font-weight:800;margin-bottom:10px">💱 מחשבון מטבעות</h3><div style="display:flex;gap:8px;margin-bottom:10px"><input type="number" id="ccAmt" value="100" style="flex:1;padding:10px;border:2px solid #ddd;border-radius:12px;font-size:16px;font-weight:700;font-family:inherit;text-align:center" oninput="calcCC()"><select id="ccFrom" style="padding:10px;border:2px solid #ddd;border-radius:12px;font-size:14px;font-family:inherit" onchange="calcCC()"><option value="EUR">🇪🇺 EUR</option><option value="CHF">🇨🇭 CHF</option><option value="ILS">🇮🇱 ILS</option></select></div><div id="ccResult" style="text-align:center;font-size:14px;color:#666">טוען שערים...</div></div>`;
-  el.innerHTML=h;
-  loadRates();
+  let h=`<div class="fade-up total" style="background:linear-gradient(135deg,var(--navy),var(--navy2))"><div style="font-size:11px;opacity:.6;letter-spacing:1px">סה"כ ללא טיסות</div><div class="display" style="font-size:44px;font-weight:900">€${tot.toLocaleString()}</div><div style="font-size:11px;opacity:.45">עם טיסות: ~€8,500-9,500</div></div>`;
+  BDG.forEach((b,i)=>{const p=(b.a/tot*100);const col=`hsl(${35+i*12},${65-i*3}%,${50+i*3}%)`;
+    h+=`<div class="fade-up" style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:14px;font-weight:700">${b.i} ${b.c}</span><span style="font-size:15px;font-weight:800;color:var(--navy)">€${b.a.toLocaleString()}</span></div><div class="bbar"><div class="bbar-f" style="background:${col};width:${p}%"></div></div></div>`});
+  h+=`<div class="fade-up gcard"><div class="sec-title" style="margin-bottom:12px">💱 מחשבון מטבעות</div><div style="display:flex;gap:8px;margin-bottom:12px"><input type="number" id="ccA" value="100" style="flex:1;padding:12px;border:2px solid var(--goldL);border-radius:var(--r3);font-size:16px;font-weight:700;font-family:inherit;text-align:center;background:var(--bg);color:var(--navy)" oninput="calcCC()"><select id="ccF" style="padding:12px;border:2px solid var(--goldL);border-radius:var(--r3);font-size:14px;font-family:inherit;background:var(--bg);color:var(--navy)" onchange="calcCC()"><option value="EUR">🇪🇺 EUR</option><option value="CHF">🇨🇭 CHF</option><option value="ILS">🇮🇱 ILS</option></select></div><div id="ccR" style="text-align:center">טוען...</div></div>`;
+  el.innerHTML=h;loadRates();
 }
+async function loadRates(){rates=await fetchRates();calcCC()}
+function calcCC(){const a=parseFloat(document.getElementById('ccA').value)||0;const f=document.getElementById('ccF').value;const r=document.getElementById('ccR');if(!rates.CHF){r.textContent='טוען...';return}
+  let e=a;if(f==='CHF')e=a/rates.CHF;else if(f==='ILS')e=a/rates.ILS;
+  r.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">${[{c:'🇪🇺',v:e.toFixed(1),l:'EUR'},{c:'🇨🇭',v:(e*rates.CHF).toFixed(1),l:'CHF'},{c:'🇮🇱',v:(e*rates.ILS).toFixed(1),l:'ILS'}].map(x=>`<div style="background:var(--bg2);border-radius:var(--r3);padding:10px"><div style="font-size:10px;color:var(--txt3)">${x.c} ${x.l}</div><div style="font-size:20px;font-weight:800;color:var(--navy)">${x.v}</div></div>`).join('')}</div>`}
 
-let rates={};
-async function loadRates(){rates=await fetchRates();calcCC();}
-function calcCC(){
-  const amt=parseFloat(document.getElementById('ccAmt').value)||0;
-  const from=document.getElementById('ccFrom').value;
-  const r=document.getElementById('ccResult');
-  if(!rates.CHF){r.textContent='טוען...';return;}
-  let eur=amt;
-  if(from==='CHF')eur=amt/rates.CHF;
-  else if(from==='ILS')eur=amt/rates.ILS;
-  r.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">${[
-    {c:'🇪🇺',v:eur.toFixed(1),l:'EUR'},
-    {c:'🇨🇭',v:(eur*rates.CHF).toFixed(1),l:'CHF'},
-    {c:'🇮🇱',v:(eur*rates.ILS).toFixed(1),l:'ILS'}
-  ].map(x=>`<div style="background:#F8F9FA;border-radius:10px;padding:8px"><div style="font-size:10px;color:#888">${x.c} ${x.l}</div><div style="font-size:18px;font-weight:800;color:#1F4E79">${x.v}</div></div>`).join('')}</div>`;
-}
-
-// ===== TOOLS: CHECKLIST =====
+// ===== TOOLS =====
 function rT(){
   const el=document.getElementById('pT');
-  const totalItems=CHECKLIST.reduce((s,c)=>s+c.items.length,0);
-  const doneItems=Object.keys(checked).filter(k=>checked[k]).length;
-  const pct=Math.round(doneItems/totalItems*100);
-  let h=`<div style="text-align:center;margin-bottom:16px"><div style="font-size:32px">📋</div><h2 style="font-size:20px;font-weight:900;color:#1F4E79">צ'קליסט אריזה</h2><div style="font-size:13px;color:#888;margin-top:4px">${doneItems}/${totalItems} — ${pct}%</div><div class="bbar" style="margin:8px auto;width:80%"><div class="bbar-f" style="background:#22C55E;width:${pct}%"></div></div></div>`;
-  CHECKLIST.forEach((cat,ci)=>{
-    h+=`<div class="card"><h3 style="font-size:14px;font-weight:800;margin-bottom:8px">${cat.cat}</h3>`;
-    cat.items.forEach((item,ii)=>{
-      const key=`${ci}-${ii}`;const done=checked[key];
-      h+=`<div class="chk${done?' done':''}" onclick="toggleChk('${key}')"><div class="chk-box">${done?'✓':''}</div><div class="chk-txt" style="font-size:13px">${item}</div></div>`;
-    });h+=`</div>`;
-  });
-  // SPOTIFY
-  h+=`<div class="card"><h3 style="font-size:14px;font-weight:800;margin-bottom:8px">🎵 פלייליסטים לנסיעה</h3>`;
-  Object.entries(SPOTIFY).forEach(([k,v])=>{
-    h+=`<a href="${v}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0f0f0"><span style="font-size:20px;width:32px;height:32px;border-radius:50%;background:#1DB954;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px">🎵</span><div style="flex:1;font-size:13px;font-weight:600">${k}</div><span style="font-size:10px;color:#1DB954;font-weight:600">Spotify →</span></a>`;
-  });h+=`</div>`;
-  el.innerHTML=h;
+  const total=CHKLIST.reduce((s,c)=>s+c.items.length,0);
+  const done=Object.keys(checked).filter(k=>checked[k]).length;
+  const pct=Math.round(done/total*100);
+  let h=`<div class="fade-up" style="text-align:center;margin-bottom:16px"><div style="font-size:36px">📋</div><h2 class="display" style="font-size:22px;color:var(--navy)">צ'קליסט אריזה</h2><div style="font-size:13px;color:var(--txt3);margin-top:4px">${done}/${total} — ${pct}%</div><div class="bbar" style="margin:10px auto;width:80%"><div class="bbar-f" style="background:linear-gradient(90deg,var(--gold),var(--gold2));width:${pct}%"></div></div></div>`;
+  CHKLIST.forEach((cat,ci)=>{h+=`<div class="fade-up gcard"><h3 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px">${cat.cat}</h3>`;
+    cat.items.forEach((item,ii)=>{const k=`${ci}-${ii}`;const dn=checked[k];h+=`<div class="chk${dn?' done':''}" onclick="tgChk('${k}')"><div class="chk-box">${dn?'✓':''}</div><div class="chk-txt" style="font-size:13px">${item}</div></div>`});h+=`</div>`});
+  h+=`<div class="fade-up gcard"><h3 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px">🎵 פלייליסטים</h3>`;
+  Object.entries(SPOTIFY).forEach(([k,v])=>{h+=`<a href="${v}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(212,168,83,.08)"><span style="width:32px;height:32px;border-radius:50%;background:#1DB954;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px">🎵</span><div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">${k}</div><span style="font-size:10px;color:#1DB954;font-weight:600">Spotify →</span></a>`});
+  h+=`</div>`;el.innerHTML=h;
 }
-
-function toggleChk(key){checked[key]=!checked[key];saveCk();rT();}
+function tgChk(k){checked[k]=!checked[k];saveCk();rT()}
 
 // ===== INFO =====
 function rI(){
   const el=document.getElementById('pI');
-  let h=`<h2 style="font-size:18px;font-weight:900;color:#1F4E79;text-align:center;margin-bottom:16px">📋 הזמנות + טיפים</h2>`;
-  BKS.forEach(b=>{h+=`<a href="${b.u}" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px;background:${b.ur?'#FFF5F5':'#fff'};border:1px solid ${b.ur?'#FCA5A5':'#eee'};border-radius:14px;margin-bottom:8px"><div class="badge" style="background:${b.ur?'#EF4444':'#22C55E'}">${b.ur?'!':'✓'}</div><div style="flex:1"><div style="font-size:13px;font-weight:700">${b.w}</div><div style="font-size:11px;color:${b.ur?'#EF4444':'#888'}">${b.wh}</div></div><span style="font-size:11px;color:#2E75B6">🔗</span></a>`});
-  h+=`<div class="alert" style="background:#FEF2F2;border:1px solid #FECACA;margin-top:16px"><div style="font-size:13px;font-weight:700;color:#991B1B">⚠️ ZTL — 80-335€!</div><div style="font-size:12px;color:#7F1D1D;margin-top:4px;line-height:1.5">מצלמות בכל מרכז. חנו בפריפריה!<br>• מילאנו: Area C<br>• ורונה: Cittadella<br>• ונציה: Tronchetto חובה!</div></div>`;
-  [{a:"אגמים",t:"18-24°C",i:"☀️"},{a:"אורטיזיי",t:"13-20°C",i:"⛅"},{a:"פסגות",t:"5-13°C",i:"🥶"}].forEach(w=>{h+=`<div style="display:flex;justify-content:space-between;padding:10px 14px;background:#fff;border:1px solid #eee;border-radius:12px;margin-bottom:6px"><span style="font-size:13px;font-weight:600">${w.a}</span><span style="font-size:14px;font-weight:700;color:#1F4E79">${w.i} ${w.t}</span></div>`});
-  ["חניה: לבן=חינם, כחול=תשלום, צהוב=אסור","דלק Gasolio=דיזל. fai da te","בוסטר לרומי חובה","רישיון בינלאומי חובה","הצהירו שוויץ בהשכרה","גיר אוטומט","ונציה: ואפורטו בלבד!"].forEach((t,i)=>{h+=`<div style="padding:8px 12px;background:${i%2?'#fff':'#F0F9FF'};border-radius:10px;margin-bottom:4px;font-size:12px">• ${t}</div>`});
-  h+=`<div style="text-align:center;margin-top:24px;padding:16px;background:linear-gradient(135deg,#1F4E7908,#2E75B608);border-radius:16px"><div style="font-size:32px">🇮🇹</div><div style="font-size:18px;font-weight:900;color:#1F4E79">!צוקרמניה באיטליה</div><div style="font-size:13px;color:#888">רועי • עדי • רומי • נועם • עמית • מאיה</div></div>`;
+  let h=`<h2 class="fade-up display" style="font-size:22px;color:var(--navy);text-align:center;margin-bottom:16px">מידע מעשי</h2>`;
+  h+=`<div class="fade-up sec-title">הזמנות מראש</div>`;
+  BKS.forEach(b=>{h+=`<a href="${b.u}" target="_blank" class="fade-up" style="display:flex;align-items:center;gap:12px;padding:14px;background:${b.ur?'rgba(232,102,106,.06)':'var(--glass)'};backdrop-filter:blur(8px);border:1px solid ${b.ur?'rgba(232,102,106,.2)':'rgba(255,255,255,.5)'};border-radius:var(--r2);margin-bottom:8px;box-shadow:var(--shadow2)"><div style="width:38px;height:38px;border-radius:var(--r3);background:${b.ur?'var(--milan)':'#2ECC71'};display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:800;flex-shrink:0">${b.ur?'!':'✓'}</div><div style="flex:1"><div style="font-size:14px;font-weight:700;color:var(--navy)">${b.w}</div><div style="font-size:11px;color:${b.ur?'var(--milan)':'var(--txt3)'}">${b.wh}</div></div><span style="font-size:11px;color:var(--gold2)">🔗</span></a>`});
+  h+=`<div class="fade-up alert" style="background:rgba(232,102,106,.06);border-color:rgba(232,102,106,.2);margin-top:16px"><div style="font-size:14px;font-weight:800;color:#991B1B">⚠️ ZTL — 80-335€!</div><div style="font-size:12px;color:#7F1D1D;margin-top:4px;line-height:1.6">מצלמות בכל מרכז. חנו בפריפריה!<br>• מילאנו: Area C<br>• ורונה: Cittadella<br>• ונציה: Tronchetto חובה!</div></div>`;
+  h+=`<div class="fade-up sec-title" style="margin-top:16px">מזג אוויר</div>`;
+  [{a:"אגמים",t:"18-24°C",i:"☀️"},{a:"אורטיזיי",t:"13-20°C",i:"⛅"},{a:"פסגות",t:"5-13°C",i:"🥶"}].forEach(w=>{h+=`<div class="fade-up lrow"><span style="font-size:13px;font-weight:600">${w.a}</span><span style="font-size:14px;font-weight:800;color:var(--navy)">${w.i} ${w.t}</span></div>`});
+  h+=`<div class="fade-up sec-title" style="margin-top:16px">טיפים</div>`;
+  ["חניה: לבן=חינם, כחול=תשלום, צהוב=אסור","דלק Gasolio=דיזל. fai da te","בוסטר רומי חובה","רישיון בינלאומי חובה","הצהירו שוויץ בהשכרה","ונציה: ואפורטו בלבד!"].forEach((t,i)=>{h+=`<div class="fade-up" style="padding:10px 14px;background:${i%2?'var(--glass)':'var(--bg2)'};border-radius:var(--r3);margin-bottom:5px;font-size:12px;color:var(--txt2)">• ${t}</div>`});
+  h+=`<div class="fade-up" style="text-align:center;margin-top:28px;padding:20px;background:var(--glass);backdrop-filter:blur(12px);border-radius:var(--r);border:1px solid rgba(212,168,83,.15)"><div style="font-size:36px">🇮🇹</div><div class="display" style="font-size:22px;font-weight:800;color:var(--navy);margin-top:4px">!צוקרמניה באיטליה</div><div style="font-size:13px;color:var(--gold2);margin-top:4px">רועי • עדי • רומי • נועם • עמית • מאיה</div></div>`;
   el.innerHTML=h;
 }
 
-try{rH()}catch(e){document.getElementById('pH').innerHTML='<div style="padding:40px;color:red;font-size:14px;direction:ltr;text-align:left"><b>Error in rH:</b><br>'+e.message+'<br><pre>'+e.stack+'</pre></div>'}
-try{rB()}catch(e){document.getElementById('pB').innerHTML='<div style="padding:40px;color:red">rB error: '+e.message+'</div>'}
-try{rI()}catch(e){document.getElementById('pI').innerHTML='<div style="padding:40px;color:red">rI error: '+e.message+'</div>'}
+// INIT
+rH();rB();rI();
+// Hide non-active pages initially
+['pD','pB','pT','pI'].forEach(id=>{document.getElementById(id).style.display='none'});
 </script>
 </body>
 </html>
