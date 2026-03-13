@@ -23,7 +23,7 @@
   --milan:#E8666A;--como:#3ABFAD;--dolo:#4A9BD9;--garda:#7BAE7F;--venice:#1E3A5F;--swiss:#D94040;
 }
 html{scroll-behavior:smooth}
-body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--txt);max-width:430px;margin:0 auto;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;position:relative}
+body{font-family:'Heebo',sans-serif;background:var(--bg);color:var(--txt);max-width:720px;margin:0 auto;min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;position:relative}
 /* Grain texture overlay */
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")}
 button{font-family:inherit;cursor:pointer}a{text-decoration:none;color:inherit}
@@ -159,6 +159,27 @@ h1,h2,h3,.display{font-family:'Playfair Display','Heebo',serif}
 /* BASE CARD */
 .bc{border-radius:var(--r);padding:14px 10px;text-align:center;border:1.5px solid;background:var(--glass);backdrop-filter:blur(8px);transition:transform .2s;box-shadow:var(--shadow2)}
 .bc:active{transform:scale(.96)}
+
+/* RESPONSIVE DESKTOP */
+@media(min-width:500px){
+  body{max-width:720px}
+  .grid2{grid-template-columns:repeat(4,1fr)}
+  .hero{border-radius:var(--r);margin:0 16px}
+  .map-wrap .mapboxgl-map{height:360px}
+  .dsel{padding:12px 16px 8px}
+  .sch-item{padding:12px 0}
+  .sch-ico{width:42px;height:42px;font-size:19px}
+  .gcard{padding:20px}
+  .total{padding:28px 24px}
+  .lrow{padding:14px 18px}
+  .sec-title{font-size:20px}
+  .bc{padding:18px 12px}
+}
+@media(min-width:768px){
+  body{max-width:900px}
+  .hero h2{font-size:28px}
+  .map-wrap .mapboxgl-map{height:420px}
+}
 </style>
 </head>
 <body>
@@ -191,6 +212,53 @@ async function preload(){await Promise.allSettled(Object.keys(PHOTO_WIKI).map(k=
 preload();
 const SCH_PH={'דואומו':'duomo','גלריה':'galleria','Castello':'castello','Navigli':'navigli','ברונאטה':'brunate','בלאג\'ו':'como','Swiss':'swiss','FoxTown':'foxtown','ברגמו':'bergamo','אורטיזיי':'ortisei','Mont Sëuc':'siusi','אלפה':'siusi','סצ\'דה':'seceda','Fermeda':'seceda','בראייס':'braies','Plose':'plose','אוצי':'otzi','Peppa':'gardaland','Oblivion':'gardaland','Mammut':'gardaland','SEA LIFE':'gardaland','ארנה':'verona','יוליה':'verona','סירמיונה':'sirmione','סן מרקו':'sanmarco','ריאלטו':'rialto','גונדולה':'venezia','מוראנו':'venezia','Tronchetto':'venezia','Monte Baldo':'baldo','Franciacorta':'foxtown','ספארי':'safari','דינוזאורים':'safari','Natura':'safari','Eataly':'duomo','מוזיאון המדע':'castello','La Rinascente':'duomo','Buenos':'galleria','Monte Brè':'swiss','לוגאנו':'swiss','Mountaincarts':'plose','מזחלת':'plose'};
 function getPh(n){for(const[k,v]of Object.entries(SCH_PH)){if(n.includes(k))return PHOTOS[v]?v:null;}return null;}
+
+
+// ATTRACTION DESCRIPTIONS IN HEBREW
+const ATTR_DESC={
+'דואומו':'הקתדרלה הגותית הגדולה ביותר באיטליה ומהגדולות בעולם! 135 צריחים, 3,400 פסלים, גג מדהים עם נוף 360° על מילאנו. נבנתה לאורך 600 שנה! מומלץ לעלות לגג ברגל (€10) או במעלית (€14). הגעה מוקדמת מונעת תורים.',
+'גלריה':'הקניון הסגור העתיק בעולם, נבנה ב-1867. תקרת זכוכית מרהיבה, חנויות יוקרה: Prada, Gucci, Louis Vuitton. טיפ: עמדו על השור בפסיפס ברצפה והסתובבו על העקב — מביא מזל! כניסה חינם.',
+'Castello':'מבצר מהמאה ה-15 שהיה בית למשפחת ספורצה. מוזיאונים, פארק סמפיונה מאחור — מושלם לרומי לרוץ! כרטיס מוזיאונים €5. הגנים חינם.',
+'Navigli':'אזור התעלות של מילאנו — האווירה הכי שווה בעיר! שוק פשפשים בימי ראשון, מסעדות ובארים על התעלה. הכי יפה בשקיעה. ארוחה: 15-25€/אדם.',
+'ברונאטה':'הפוניקולר עולה 7 דק\'! מלמעלה — נוף מדהים על אגם קומו, האלפים ומילאנו. מסעדות עם מרפסות. טיפ: לכו לנקודת התצפית Faro Voltiano. כרטיס הלוך-חזור 7€.',
+'בלאג\'ו':'הנקודה הכי יפה באגם קומו — חצי אי בין שני זרועות האגם. רחובות מרוצפים, וילות מפוארות, גני וילה מלצי. ג\'לאטו ב-Punta Spartivento. מגיעים במעבורת 45 דק\'.',
+'Swiss':'מודל מוקטן של כל שוויץ! 128 בניינים, 3,560 מ\' רכבת מיניאטורית, רכבלים קטנים שעובדים. רומי ונועם ישתגעו! על שפת אגם לוגאנו. 22CHF/מבוגר, 15CHF/ילד.',
+'FoxTown':'אאוטלט ענק ב-Mendrisio! 160+ חנויות: Prada, Gucci, Armani, Nike, Adidas. הנחות 30-70%! מסעדות ובית קפה. פתוח 11-19 כל יום. כניסה חינם. החזר מס שוויצרי מ-300CHF.',
+'ברגמו':'עיר עליונה מוקפת חומות מהמאה ה-16. עולים בפוניקולר (1.50€). Piazza Vecchia — מהכיכרות היפות באיטליה. חובה: ג\'לאטו סטרצ\'יאטלה — הומצא כאן!',
+'אורטיזיי':'עיירה קסומה בלב ואל גרדנה. מפורסמת בגילוף עץ מסורתי. Streda Rezia — הרחוב הראשי עם חנויות, גלידריות, גן משחקים. בקשו Guestcard — בריכה+אוטובוסים חינם!',
+'Mont Sëuc':'רכבל מאורטיזיי (5 דק\' הליכה!) לאלפה די סיוזי — המרבד האלפיני הגדול באירופה! שבילים שטוחים מושלמים לעגלה. בקתת Malga Sanon: טרמפולינות! נוף לססולונגו. 39€/מבוגר.',
+'סצ\'דה':'הנוף הכי מפורסם בדולומיטים! רכבל מאורטיזיי לגובה 2,519 מ\'. הליכה קצרה של 10 דק\' לרכס Fermeda — גם רומי מצליחה! חובה להזמין מראש. 52€/מבוגר.',
+'בראייס':'אחד האגמות היפים בעולם — מים טורקיזיים מוקפים הרים. שביל 3.5 ק\"מ (צד ימין שטוח!). סירות עץ 50€/30 דק\' (מזומן!). חניה 15€. הגיעו מוקדם.',
+'Plose':'מזחלת קיץ על פסים (Alpine Coaster)! בובסלד סגור שיורד 147 מ\'. אפשר לבחור נסיעת Hero עם קטפולטה או רגועה. 10€/נסיעה. ילדים מגיל 4 עם מבוגר. + Mountaincarts 9 ק\"מ ירידה!',
+'אוצי':'מוזיאון אוצי — איש הקרח! מומיה בת 5,300 שנה שנמצאה בקרחון ב-1991. 4 קומות אינטראקטיביות. ילדים אוהבים! 13€/מבוגר. סגור שני. טיפ: קנו כרטיסים מראש.',
+'Peppa':'Peppa Pig Land בגארדלנד! 4 אטרקציות לגילאי 2-7. + Fantasy Kingdom. רומי תשתגע! כרטיס כולל. הפארק פתוח 10:00.',
+'Oblivion':'רכבת הצלילה של גארדלנד! נפילה אנכית של 42 מ\' לתוך מנהרה! + Raptor (רכבת הפוכה), Blue Tornado, Space Vertigo, Shaman. עמית ומאיה — אדרנלין!',
+'Mammut':'רכבת הרים משפחתית בגארדלנד. + Jumanji — The Adventure: חוויה אינטראקטיבית. מתאים מגיל 8. נועם ישתגע!',
+'SEA LIFE':'אקוואריום צמוד לגארדלנד. מנהרת כרישים, מדוזות זוהרות, בריכת מגע לילדים. 90 דק\'. כרטיס קומבו עם גארדלנד חוסך 15€.',
+'ארנה':'אמפיתיאטרון רומי בן 2,000 שנה — השלישי בגודלו בעולם! עדיין מארח אופרות ומופעים. עלו למעלה לנוף! 10€/מבוגר, חינם מתחת ל-8. חניה: Cittadella בלבד!',
+'יוליה':'בית יוליה — המרפסת המפורסמת של רומיאו ויוליה! החצר חינם. מוזיאון 6€. קיר האהבה עם מכתבים. עדי ומאיה — צילום במרפסת! Via Mazzini — רחוב קניות.',
+'סירמיונה':'חצי אי קסום בקצה הדרומי של אגם גארדה. טירת סקליג\'ר (6€, חינם <18!) על המים. Grotte di Catullo — שרידי וילה רומית. מעיינות חמים. הגיעו לפני 10 בבוקר!',
+'סן מרקו':'הכיכר המפורסמת בעולם! בזיליקת סן מרקו עם פסיפסי זהב, מגדל הפעמונים (€10 לעלות), בית קפה פלוריאן (הקפה הכי יקר בעולם!). רומי תרדוף יונים!',
+'ריאלטו':'הגשר הכי מפורסם בונציה! חנויות על הגשר. שוק ריאלטו בצד (פירות, ירקות, דגים). ארוחה במסעדה ליד הגשר — נוף על Canal Grande.',
+'גונדולה':'החוויה הכי רומנטית בונציה! 80-100€ ל-30 דק\' עד 6 אנשים (בדיוק בשבילנו!). עדי תתעלף מהרומנטיקה! טיפ: אחר הצהריים יותר שקט ויפה.',
+'מוראנו':'אי הזכוכית של ונציה! ואפורטו קו 4.1. מפעלי זכוכית עם הדגמות חינם. חנויות תכשיטים ופסלוני זכוכית. רומי+נועם: הדגמת הפיכת זכוכית!',
+'Monte Baldo':'רכבל מסתובב 360°! מאגם גארדה לגובה 1,760 מ\'. נוף מטורף — רואים את כל האגם! למעלה: שבילים, מסעדה. עמית: אפשרות פראגליידינג (~150€). 22€/מבוגר.',
+'Franciacorta':'אאוטלט גדול ליד אגם איזאו. 160+ חנויות: Guess, Calvin Klein, Nike, Adidas. 30-70% הנחה! מסעדות. פתוח 10-20. כניסה חינם. עדי+מאיה יום של קניות!',
+'ספארי':'Parco Natura Viva — ספארי ברכב פרטי! אריות, ג\'ירפות, זברות, קרנפים מהחלון! + פארק ברגל: דינוזאורים בגודל טבעי, נווה פרפרים. רומי תשתגע! 20-30€.',
+'דינוזאורים':'חלק מ-Parco Natura Viva. דגמי דינוזאורים בגודל טבעי ביער! + נווה פרפרים אמיתיים שנוחתים עליכם. נועם+עמית יאהבו.',
+'Natura':'Parco Natura Viva — אחד מגני החיות הטובים באירופה. שילוב ספארי ברכב + פארק ברגל. סביבות טבעיות לחיות. מסעדה ופיקניק.',
+'Eataly':'3 קומות של אוכל איטלקי! מסעדות, פיצריות, ג\'לאטריות, שוק, חנות. טעימות חינם! 15-25€/ארוחה. גם נועם ורומי ימצאו מה לאכול.',
+'מוזיאון המדע':'המוזיאון הגדול במדע ובטכנולוגיה באיטליה! צוללת אמיתית, חלל, מעבדות אינטראקטיביות. נועם ורומי ישתגעו! 10€/מבוגר. 2-3 שעות.',
+'La Rinascente':'הכלבו היוקרתי של מילאנו. 7 קומות. הגג — תצפית מדהימה על הדואומו! קפה+עוגה 10€. עדי+מאיה: קניות. כולם: תצפית.',
+'Buenos':'Corso Buenos Aires — 1.6 ק\"מ של חנויות! Zara, H&M, Bershka, Foot Locker, ועוד. הרחוב הכי ארוך לקניות באיטליה. עדי+מאיה+עמית.',
+'Monte Brè':'פוניקולר מלוגאנו לפסגת Monte Brè (925 מ\'). תצפית 360° על אגם לוגאנו והאלפים. כפר ציורי למעלה. 26CHF/מבוגר.',
+'לוגאנו':'עיר נופש שוויצרית על שפת אגם לוגאנו. Piazza della Riforma, פארק צ\'אני על האגם. אוכל יקר יותר מאיטליה! ארוחה 80-120CHF למשפחה.',
+'Mountaincarts':'9 קילומטר ירידה על עגלות הרים! מפסגת Plose עד למטה. שביל אספלט מתפתל בין יערות ומרעות. נוף מטורף! בלמים אישיים. 15-20€/עגלה.',
+'Mar Dolomit':'בריכה מקורה ופתוחה באורטיזיי! מגלשות מים, בריכת ילדים, ג\'קוזי. חינם עם Guestcard! מושלם אחרי יום רכבלים.',
+'Tronchetto':'חניון ענק באי מלאכותי בכניסה לונציה. ~30€/יום. חובה — אין רכב בונציה! משם ואפורטו (סירת אוטובוס) לכל ונציה. כרטיס יומי 25€.',
+'Fuga':'אטרקציית מים בגארדלנד! סירה שיורדת מגובה למים. כולם נרטבים! + I Corsari — שודדי ים. מומלץ אחרי הצהריים כשחם.',
+'שקיעה':'שקיעה בברדולינו — אחד הנופים היפים באגם גארדה! ארוחת פרידה על שפת האגם. מסעדות עם שולחנות בחוץ. הזמינו מראש!',
+};
 
 const DAYS=[
 {day:1,dt:"22/9",t:"הגעה למילאנו",ic:"✈️",base:"מילאנו",cl:"var(--milan)",clh:"#E8666A",gr:"linear-gradient(135deg,#E8666A,#C44E52)",rt:"מלפנסה → מילאנו",drv:"50 ק\"מ",cost:"200€",stay:"NYX Milan — 150-250€",zm:9,ct:[8.96,45.54],wLat:45.46,wLon:9.19,sc:[{t:"21:00",a:"נחיתה מלפנסה",d:"",i:"✈️",ln:[8.728,45.623]},{t:"21:45",a:"איסוף רכב",d:"טרמינל 1",i:"🚗",ln:[8.728,45.623]},{t:"23:15",a:"צ'ק-אין",d:"",i:"🏨",ln:[9.199,45.484]}],lk:[{n:"NYX Hotel",u:"https://www.booking.com/hotel/it/nyx-milan.html"}]},
@@ -347,7 +415,10 @@ function rD(){
   h+=`<div class="map-wrap" id="mwD" style="margin:0 16px 14px"><button class="fs-btn" onclick="toggleFS('mwD')">⛶</button><button class="cls-fs" onclick="toggleFS('mwD')">✕</button><div id="mapD"></div><div class="ml">📍 לחצו פעילות → המפה תעוף!</div></div>`;
   h+=`<div style="padding:0 16px"><div class="sec-title">לו"ז</div>`;
   d.sc.forEach((s,i)=>{const pk=getPh(s.a);
-    h+=`<div class="sch-item fade-up" onclick="${s.ln?'flyTo('+i+')':''}"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div class="sch-ico" style="background:${d.clh}15">${s.i}</div>${i<d.sc.length-1?`<div style="width:2px;flex:1;background:linear-gradient(${d.clh}30,${d.clh}08);margin-top:3px"></div>`:''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between"><span style="font-size:14px;font-weight:700;color:var(--navy)">${s.a}${s.ln?' 📍':''}</span><span style="font-size:10px;font-weight:700;color:${d.clh}">${s.t}</span></div>${s.d?`<p style="font-size:11px;color:var(--txt2);margin-top:2px">${s.d}</p>`:''}${s.u?`<a href="${s.u}" target="_blank" style="font-size:11px;color:var(--gold2);font-weight:600" onclick="event.stopPropagation()">🔗 כרטיסים</a>`:''}</div>${pk?`<img class="ph-thumb" data-w="${pk}" onerror="this.hidden=true" onclick="event.stopPropagation();showPh('${pk}')">`:''}</div>`});
+    // Find matching description
+    let desc='';
+    for(const[k,v]of Object.entries(ATTR_DESC)){if(s.a.includes(k)){desc=v;break;}}
+    h+=`<div class="sch-item fade-up" onclick="${s.ln?'flyTo('+i+')':''}"><div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0"><div class="sch-ico" style="background:${d.clh}15">${s.i}</div>${i<d.sc.length-1?`<div style="width:2px;flex:1;background:linear-gradient(${d.clh}30,${d.clh}08);margin-top:3px"></div>`:''}</div><div style="flex:1"><div style="display:flex;justify-content:space-between;align-items:flex-start"><span style="font-size:14px;font-weight:700;color:var(--navy)">${s.a}${s.ln?' 📍':''}</span><span style="font-size:10px;font-weight:700;color:${d.clh};flex-shrink:0">${s.t}</span></div>${s.d?`<p style="font-size:11px;color:var(--txt2);margin-top:2px">${s.d}</p>`:''}${desc?`<button onclick="event.stopPropagation();this.nextElementSibling.classList.toggle('hide');this.textContent=this.nextElementSibling.classList.contains('hide')?'ℹ️ פרטים נוספים':'▲ סגור'" style="font-size:11px;color:var(--gold2);font-weight:600;background:none;border:none;padding:3px 0;font-family:inherit">ℹ️ פרטים נוספים</button><div class="hide" style="font-size:12px;color:var(--txt2);line-height:1.6;margin-top:4px;padding:10px 12px;background:var(--bg2);border-radius:var(--r3);border-right:3px solid ${d.clh}">${desc}</div>`:''}${s.u?`<a href="${s.u}" target="_blank" style="font-size:11px;color:var(--gold2);font-weight:600;display:inline-block;margin-top:2px" onclick="event.stopPropagation()">🔗 כרטיסים</a>`:''}</div>${pk?`<img class="ph-thumb" data-w="${pk}" onerror="this.hidden=true" onclick="event.stopPropagation();showPh('${pk}')">`:''}</div>`;});
   h+=`</div>`;
   if(d.lk.length){h+=`<div style="padding:8px 16px 0"><div class="sec-title">קישורים</div>`;d.lk.forEach(l=>{h+=`<a href="${l.u}" target="_blank" class="lrow"><span style="font-size:13px;font-weight:600">${l.n}</span><span style="font-size:11px;color:var(--gold2);font-weight:600">פתח →</span></a>`});h+=`</div>`}
   if(d.stay){h+=`<div style="margin:14px 16px 0" class="gcard"><div style="font-size:13px;font-weight:800;color:var(--navy)">🏠 ${d.stay}</div></div>`}
